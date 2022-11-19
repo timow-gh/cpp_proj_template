@@ -16,34 +16,39 @@ The goal is to support three types of usage:
     ├── benchmark
     │   ├── ...
     │   └── CMakeLists.txt   
-    ├── cmake                               # CMake modules
+    ├── cmake                                       # CMake modules
     │   └── ...                             
-    ├── dependencies                        # Downloads and builds 3rd party dependencies using the FetchContent module
+    ├── dependencies                                # Downloads and builds 3rd party dependencies using the FetchContent module
     │   ├── ...
     │   └── CMakelists.txt
     │
-    ├── src                                 # Source files of this project
+    ├── src                                         # Source files of this project
     │   │
-    │   ├── example_library_src             # cpp_proj_template lib files
+    │   ├── example_library_src                     # example_library files
     │   │   ├── example_library             
     │   │   │   └── library.h      
     │   │   ├── source                      
     │   │   │   └── library.cpp
     │   │   └── CMakelists.txt
     │   │
-    │   │── headeronly_supporting_lib_src   # headeronly_supporting_lib lib files
+    │   │── headeronly_supporting_lib_src           # headeronly_supporting_lib files
     │   │   ├── headeronly_supporting_lib   
     │   │   │  └── library.h
     │   │   └── CMakelists.txt  
     │   │
     │   └── CMakelists.txt     
     │
-    ├── test                                # Test files
+    ├── test                                        # Test files
+    │   ├── test_example_library_install    
+    │   │   ├── template_find_package_install_test  # Tests the installed library using find_package()
+    │   │   └── CMakeLists.txt
+    │   │
+    │   ├── ...
     │   ├── ...
     │   └── CMakelists.txt
     │
-    ├── .clang-format                       # specifies the formatting style
-    ├── .clang-tidy                         # specifies the clang-tidy checks    
+    ├── .clang-format                               # specifies the formatting style
+    ├── .clang-tidy                                 # specifies the clang-tidy checks    
     ├── .gitignore                          
     └── CMakelists.txt
 
@@ -51,7 +56,7 @@ The goal is to support three types of usage:
 
 ## Configure cmake
 
-### Windows
+### Platform: Windows
 
 Requirements
 
@@ -63,7 +68,7 @@ Requirements
 cmake -B <path-to-build-dir> -S <path-to-source-dir> -G "Visual Studio 16 2019" -A x64 -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_STANDARD=20
 ```
 
-### Ubuntu
+### Platform: Ubuntu
 
 Requirements
 
@@ -80,14 +85,18 @@ sudo apt install clang cmake git ninja-build
 cmake -B <path-to-build-dir> -S <path-to-source-dir> -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_STANDARD=20
 ```
 
-### Build a single target
+### All platforms: Build a single target
 
 ```
 cmake --build <path-to-build-dir> --target <target-name> --config Release --parallel
 ```
 
-### Build all targets
+### All platforms: Build all targets
 
 ```
 cmake --build <path-to-build-dir> --config Release --parallel
 ```
+
+# CMake Resources
+
+* [https://cliutils.gitlab.io/modern-cmake/chapters/basics.html](https://cliutils.gitlab.io/modern-cmake/chapters/basics.html)

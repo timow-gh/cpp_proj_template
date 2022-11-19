@@ -3,7 +3,7 @@ set(example_library_TEST_INSTALL_DIR "${CMAKE_CURRENT_BINARY_DIR}/${target_name}
 set(example_library_TEST_SOURCE_DIR "${CMAKE_CURRENT_BINARY_DIR}/${target_name}_find_package_install_test")
 
 add_custom_target(TestInstall_example_library
-        ${CMAKE_COMMAND} --install ${PROJECT_BINARY_DIR} --config ${CMAKE_BUILD_TYPE} --prefix ${example_library_TEST_INSTALL_DIR} # --component dev_component # --component runtime_component
+        ${CMAKE_COMMAND} --install ${PROJECT_BINARY_DIR} --config ${CMAKE_BUILD_TYPE} --prefix ${example_library_TEST_INSTALL_DIR}
 
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_CURRENT_LIST_DIR}/template_find_package_install_test

@@ -4,7 +4,7 @@
 
 namespace example_library
 {
-void libraryFunction(int value)
+void libraryFunction(int value )
 {
   std::cout << supporting_lib::supportingLibStringFormat(value) << std::endl;
 }

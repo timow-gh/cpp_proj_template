@@ -1,7 +1,9 @@
 # This file uses the same techniques as the example_library.
 # Commands are only commented if they are different from the example_library.
 
-file(GLOB HEADER_FILES ${CMAKE_CURRENT_LIST_DIR}/include/headeronly_supporting_lib/*.hpp)
+set(HEADER_FILES
+        ${CMAKE_CURRENT_LIST_DIR}/include/headeronly_supporting_lib/headeronly_supporting_lib.hpp
+        )
 
 set(TARGET_NAME headeronly_supporting_lib)
 # This library is a header-only library, so we don't need to add any source files and set the library type to INTERFACE
@@ -25,6 +27,9 @@ set_target_properties(${TARGET_NAME}
         VERSION 0.1.0
         SOVERSION 0
         )
+
+include(Warnings)
+add_warnings_and_compile_options(${TARGET_NAME} cpp_proj_template_WARNINGS_AS_ERRORS)
 
 target_link_libraries(${TARGET_NAME} INTERFACE
         fmt::fmt

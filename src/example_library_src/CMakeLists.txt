@@ -1,10 +1,15 @@
-file(GLOB HEADER_FILES ${CMAKE_CURRENT_LIST_DIR}/include/example_library/*.hpp)
-file(GLOB SOURCE_FILES ${CMAKE_CURRENT_LIST_DIR}/source/*.cpp)
+set(HEADER_FILES
+    ${CMAKE_CURRENT_LIST_DIR}/include/example_library/library.hpp
+)
+
+set(SOURCE_FILES
+    ${CMAKE_CURRENT_LIST_DIR}/source/library.cpp
+)
 
 set(TARGET_NAME example_library)
 # Don't use STATIC ore SHARED for the library, the user should decide by setting the BUILD_SHARED_LIBS
 # variable when building this library
-add_library(${TARGET_NAME} STATIC ${SOURCE_FILES} ${HEADER_FILES})
+add_library(${TARGET_NAME} ${SOURCE_FILES} ${HEADER_FILES})
 
 # Generate the export header for the library. All Symbols that are marked as "exported" in the header files
 # will be exported. The export header is generated in the build directory and will be installed with the library.
@@ -43,6 +48,9 @@ set_target_properties(${TARGET_NAME}
         VERSION ${${TARGET_NAME}_MAJOR}.${${TARGET_NAME}_MINOR}.${${TARGET_NAME}_PATCH}
         SOVERSION ${PROJECT_VERSION_MAJOR}
         EXPORT_NAME ${TARGET_EXPORT_NAME})
+
+include(Warnings)
+add_warnings_and_compile_options(${TARGET_NAME} cpp_proj_template_WARNINGS_AS_ERRORS)
 
 # Link to all targets that are required to build this library. Use the target alias to link to the target,
 # otherwise no error message will be shown if the target is not found.
