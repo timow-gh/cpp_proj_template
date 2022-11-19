@@ -1,0 +1,4 @@
+
+
+add_subdirectory(example_lib_executable)
+add_subdirectory(test_example_library_install)
