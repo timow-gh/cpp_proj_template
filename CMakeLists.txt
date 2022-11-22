@@ -15,7 +15,7 @@ preamble()
 
 # Create options for the project
 # If this project is the top level project, build tests and benchmarks
-option(cpp_proj_template_BUILD_TESTS "Build tests" ON)
+option(cpp_proj_template_BUILD_TESTS "Build tests" OFF)
 option(cpp_proj_template_BUILD_BENCMARKS "Build benchmarks" OFF)
 option(cpp_proj_template_BUILD_PACKAGE "Use CPack to create an installer" OFF)
 option(cpp_proj_template_WARNINGS_AS_ERRORS "Treat compiler warnings as errors" OFF)

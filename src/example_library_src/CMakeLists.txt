@@ -56,8 +56,8 @@ add_warnings_and_compile_options(${TARGET_NAME} cpp_proj_template_WARNINGS_AS_ER
 # otherwise no error message will be shown if the target is not found.
 # The library fmt::fmt is linked private, since the library is not exposed to the user of this library.
 target_link_libraries(${TARGET_NAME}
-        PUBLIC
-        headeronly_supporting_lib::headeronly_supporting_lib
+        PUBLIC $<$<BOOL:${BUILD_SHARED_LIBS}>:headeronly_supporting_lib::headeronly_supporting_lib>
+        PRIVATE $<$<NOT:$<BOOL:${BUILD_SHARED_LIBS}>>:headeronly_supporting_lib::headeronly_supporting_lib>
         )
 
 # Install (i.e. copy) the library headers

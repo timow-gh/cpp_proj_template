@@ -18,18 +18,20 @@ to
     DESTINATION "${CMAKE_INSTALL_DOCDIR}")
 ```
 
-The first command sets an absolute path which cannot be used in a relocatable package.
+The first command sets an absolute path which cannot be used in a relocatable package. When packaging with CPack,
+NSIS will complain about the absolute path. This cannot be changed with CPack variables or NSIS options, the CMake
+project needs to get this right.
 
 ## Project usage test
 
 - Test using by add_subdirectory
 - Test using by FetchContent
-- Automate the tests of the installed package for all three usages
+- ~~Automate the tests of the installed package for all three usages~~
 - Make the project install test part of the ctest suite?
 
 ## Warnings and tools
 
-- Add warnings to the project
+- ~~Add warnings to the project~~
 - Add usage of static analyzers
     - cppcheck
     - clang-tidy
