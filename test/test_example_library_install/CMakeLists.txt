@@ -19,6 +19,18 @@ add_custom_target(TestInstall_example_library
         --build ${example_library_TEST_SOURCE_DIR}/build
         --config ${CMAKE_BUILD_TYPE}
         --parallel
+
+        COMMAND ${CMAKE_COMMAND}
+        --build ${example_library_TEST_SOURCE_DIR}/build
+        --config ${CMAKE_BUILD_TYPE}
+        --parallel
+
+        COMMAND ${CMAKE_COMMAND}
+        --install ${example_library_TEST_SOURCE_DIR}/build
+        --config ${CMAKE_BUILD_TYPE}
+        --prefix ${example_library_TEST_SOURCE_DIR}/install
+
+        COMMAND ${CMAKE_COMMAND}
         )
 
 add_custom_target(Cleanup_TestInstall_example_library

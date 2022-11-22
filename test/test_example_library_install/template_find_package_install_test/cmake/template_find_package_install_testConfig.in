@@ -1,0 +1,17 @@
+@PACKAGE_INIT@
+
+# Required so that on windows Release and RelWithDebInfo can be used instead of default fallback which is Debug
+# See https://gitlab.kitware.com/cmake/cmake/issues/20319
+
+set(CMAKE_MAP_IMPORTED_CONFIG_MINSIZEREL MinSizeRel RelWithDebInfo Release Debug "")
+set(CMAKE_MAP_IMPORTED_CONFIG_RELWITHDEBINFO RelWithDebInfo Release MinSizeRel Debug "")
+set(CMAKE_MAP_IMPORTED_CONFIG_RELEASE Release RelWithDebInfo MinSizeRel Debug "")
+
+list(APPEND CMAKE_MODULE_PATH "@PACKAGE_cmakeModulesDir@")
+
+# If your package depends an another one, you MUST specify it here
+include(CMakeFindDependencyMacro)
+find_dependency(example_library REQUIRED)
+
+
+include("@PACKAGE_cmakeProjTargetsFilePath@.cmake")
