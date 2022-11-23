@@ -23,7 +23,9 @@ The goal is to support three types of usage:
     │   └── CMakelists.txt
     │
     ├── src                                         # Source files of this project
-    │   │
+    │   ├── example_executable                      # example executable that uses example_library
+    │   │   ├── ...
+    │   │   └── CMakelists.txt
     │   ├── example_library_src                     # example_library files
     │   │   ├── example_library             
     │   │   │   └── library.h      
@@ -39,11 +41,10 @@ The goal is to support three types of usage:
     │   └── CMakelists.txt     
     │
     ├── test                                        # Test files
-    │   ├── test_example_library_install    
-    │   │   ├── template_find_package_install_test  # Tests the installed library using find_package()
+    │   ├── test_example_library_install            # Tests the installed library using find_package()
+    │   │   ├── template_find_package_install_test  
     │   │   └── CMakeLists.txt
     │   │
-    │   ├── ...
     │   ├── ...
     │   └── CMakelists.txt
     │
@@ -97,6 +98,14 @@ cmake --build <path-to-build-dir> --target <target-name> --config Release --para
 cmake --build <path-to-build-dir> --config Release --parallel
 ```
 
-# CMake Resources
+### ALl platforms: Install the project
 
-* [https://cliutils.gitlab.io/modern-cmake/chapters/basics.html](https://cliutils.gitlab.io/modern-cmake/chapters/basics.html)
+```
+cmake --install <path-to-build-dir> --config Release --prefix <path-to-install-dir>
+```
+
+# Resources
+
+* [github.com/cpp-best-practices/gui_starter_template](https://github.com/cpp-best-practices/gui_starter_template)
+* [github.com/aminya/project_options](https://github.com/aminya/project_options)
+* [cliutils.gitlab.io/modern-cmake/chapters/basics.html](https://cliutils.gitlab.io/modern-cmake/chapters/basics.html)
