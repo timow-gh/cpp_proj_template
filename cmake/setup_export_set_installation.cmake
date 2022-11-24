@@ -1,4 +1,4 @@
-function(setupExportSetInstall target_name export_set_name config_cmake_in_file_name major_version minor_version patch_version)
+function(setup_export_set_installation target_name export_set_name config_cmake_in_file_name major_version minor_version patch_version)
     include(GNUInstallDirs)
     include(CMakePackageConfigHelpers)
 

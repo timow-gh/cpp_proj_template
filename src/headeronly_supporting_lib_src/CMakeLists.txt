@@ -29,7 +29,7 @@ set_target_properties(${TARGET_NAME}
         )
 
 include(Warnings)
-add_warnings_and_compile_options(${TARGET_NAME} cpp_proj_template_WARNINGS_AS_ERRORS)
+add_warnings_and_compile_options(${TARGET_NAME} ${PROJECT_NAME}_WARNINGS_AS_ERRORS)
 
 target_link_libraries(${TARGET_NAME} INTERFACE
         fmt::fmt
@@ -44,5 +44,9 @@ install(TARGETS
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
         INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-setupExportSetInstall("${TARGET_NAME}" "${TARGET_NAME}TargetsExportSet" "headeronly_supporting_libConfig.cmake.in" ${${TARGET_NAME}_MAJOR} ${${TARGET_NAME}_MINOR} ${${TARGET_NAME}_PATCH})
+setup_export_set_installation(
+        "${TARGET_NAME}"
+        "${TARGET_NAME}TargetsExportSet"
+        "${TARGET_NAME}Config.cmake.in"
+        ${${TARGET_NAME}_MAJOR} ${${TARGET_NAME}_MINOR} ${${TARGET_NAME}_PATCH})
 

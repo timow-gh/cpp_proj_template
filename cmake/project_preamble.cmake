@@ -1,5 +1,5 @@
 # Sets default values that should be used by all projects.
-function(preamble)
+function(project_preamble)
     include(GNUInstallDirs)
     if (MSVC)
         set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)

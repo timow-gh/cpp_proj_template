@@ -22,12 +22,13 @@ The first command sets an absolute path which cannot be used in a relocatable pa
 NSIS will complain about the absolute path. This cannot be changed with CPack variables or NSIS options, the CMake
 project needs to get this right.
 
-## Project usage test
+## Project Tests
 
 - Test using by add_subdirectory
 - Test using by FetchContent
 - ~~Automate the tests of the installed package for all three usages~~
 - Make the project install test part of the ctest suite?
+- Test packaging with CPack
 
 ## Warnings and tools
 
@@ -46,6 +47,7 @@ project needs to get this right.
     - MemorySanitizer
 - Add fuzzing
 
-## CMake Components
+## CMake improvements
 
 - Add dev and release components to the project
+- Remove the need for Config.cmake.in files when installing targets

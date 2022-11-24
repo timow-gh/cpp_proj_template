@@ -78,4 +78,8 @@ install(TARGETS
 
 # Install the export set, using the helper function from cmake/setupExportSetInstall.cmake and the file Config.cmake.in
 # In the Config.cmake.in all dependencies of the library must be listed.
-setupExportSetInstall("${TARGET_NAME}" "${TARGET_NAME}TargetsExportSet" "example_libraryConfig.cmake.in" ${${TARGET_NAME}_MAJOR} ${${TARGET_NAME}_MINOR} ${${TARGET_NAME}_PATCH})
+setup_export_set_installation(
+        "${TARGET_NAME}"
+        "${TARGET_NAME}TargetsExportSet"
+        "${TARGET_NAME}Config.cmake.in"
+        ${${TARGET_NAME}_MAJOR} ${${TARGET_NAME}_MINOR} ${${TARGET_NAME}_PATCH})

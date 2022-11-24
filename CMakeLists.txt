@@ -7,18 +7,18 @@ project(cpp_proj_template
 # Make all modules available to this project and other projects that consume this project by
 # adding the cmake directory to the CMAKE_MODULE_PATH
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/cmake/preamble.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/cmake/setupExportSetInstall.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/cmake/project_preamble.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/cmake/setup_export_set_installation.cmake)
 
 # Set common properties for cross platform builds
-preamble()
+project_preamble()
 
 # Create options for the project
 # If this project is the top level project, build tests and benchmarks
-option(cpp_proj_template_BUILD_TESTS "Build tests" OFF)
-option(cpp_proj_template_BUILD_BENCMARKS "Build benchmarks" OFF)
-option(cpp_proj_template_BUILD_PACKAGE "Use CPack to create an installer" OFF)
-option(cpp_proj_template_WARNINGS_AS_ERRORS "Treat compiler warnings as errors" OFF)
+option(${PROJECT_NAME}_TESTS "Build tests" ON)
+option(${PROJECT_NAME}_BENCHMARKS "Build benchmarks" ON)
+option(${PROJECT_NAME}_PACKAGE "Use CPack to create an installer" OFF)
+option(${PROJECT_NAME}_WARNINGS_AS_ERRORS "Treat compiler warnings as errors" ON)
 
 # Add dependencies using the FetchContent module. This will download the dependencies and
 # build them with this project.
@@ -32,16 +32,16 @@ add_subdirectory(dependencies)
 add_subdirectory(src)
 
 # Add files for packaging if this project is the top level project
-if (cpp_proj_template_CREATE_CPACK_PACKAGE)
+if (${PROJECT_NAME}_PACKAGE)
     # include(CPack) will happen inside the following call
     add_subdirectory(packaging)
 endif ()
 
-if (cpp_proj_template_BUILD_BENCMARKS)
+if (${PROJECT_NAME}_BENCHMARKS)
     add_subdirectory(benchmark)
 endif ()
 
-if (cpp_proj_template_BUILD_TESTS)
+if (${PROJECT_NAME}_TESTS)
     include(CTest)
     # "This command should be in the source directory root because ctest expects to find a test
     # file in the build directory root.", CMake docs
