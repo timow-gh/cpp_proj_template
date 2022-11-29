@@ -55,5 +55,5 @@ cmake --build %FIND_PACKAGE_TEST_BUILD_DIR% --config Debug --parallel 24
 
 cmake --install %FIND_PACKAGE_TEST_BUILD_DIR% --config Debug --prefix %FIND_PACKAGE_TEST_INSTALL_DIR%
 
-.\%FIND_PACKAGE_TEST_BUILD_DIR%\bin\Debug\use_installdird.exe
-.\%FIND_PACKAGE_TEST_INSTALL_DIR%\bin\use_installdird.exe
+%FIND_PACKAGE_TEST_BUILD_DIR%\bin\Debug\use_installdird.exe
+%FIND_PACKAGE_TEST_INSTALL_DIR%\bin\use_installdird.exe

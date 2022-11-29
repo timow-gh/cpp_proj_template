@@ -1,4 +1,4 @@
-# CPP project template
+﻿# CPP project template
 
 This is a template for a C++ project. It borrows heavily from
 the [gui_starter_template](https://github.com/cpp-best-practices/gui_starter_template) but avoids using package
