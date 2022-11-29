@@ -14,11 +14,21 @@ include(${CMAKE_CURRENT_LIST_DIR}/cmake/setup_export_set_installation.cmake)
 project_preamble()
 
 # Create options for the project
-# If this project is the top level project, build tests and benchmarks
-option(${PROJECT_NAME}_TESTS "Build tests" ON)
-option(${PROJECT_NAME}_BENCHMARKS "Build benchmarks" ON)
+set(ENABLE_DEVELOPER_MODE
+        TRUE
+        CACHE BOOL "Enable 'developer mode'")
+
+if (ENABLE_DEVELOPER_MODE)
+    option(${PROJECT_NAME}_TESTS "Build tests" ON)
+    option(${PROJECT_NAME}_BENCHMARKS "Build benchmarks" ON)
+    option(${PROJECT_NAME}_WARNINGS_AS_ERRORS "Treat compiler warnings as errors" ON)
+else ()
+    option(${PROJECT_NAME}_TESTS "Build tests" OFF)
+    option(${PROJECT_NAME}_BENCHMARKS "Build benchmarks" OFF)
+    option(${PROJECT_NAME}_WARNINGS_AS_ERRORS "Treat compiler warnings as errors" OFF)
+endif ()
+
 option(${PROJECT_NAME}_PACKAGE "Use CPack to create an installer" ON)
-option(${PROJECT_NAME}_WARNINGS_AS_ERRORS "Treat compiler warnings as errors" ON)
 
 # Add dependencies using the FetchContent module. This will download the dependencies and
 # build them with this project.
