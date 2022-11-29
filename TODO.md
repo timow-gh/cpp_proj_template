@@ -1,34 +1,12 @@
 ﻿# Creating an installable package using CPack
 
-## benchmark
-
-Patch the benchmark install command from
-
-``` CMake
-  install(
-    DIRECTORY "${PROJECT_SOURCE_DIR}/docs/"
-    DESTINATION "${CMAKE_INSTALL_LIBDIR}/../share/doc/${PROJECT_NAME}")
-```
-
-to
-
-``` CMake
-  install(
-    DIRECTORY "${PROJECT_SOURCE_DIR}/docs/"
-    DESTINATION "${CMAKE_INSTALL_DOCDIR}")
-```
-
-The first command sets an absolute path which cannot be used in a relocatable package. When packaging with CPack,
-NSIS will complain about the absolute path. This cannot be changed with CPack variables or NSIS options, the CMake
-project needs to get this right.
-
 ## Project Tests
 
 - Test using by add_subdirectory
 - Test using by FetchContent
 - ~~Automate the tests of the installed package for all three usages~~
-- Make the project install test part of the ctest suite?
-- Test packaging with CPack
+- ~~Make the project install test part of the ctest suite?~~ - No
+- ~~Test packaging with CPack~~
 
 ## Warnings and tools
 

@@ -17,7 +17,7 @@ project_preamble()
 # If this project is the top level project, build tests and benchmarks
 option(${PROJECT_NAME}_TESTS "Build tests" ON)
 option(${PROJECT_NAME}_BENCHMARKS "Build benchmarks" ON)
-option(${PROJECT_NAME}_PACKAGE "Use CPack to create an installer" OFF)
+option(${PROJECT_NAME}_PACKAGE "Use CPack to create an installer" ON)
 option(${PROJECT_NAME}_WARNINGS_AS_ERRORS "Treat compiler warnings as errors" ON)
 
 # Add dependencies using the FetchContent module. This will download the dependencies and
