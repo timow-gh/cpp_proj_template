@@ -1,10 +1,13 @@
 include_guard()
 
 function(enable_static_analysis target WARNINGS_AS_ERRORS)
-    enable_clang_tidy(${target})
-    if(MSVC)
+    if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+        enable_clang_tidy(${target})
+    elseif (MSVC)
         enable_vs_analysis("" ${target})
-    endif()
+    else ()
+        message(AUTHOR_WARNING "No static analysis enabled for ${CMAKE_CXX_COMPILER_ID}")
+    endif ()
 endfunction()
 
 function(enable_clang_tidy WARNINGS_AS_ERRORS)
