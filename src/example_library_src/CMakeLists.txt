@@ -50,7 +50,7 @@ set_target_properties(${TARGET_NAME}
         EXPORT_NAME ${TARGET_EXPORT_NAME})
 
 include(Warnings)
-add_warnings_and_compile_options(${TARGET_NAME} cpp_proj_template_WARNINGS_AS_ERRORS)
+add_warnings_and_compile_options(${TARGET_NAME} ${${PROJECT_NAME}_WARNINGS_AS_ERRORS})
 
 # Link to all targets that are required to build this library. Use the target alias to link to the target,
 # otherwise no error message will be shown if the target is not found.
@@ -59,6 +59,11 @@ target_link_libraries(${TARGET_NAME}
         PUBLIC $<$<BOOL:${BUILD_SHARED_LIBS}>:headeronly_supporting_lib::headeronly_supporting_lib>
         PRIVATE $<$<NOT:$<BOOL:${BUILD_SHARED_LIBS}>>:headeronly_supporting_lib::headeronly_supporting_lib>
         )
+
+if (${PROJECT_NAME}_STATIC_ANALYSIS)
+    include(static_analysis)
+    enable_static_analysis(${TARGET_NAME} ${${PROJECT_NAME}_WARNINGS_AS_ERRORS})
+endif ()
 
 # Install (i.e. copy) the library headers
 install(DIRECTORY "include/${TARGET_NAME}" DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")

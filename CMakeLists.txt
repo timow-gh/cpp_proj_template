@@ -7,8 +7,8 @@ project(cpp_proj_template
 # Make all modules available to this project and other projects that consume this project by
 # adding the cmake directory to the CMAKE_MODULE_PATH
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/cmake/project_preamble.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/cmake/setup_export_set_installation.cmake)
+include(project_preamble)
+include(setup_export_set_installation)
 
 # Set common properties for cross platform builds
 project_preamble()
@@ -22,10 +22,12 @@ if (ENABLE_DEVELOPER_MODE)
     option(${PROJECT_NAME}_TESTS "Build tests" ON)
     option(${PROJECT_NAME}_BENCHMARKS "Build benchmarks" ON)
     option(${PROJECT_NAME}_WARNINGS_AS_ERRORS "Treat compiler warnings as errors" ON)
+    option(${PROJECT_NAME}_STATIC_ANALYSIS "" ON)
 else ()
     option(${PROJECT_NAME}_TESTS "Build tests" OFF)
     option(${PROJECT_NAME}_BENCHMARKS "Build benchmarks" OFF)
     option(${PROJECT_NAME}_WARNINGS_AS_ERRORS "Treat compiler warnings as errors" OFF)
+    option(${PROJECT_NAME}_STATIC_ANALYSIS "" OFF)
 endif ()
 
 option(${PROJECT_NAME}_PACKAGE "Use CPack to create an installer" ON)
