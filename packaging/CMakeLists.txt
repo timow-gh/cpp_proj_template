@@ -7,11 +7,11 @@ set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
 set(CPACK_VERBATIM_VARIABLES YES)
 
-set(parent_dir ${CMAKE_CURRENT_LIST_DIR})
-cmake_path(GET parent_dir PARENT_PATH parent_dir)
-
-set(CPACK_RESOURCE_FILE_LICENSE ${parent_dir}/License)
-set(CPACK_RESOURCE_FILE_README ${parent_dir}/Readme.md)
+#set(parent_dir ${CMAKE_CURRENT_LIST_DIR})
+#cmake_path(GET parent_dir PARENT_PATH parent_dir)
+#
+#set(CPACK_RESOURCE_FILE_LICENSE ${parent_dir}/License)
+#set(CPACK_RESOURCE_FILE_README ${parent_dir}/Readme.md)
 #set(CPACK_PACKAGE_DESCRIPTION_FILE ${parent_dir}/Description.txt)
 #set(CPACK_RESOURCE_FILE_WELCOME ${parent_dir}/Welcome.txt)
 
