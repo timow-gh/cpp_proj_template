@@ -12,16 +12,12 @@ jobs:
       matrix:
         cxx: [g++-8, g++-10, clang++-9]
         build_type: [Debug, Release]
-        std: [11]
+        std: [14]
         generator:
           - "Ninja Multi-Config"
-        developer_mode:
-          - ON
-          - OFF
         include:
           - cxx: g++-8
             build_type: Debug
-            std: 14
             install: sudo apt install g++-8
           - cxx: g++-8
             build_type: Debug
@@ -77,10 +73,10 @@ jobs:
           CXX: ${{matrix.cxx}}
           CXXFLAGS: ${{matrix.cxxflags}}
         run: |
-          cmake -G "${{matrix.generator}}" \
+          cmake -G ${{matrix.generator}} \
                 -DCMAKE_BUILD_TYPE=${{matrix.build_type}} ${{matrix.shared}} \
                 -DCMAKE_CXX_STANDARD=${{matrix.std}} \
-                -DENABLE_DEVELOPER_MODE:BOOL=${{matrix.developer_mode}} \
+                -DENABLE_DEVELOPER_MODE=ON \
                 $GITHUB_WORKSPACE
 
       - name: Build
