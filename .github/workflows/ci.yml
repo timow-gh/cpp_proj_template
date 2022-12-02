@@ -36,10 +36,10 @@ jobs:
           - ON
           - OFF
         cxx_standard:
-          - 20
+          - 17
 
         exclude:
-          # mingw is determined by this author to be too buggy to support
+          # mingw is determined by this author to be too bugy to support
           - os: macos-11
             compiler: gcc-11
 
