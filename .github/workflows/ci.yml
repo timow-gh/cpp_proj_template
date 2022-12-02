@@ -136,8 +136,6 @@ jobs:
           cmake --version
           ninja --version
           clang-tidy --version
-          gcovr --version
-          opencppcoverage --version
 
         # make sure coverage is only enabled for Debug builds, since it sets -O0 to make sure coverage
         # has meaningful results
