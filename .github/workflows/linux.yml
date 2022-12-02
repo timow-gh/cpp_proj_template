@@ -66,6 +66,11 @@ jobs:
           ${{matrix.install}}
           cmake -E make_directory ${{runner.workspace}}/build
 
+      - name: Install ninja
+        run: |
+          sudo apt install ninja-build
+          ninja --version
+
       - name: Configure
         working-directory: ${{runner.workspace}}/build
         env:
