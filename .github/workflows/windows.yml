@@ -13,7 +13,7 @@ jobs:
         # windows-2019 has MSVC 2019 installed;
         # windows-2022 has MSVC 2022 installed:
         # https://github.com/actions/virtual-environments.
-        os: [windows-2019]
+        os: [windows-latest]
         platform: [x64]
         toolset: [v140, v141, v142]
         standard: [14, 17, 20]
