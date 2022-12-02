@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
+        fail-fast: false
         cxx: [g++-8, g++-10, clang++-9]
         build_type: [Debug, Release]
         std: [11]
