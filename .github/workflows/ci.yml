@@ -22,7 +22,8 @@ jobs:
       matrix:
         os:
           - ubuntu-20.04
-          - windows-2022
+#          - windows-2022
+#          - macos-11
         compiler:
           # you can specify the version after `-` like "llvm-13.0.0".
           - llvm-13.0.0
@@ -56,30 +57,30 @@ jobs:
             developer_mode: OFF
             package_generator: TBZ2
 
-          - os: windows-2022
-            compiler: msvc
-            generator: "Visual Studio 17 2022"
-            build_type: Debug
-            developer_mode: On
-
-          - os: windows-2022
-            compiler: msvc
-            generator: "Visual Studio 17 2022"
-            build_type: Release
-            developer_mode: On
-
-          - os: windows-2022
-            compiler: msvc
-            generator: "Visual Studio 17 2022"
-            build_type: Debug
-            developer_mode: OFF
-
-          - os: windows-2022
-            compiler: msvc
-            generator: "Visual Studio 17 2022"
-            build_type: Release
-            developer_mode: OFF
-            package_generator: ZIP
+#          - os: windows-2022
+#            compiler: msvc
+#            generator: "Visual Studio 17 2022"
+#            build_type: Debug
+#            developer_mode: On
+#
+#          - os: windows-2022
+#            compiler: msvc
+#            generator: "Visual Studio 17 2022"
+#            build_type: Release
+#            developer_mode: On
+#
+#          - os: windows-2022
+#            compiler: msvc
+#            generator: "Visual Studio 17 2022"
+#            build_type: Debug
+#            developer_mode: OFF
+#
+#          - os: windows-2022
+#            compiler: msvc
+#            generator: "Visual Studio 17 2022"
+#            build_type: Release
+#            developer_mode: OFF
+#            package_generator: ZIP
 
 
     steps:
@@ -117,6 +118,15 @@ jobs:
 
           gcovr: true
           opencppcoverage: true
+
+      - name: Compiler Info
+        run: |
+          ${{ matrix.compiler }} --version
+          cmake --version
+          ninja --version
+          clang-tidy --version
+          gcovr --version
+          opencppcoverage --version
 
         # make sure coverage is only enabled for Debug builds, since it sets -O0 to make sure coverage
         # has meaningful results
