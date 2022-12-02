@@ -14,14 +14,15 @@ env:
   CLANG_TIDY_VERSION: "13.0.0"
 
 jobs:
-  Test:
+  build:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
 
+      # https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs
       matrix:
         os:
-          - ubuntu-20.04
+          - ubuntu-latest
 #          - windows-2022
 #          - macos-11
         compiler:
@@ -56,6 +57,16 @@ jobs:
           - build_type: Release
             developer_mode: OFF
             package_generator: TBZ2
+
+          - os: ubuntu-latest
+            compiler: llvm-13.0.0
+            cxx_compiler: clang++
+            c_compiler: clang
+
+          - os: ubuntu-latest
+            compiler: gcc-11
+            cxx_compiler: g++
+            c_compiler: gcc
 
 #          - os: windows-2022
 #            compiler: msvc
@@ -121,7 +132,7 @@ jobs:
 
       - name: Compiler Info
         run: |
-          ${{ matrix.compiler }} --version
+          ${{ matrix.cxx_compiler }} --version
           cmake --version
           ninja --version
           clang-tidy --version
@@ -133,6 +144,9 @@ jobs:
       - name: Configure CMake
         run: |
           cmake -S . -B ./build -G "${{matrix.generator}}" -DCMAKE_BUILD_TYPE:STRING=${{matrix.build_type}} -DENABLE_DEVELOPER_MODE:BOOL=${{matrix.developer_mode}} -DOPT_ENABLE_COVERAGE:BOOL=${{ matrix.build_type == 'Debug' && matrix.developer_mode == 'OFF' }} -DGIT_SHA:STRING=${{ github.sha }} -DCMAKE_CXX_STANDARD:STRING=${{matrix.cxx_standard}} --debug-output
+        env:
+            CC: {{ matrix.c_compiler }}
+            CXX: {{ matrix.cxx_compiler }}
 
       - name: Build
         # Execute the build.  You can specify a specific target with "--target <NAME>"
