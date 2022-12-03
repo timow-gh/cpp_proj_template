@@ -9,8 +9,8 @@ jobs:
   build:
     runs-on: macos-11
     strategy:
+      fail-fast: false
       matrix:
-        fail-fast: false
         build_type: [Debug, Release]
         std: [11, 17]
         include:
