@@ -7,16 +7,19 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        cxx: [ g++-11, clang++-14 ]
+        cxx: [ g++-11, clang++-13 ]
         build_type: [ Debug, Release ]
         std: [ 11, 14, 17, 20 ]
         include:
           - cxx: clang++-13
             cxxflags: -stdlib=libc++
+            cmd_install: sudo apt install libc++-13-dev libc++abi-13-dev
+          - cxx: g++-11
+            cmd_install: sudo apt install g++-11
           - shared: -DBUILD_SHARED_LIBS=ON
 
     steps:
@@ -24,8 +27,7 @@ jobs:
 
       - name: Create Build Environment
         run: |
-          sudo apt install g++-11
-          sudo apt install clang-13 libc++-13-dev libc++abi-13-dev
+          sudo apt install ${{ matrix.cmd_install }}
           cmake -E make_directory ${{runner.workspace}}/build
 
       - name: Configure
