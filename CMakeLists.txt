@@ -20,7 +20,7 @@ set(ENABLE_DEVELOPER_MODE
 
 if (ENABLE_DEVELOPER_MODE)
     option(${PROJECT_NAME}_TESTS "Build tests" ON)
-    option(${PROJECT_NAME}_BENCHMARKS "Build benchmarks" OFF)
+    option(${PROJECT_NAME}_BENCHMARKS "Build benchmarks" ON)
     option(${PROJECT_NAME}_WARNINGS_AS_ERRORS "Treat compiler warnings as errors" ON)
     option(${PROJECT_NAME}_STATIC_ANALYSIS "" OFF)
 else ()
