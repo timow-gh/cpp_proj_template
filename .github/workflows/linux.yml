@@ -54,17 +54,17 @@ jobs:
           CTEST_OUTPUT_ON_FAILURE: True
 
       - name: Find Package Installation Test
-        working-directory: ${{runner.workspace}}/build
+        working-directory: ${{runner.workspace}}
         run: |
           threads=`nproc`
           
-          cmake --install . --config ${{matrix.build_type}} --prefix ${{runner.workspace}}/install
+          cmake --install ./build --config ${{matrix.build_type}} --prefix ${{runner.workspace}}/install
           
-          cmake -E make_directory --verbose ${{runner.workspace}}/find_package_install_test
+          cmake -E make_directory ${{runner.workspace}}/find_package_install_test
+          `tree ${{runner.workspace}}/find_package_install_test`
           
-          cmake -E copy_directory \
-          ${{runner.workspace}}/test/test_example_library_install/template_find_package_install_test \ 
-          ${{runner.workspace}}/find_package_install_test
+          cmake -E copy_directory ${{runner.workspace}}/test/test_example_library_install/template_find_package_install_test ${{runner.workspace}}/find_package_install_test
+          `tree -L 2 ${{runner.workspace}}/find_package_install_test`
 
           cmake \
           -S ${{runner.workspace}}/find_package_install_test \
