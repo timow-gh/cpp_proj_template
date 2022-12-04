@@ -60,7 +60,7 @@ jobs:
           
           cmake --install . --config ${{matrix.build_type}} --prefix ${{runner.workspace}}/install
           
-          cmake -E copy_directory \
+          cmake -E copy_directory --verbose \
           $GITHUB_WORKSPACE/test/test_example_library_install/template_find_package_install_test \ 
           ${{runner.workspace}}/find_package_install_test
 
