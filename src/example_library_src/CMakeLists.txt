@@ -56,9 +56,12 @@ add_warnings_and_compile_options(${TARGET_NAME} ${${PROJECT_NAME}_WARNINGS_AS_ER
 # otherwise no error message will be shown if the target is not found.
 # The library fmt::fmt is linked private, since the library is not exposed to the user of this library.
 target_link_libraries(${TARGET_NAME}
+        # Link headeronly_supporting_lib::headeronly_supporting_lib as a public dependency, if the user requested
+        # shared libraries. Otherwise, the dependency fmt::fmt is not installed.
         PUBLIC $<$<BOOL:${BUILD_SHARED_LIBS}>:headeronly_supporting_lib::headeronly_supporting_lib>
-        PRIVATE $<$<NOT:$<BOOL:${BUILD_SHARED_LIBS}>>:headeronly_supporting_lib::headeronly_supporting_lib>
-        )
+        # Link headeronly_supporting_lib::headeronly_supporting_lib as a private dependency, if the user requested
+        # static libraries. In this case the installation of the dependency fmt::fmt is not required.
+        PRIVATE $<$<NOT:$<BOOL:${BUILD_SHARED_LIBS}>>:headeronly_supporting_lib::headeronly_supporting_lib>)
 
 if (${PROJECT_NAME}_STATIC_ANALYSIS)
     include(static_analysis)
