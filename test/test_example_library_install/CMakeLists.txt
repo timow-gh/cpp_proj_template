@@ -23,11 +23,6 @@ add_custom_target(example_library_test_install
         --parallel
 
         COMMAND ${CMAKE_COMMAND}
-        --build ${example_library_TEST_SOURCE_DIR}/build
-        --config ${CMAKE_BUILD_TYPE}
-        --parallel
-
-        COMMAND ${CMAKE_COMMAND}
         --install ${example_library_TEST_SOURCE_DIR}/build
         --config ${CMAKE_BUILD_TYPE}
         --prefix ${example_library_TEST_SOURCE_DIR}/install

@@ -14,7 +14,7 @@ jobs:
         # https://github.com/actions/virtual-environments.
         platform: [x64]
         toolset: [v143]
-        standard: [14, 17, 20]
+        standard: [11, 20]
         shared: ["", -DBUILD_SHARED_LIBS=ON]
         build_type: [Debug, Release]
 
