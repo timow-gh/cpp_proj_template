@@ -14,6 +14,7 @@ include(${PROJECT_SOURCE_DIR}/cmake/project_preamble.cmake)
 
 project_preamble()
 
+
 # Find the installed package
 find_package(example_library CONFIG REQUIRED)
 
@@ -33,20 +34,20 @@ set_target_properties(${TARGET_NAME}
 if (BUILD_SHARED_LIBS)
     # On Windows, the DLLs must be in the same directory as the executable.
     # Copy the dlls the executable depends into the directory of the executable.
-
-    add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:${TARGET_NAME}> $<TARGET_FILE_DIR:${TARGET_NAME}>
-            COMMAND_EXPAND_LISTS
-            )
-
-
-    # Get all dependencies of the executable
-    install(TARGETS ${TARGET_NAME}
-            RUNTIME_DEPENDENCY_SET appDeps
-            )
-
-    # Install the executable and all its dependencies, except for the system libraries
     if (MSVC)
+        add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:${TARGET_NAME}> $<TARGET_FILE_DIR:${TARGET_NAME}>
+                COMMAND_EXPAND_LISTS
+                )
+
+
+        # Get all dependencies of the executable
+        install(TARGETS ${TARGET_NAME}
+                RUNTIME_DEPENDENCY_SET appDeps
+                )
+
+        # Install the executable and all its dependencies, except for the system libraries
+
         install(RUNTIME_DEPENDENCY_SET appDeps
                 PRE_EXCLUDE_REGEXES
                 [[api-ms-win-.*]] [[ext-ms-.*]] [[kernel32\.dll]] [[msvc.*]] [[vcruntime.*]] [[ucrt.*]]
