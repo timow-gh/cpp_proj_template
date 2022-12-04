@@ -49,6 +49,8 @@ jobs:
 
     - name: Find Package Installation Test
       working-directory: ${{runner.workspace}}
+      # Use a bash shell for $GITHUB_WORKSPACE
+      shell: bash
       run: |
         threads=`nproc`
         
