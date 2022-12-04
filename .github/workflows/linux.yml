@@ -56,4 +56,28 @@ jobs:
       - name: Find Package Installation Test
         working-directory: ${{runner.workspace}}/build
         run: |
+          threads=`nproc`
+          
           cmake --install . --config ${{matrix.build_type}} --prefix ${{runner.workspace}}/install
+          
+          cmake -E copy_directory \
+          $GITHUB_WORKSPACE/test/test_example_library_install/template_find_package_install_test \ 
+          ${{runner.workspace}}/find_package_install_test
+
+          cmake \
+          -S ${{runner.workspace}}/find_package_install_test \
+          -B ${{runner.workspace}}/find_package_install_test/build \
+          -DCMAKE_BUILD_TYPE=${{matrix.build_type}} ${{matrix.shared}} \
+          -DCMAKE_CXX_STANDARD=${{ matrix.std }} \
+          -DCMAKE_CXX_FLAGS="${{ matrix.cxxflags }}" \
+          -DCMAKE_PREFIX_PATH=${{runner.workspace}}/install
+
+          cmake \
+          --build ${{runner.workspace}}/find_package_install_test/build \
+          --config ${{matrix.build_type}} \
+          --parallel $threads
+
+          cmake \
+          --install ${{runner.workspace}}/find_package_install_test/build \
+          --config ${{matrix.build_type}} \
+          --prefix ${{runner.workspace}}/find_package_install_test/install
