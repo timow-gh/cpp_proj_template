@@ -27,7 +27,7 @@ jobs:
 
       - name: Create Build Environment
         run: |
-          sudo apt install ${{ matrix.cmd_install }}
+          ${{ matrix.cmd_install }}
           cmake -E make_directory ${{runner.workspace}}/build
 
       - name: Configure
