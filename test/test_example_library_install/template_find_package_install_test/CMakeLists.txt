@@ -14,7 +14,6 @@ include(${PROJECT_SOURCE_DIR}/cmake/project_preamble.cmake)
 
 project_preamble()
 
-
 # Find the installed package
 find_package(example_library CONFIG REQUIRED)
 
