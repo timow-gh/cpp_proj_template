@@ -11,13 +11,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        cxx: [ g++-11, clang++-13 ]
+        cxx: [ g++-11, clang++-11 ]
         build_type: [ Debug, Release ]
         std: [ 11, 14, 17, 20 ]
         include:
-          - cxx: clang++-13
+          - cxx: clang++-11
             cxxflags: -stdlib=libc++
-            cmd_install: sudo apt install libc++-13-dev libc++abi-13-dev
+            cmd_install: sudo apt install clang-11 libc++-11-dev libc++abi-11-dev
           - cxx: g++-11
             cmd_install: sudo apt install g++-11
           - shared: -DBUILD_SHARED_LIBS=ON
