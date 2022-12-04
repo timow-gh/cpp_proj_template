@@ -59,6 +59,7 @@ jobs:
         cmake \
         -S $GITHUB_WORKSPACE/test/test_example_library_install/template_find_package_install_test \
         -B ${{runner.workspace}}/find_package_install_test_build \
+        -A ${{matrix.platform}} -T ${{matrix.toolset}} \
         -DCMAKE_BUILD_TYPE=${{matrix.build_type}} ${{matrix.shared}} \
         -DCMAKE_CXX_STANDARD=${{ matrix.std }} \
         -DCMAKE_PREFIX_PATH=${{runner.workspace}}/install
