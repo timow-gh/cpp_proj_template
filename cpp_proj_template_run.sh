@@ -14,7 +14,8 @@ cmake -B $BUILD_DIR -S $SOURCE_DIR -G Ninja --preset "unixlike-clang-debug" \
 -Dcpp_proj_template_WARNINGS_AS_ERRORS=ON \
 -Dcpp_proj_template_PACKAGE=OFF
 
-cmake --build $BUILD_DIR  --config Debug --parallel
+threads=`nproc`
+cmake --build $BUILD_DIR  --config Debug --parallel --parallel $threads
 
 mkdir $INSTALL_DIR
 cmake --install ./$BUILD_DIR --config Debug --prefix $INSTALL_DIR
