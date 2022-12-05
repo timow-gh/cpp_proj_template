@@ -49,15 +49,11 @@ jobs:
 
     - name: Find Package Installation Test
       working-directory: ${{runner.workspace}}
-      # Use a bash shell for $GITHUB_WORKSPACE
-      shell: bash
       run: |
-        threads=`nproc`
-        
         cmake --install ./build --config ${{matrix.build_type}} --prefix ${{runner.workspace}}/install
         
         cmake \
-        -S ./test/test_example_library_install/template_find_package_install_test \
+        -S ${{runner.workspace}}/test/test_example_library_install/template_find_package_install_test \
         -B ${{runner.workspace}}/find_package_install_test_build \
         -A ${{matrix.platform}} -T ${{matrix.toolset}} \
         -DCMAKE_BUILD_TYPE=${{matrix.build_type}} ${{matrix.shared}} \
@@ -73,4 +69,3 @@ jobs:
         --install ${{runner.workspace}}/find_package_install_test_build \
         --config ${{matrix.build_type}} \
         --prefix ${{runner.workspace}}/find_package_install_test_install
-
