@@ -50,22 +50,22 @@ jobs:
     - name: Find Package Installation Test
       working-directory: ${{runner.workspace}}
       run: |
-        cmake --install ./build --config ${{matrix.build_type}} --prefix ${{runner.workspace}}/install
+        cmake --install .\build --config ${{matrix.build_type}} --prefix ${{runner.workspace}}\install
         
-        cmake \
-        -S ${{runner.workspace}}/test/test_example_library_install/template_find_package_install_test \
-        -B ${{runner.workspace}}/find_package_install_test_build \
-        -A ${{matrix.platform}} -T ${{matrix.toolset}} \
-        -DCMAKE_BUILD_TYPE=${{matrix.build_type}} ${{matrix.shared}} \
-        -DCMAKE_CXX_STANDARD=${{ matrix.std }} \
-        -DCMAKE_PREFIX_PATH=${{runner.workspace}}/install
+        cmake ^
+        -S ${{runner.workspace}}\test\test_example_library_install\template_find_package_install_test ^
+        -B ${{runner.workspace}}\find_package_install_test_build ^
+        -A ${{matrix.platform}} -T ${{matrix.toolset}} ^
+        -DCMAKE_BUILD_TYPE=${{matrix.build_type}} ${{matrix.shared}} ^
+        -DCMAKE_CXX_STANDARD=${{ matrix.std }} ^
+        -DCMAKE_PREFIX_PATH=${{runner.workspace}}\install
         
-        cmake \
-        --build ${{runner.workspace}}/find_package_install_test_build \
-        --config ${{matrix.build_type}} \
+        cmake ^
+        --build ${{runner.workspace}}\find_package_install_test_build ^
+        --config ${{matrix.build_type}} ^
         --parallel $threads
         
-        cmake \
-        --install ${{runner.workspace}}/find_package_install_test_build \
-        --config ${{matrix.build_type}} \
-        --prefix ${{runner.workspace}}/find_package_install_test_install
+        cmake ^
+        --install ${{runner.workspace}}\find_package_install_test_build ^
+        --config ${{matrix.build_type}} ^
+        --prefix ${{runner.workspace}}\find_package_install_test_install
