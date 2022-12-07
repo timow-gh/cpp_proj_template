@@ -1,7 +1,6 @@
 ﻿# CPP project template
 
-This is a template for a C++ project. It borrows heavily
-from [project_options](https://github.com/aminya/project_options) and
+This is a template for a C++ project. It is based on the project
 [gui_starter_template](https://github.com/cpp-best-practices/gui_starter_template) but avoids using package
 managers.
 
@@ -119,8 +118,18 @@ cmake --install <path-to-build-dir> --config Release --prefix <path-to-install-d
 
 # Resources
 
-* [github.com/cpp-best-practices/gui_starter_template](https://github.com/cpp-best-practices/gui_starter_template)
-* [https://github.com/aminya/setup-cpp](https://github.com/aminya/setup-cpp)
-    * [Setting up a cross-platform environment for building and testing C++/C using setup-cpp](https://dev.to/aminya/setup-cpp-3ia4)
-* [github.com/aminya/project_options](https://github.com/aminya/project_options)
-* [cliutils.gitlab.io/modern-cmake/chapters/basics.html](https://cliutils.gitlab.io/modern-cmake/chapters/basics.html)
+Example projects
+
+* [cpp-best-practices/gui_starter_template](https://github.com/cpp-best-practices/gui_starter_template)
+* [aminya/project_options](https://github.com/aminya/project_options)
+* [gitlab.io/modern-cmake/](https://cliutils.gitlab.io/modern-cmake/)
+
+Talks:
+
+* [C++Now 2017: Daniel Pfeifer “Effective CMake"](https://youtu.be/bsXLMQ6WgIk)
+* [More Modern CMake - Deniz Bahadir - Meeting C++ 2018](https://youtu.be/y7ndUhdQuU8)
+* [Deep CMake for Library Authors - Craig Scott - CppCon 2019](https://youtu.be/m0DwB4OvDXk)
+
+Books:
+
+* [crascit.com/professional-cmake/](https://crascit.com/professional-cmake/)
