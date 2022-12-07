@@ -52,7 +52,7 @@ The goal is to support three types of usage:
     │   └── CMakelists.txt     
     │
     ├── test                                        # Test files
-    │   ├── test_example_library_install            # Tests the installed library using find_package()
+    │   ├── test_install                            # Tests the installed library using find_package()
     │   │   ├── template_find_package_install_test  
     │   │   └── CMakeLists.txt
     │   │

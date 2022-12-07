@@ -61,7 +61,7 @@ jobs:
           cmake --install ./build --config ${{matrix.build_type}} --prefix ${{runner.workspace}}/install
           
           cmake \
-          -S $GITHUB_WORKSPACE/test/test_example_library_install/template_find_package_install_test \
+          -S $GITHUB_WORKSPACE/test/test_install/template_find_package_install_test \
           -B ${{runner.workspace}}/find_package_install_test_build \
           -DCMAKE_BUILD_TYPE=${{matrix.build_type}} ${{matrix.shared}} \
           -DCMAKE_CXX_STANDARD=${{ matrix.std }} \

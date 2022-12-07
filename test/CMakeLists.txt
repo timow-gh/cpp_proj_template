@@ -1,2 +1,2 @@
-add_subdirectory(test_example_library_install)
+add_subdirectory(test_install)
 add_subdirectory(using_google_test)

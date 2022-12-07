@@ -16,7 +16,7 @@ set INSTALL_DIR=%REPOSITORY_PARENT_PATH%\cpp_proj_template_install
 mkdir %BUILD_DIR%
 
 set CMAKE_GENERATOR="Visual Studio 17 2022"
-set PRESET="windows-msvc-debug-developer-mode"
+set PRESET="windows-msvc-release-developer-mode"
 
 cmake   -B %BUILD_DIR% -S %SOURCE_DIR% -G %CMAKE_GENERATOR% -A x64 ^
         --preset %PRESET% ^
@@ -27,15 +27,15 @@ cmake   -B %BUILD_DIR% -S %SOURCE_DIR% -G %CMAKE_GENERATOR% -A x64 ^
         -Dcpp_proj_template_WARNINGS_AS_ERRORS=ON ^
         -Dcpp_proj_template_BUILD_PACKAGE=ON
 
-cmake --build %BUILD_DIR% --config Debug --parallel 24
+cmake --build %BUILD_DIR% --config Release --parallel 24
 
 pushd %REL_REPOSITORY_PATH%
 
 cd %BUILD_DIR%
-ctest -C Debug
-cpack -C Debug
+ctest -C Release
+cpack -C Release
 
 popd
 
 mkdir %INSTALL_DIR%
-cmake --install %BUILD_DIR% --config Debug --prefix %INSTALL_DIR%
+cmake --install %BUILD_DIR% --config Release --prefix %INSTALL_DIR%
