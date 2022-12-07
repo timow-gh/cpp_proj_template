@@ -1,6 +1,9 @@
 name: windows
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
 
 permissions:
   contents: read
