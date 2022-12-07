@@ -79,10 +79,15 @@ Requirements
 
 Requirements
 
-- Clang
+- Clang or GCC
 - CMake 3.21 or older
 - Git
 - Ninja
+
+## Example build scripts
+
+Take a look at the example build scripts for windows (*.bat) and ubuntu (*.sh) in the main directory or use the
+commands below.
 
 ## Configure cmake
 
