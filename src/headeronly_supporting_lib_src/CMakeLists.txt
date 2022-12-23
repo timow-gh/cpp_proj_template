@@ -40,18 +40,19 @@ target_link_libraries(${TARGET_NAME} INTERFACE
         fmt::fmt
         )
 
-install(DIRECTORY "include/${TARGET_NAME}" DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
-install(TARGETS
-        ${TARGET_NAME}
-        EXPORT ${TARGET_NAME}TargetsExportSet
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+if (${PROJECT_NAME}_INSTALL)
+    install(DIRECTORY "include/${TARGET_NAME}" DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
+    install(TARGETS
+            ${TARGET_NAME}
+            EXPORT ${TARGET_NAME}TargetsExportSet
+            RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+            LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-setup_export_set_installation(
-        "${TARGET_NAME}"
-        "${TARGET_NAME}TargetsExportSet"
-        "${TARGET_NAME}Config.cmake.in"
-        ${${TARGET_NAME}_MAJOR} ${${TARGET_NAME}_MINOR} ${${TARGET_NAME}_PATCH})
-
+    setup_export_set_installation(
+            "${TARGET_NAME}"
+            "${TARGET_NAME}TargetsExportSet"
+            "${TARGET_NAME}Config.cmake.in"
+            ${${TARGET_NAME}_MAJOR} ${${TARGET_NAME}_MINOR} ${${TARGET_NAME}_PATCH})
+endif ()

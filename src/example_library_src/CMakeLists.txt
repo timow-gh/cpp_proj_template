@@ -68,26 +68,28 @@ if (${PROJECT_NAME}_STATIC_ANALYSIS)
     enable_static_analysis(${TARGET_NAME} ${${PROJECT_NAME}_WARNINGS_AS_ERRORS})
 endif ()
 
-# Install (i.e. copy) the library headers
-install(DIRECTORY "include/${TARGET_NAME}" DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
+if (${PROJECT_NAME}_INSTALL)
+    # Install (i.e. copy) the library headers
+    install(DIRECTORY "include/${TARGET_NAME}" DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
 
-install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${GENERATED_TARGET_EXPORTS_FILE_NAME}"
-        DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${TARGET_NAME}")
+    install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${GENERATED_TARGET_EXPORTS_FILE_NAME}"
+            DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${TARGET_NAME}")
 
-# Install the library target
-# ${TARGET_NAME}TargetsExportSet is the name of the export set that is created by the call to install(EXPORT)
-install(TARGETS
-        ${TARGET_NAME}
-        EXPORT ${TARGET_NAME}TargetsExportSet
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+    # Install the library target
+    # ${TARGET_NAME}TargetsExportSet is the name of the export set that is created by the call to install(EXPORT)
+    install(TARGETS
+            ${TARGET_NAME}
+            EXPORT ${TARGET_NAME}TargetsExportSet
+            RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+            LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-# Install the export set, using the helper function from cmake/setupExportSetInstall.cmake and the file Config.cmake.in
-# In the Config.cmake.in all dependencies of the library must be listed.
-setup_export_set_installation(
-        "${TARGET_NAME}"
-        "${TARGET_NAME}TargetsExportSet"
-        "${TARGET_NAME}Config.cmake.in"
-        ${${TARGET_NAME}_MAJOR} ${${TARGET_NAME}_MINOR} ${${TARGET_NAME}_PATCH})
+    # Install the export set, using the helper function from cmake/setupExportSetInstall.cmake and the file Config.cmake.in
+    # In the Config.cmake.in all dependencies of the library must be listed.
+    setup_export_set_installation(
+            "${TARGET_NAME}"
+            "${TARGET_NAME}TargetsExportSet"
+            "${TARGET_NAME}Config.cmake.in"
+            ${${TARGET_NAME}_MAJOR} ${${TARGET_NAME}_MINOR} ${${TARGET_NAME}_PATCH})
+endif ()

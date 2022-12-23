@@ -30,6 +30,9 @@ else ()
     option(${PROJECT_NAME}_STATIC_ANALYSIS "" OFF)
 endif ()
 
+# It is possible to exclude this project from installation by setting the following option to OFF.
+# This is useful if you want to use this project as a subproject in another project.
+option(${PROJECT_NAME}_INSTALL "Install project targets" ON)
 option(${PROJECT_NAME}_PACKAGE "Use CPack to create an installer" ON)
 
 # Add dependencies using the FetchContent module. This will download the dependencies and

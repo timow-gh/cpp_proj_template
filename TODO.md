@@ -10,6 +10,8 @@
 
 ## Warnings and tools
 
+- add stack protection, see sqlitecpp
+- add sccache
 - ~~Add warnings to the project~~
 - Add usage of static analyzers
     - cppcheck
