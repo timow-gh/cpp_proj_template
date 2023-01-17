@@ -18,7 +18,7 @@ set(ENABLE_DEVELOPER_MODE
         TRUE
         CACHE BOOL "Enable 'developer mode'")
 
-option(USE_SCCACHE "Use sccache" OFF)
+option(USE_SCCACHE "Use sccache" ON)
 if (ENABLE_DEVELOPER_MODE)
     option(${PROJECT_NAME}_WARNINGS_AS_ERRORS "Treat compiler warnings as errors" ON)
     option(${PROJECT_NAME}_STATIC_ANALYSIS "" ON)
@@ -38,12 +38,12 @@ else ()
     option(${PROJECT_NAME}_STATIC_ANALYSIS "" OFF)
 endif ()
 
-if (USE_SCCACHE)
-    if (NOT "${CMAKE_GENERATOR}" STREQUAL "Ninja")
-        message(AUTHOR_WARNING "sccache is only testet with Ninja. Setting USE_SCCACHE to OFF.")
-        set(USE_SCCACHE OFF CACHE BOOL "" FORCE)
-    endif ()
+if (NOT "${CMAKE_GENERATOR}" STREQUAL "Ninja")
+    message(AUTHOR_WARNING "sccache is only testet with the generator Ninja. Setting USE_SCCACHE to OFF.")
+    set(USE_SCCACHE OFF CACHE BOOL "" FORCE)
+endif ()
 
+if (USE_SCCACHE)
     find_program(CCACHE_PROGRAM sccache)
     message(STATUS "CCACHE_PROGRAM=${CCACHE_PROGRAM}")
     if (CCACHE_PROGRAM)

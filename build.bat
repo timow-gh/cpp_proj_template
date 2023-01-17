@@ -9,16 +9,21 @@ popd
 echo "REL_REPOSITORY_PATH=%REL_REPOSITORY_PATH%"
 echo "REPOSITORY_PARENT_PATH=%REPOSITORY_PARENT_PATH%"
 
-set BUILD_DIR=%REPOSITORY_PARENT_PATH%\cpp_proj_template_build
-set SOURCE_DIR=.\
-set INSTALL_DIR=%REPOSITORY_PARENT_PATH%\cpp_proj_template_install
+set SOURCE_DIR=%REPOSITORY_PARENT_PATH%\cpp_proj_template
+echo "SOURCE_DIR=%SOURCE_DIR%"
 
+set PRESET=windows-msvc-release-user-mode
+
+set BUILD_DIR=%REPOSITORY_PARENT_PATH%\cpp_proj_template_build\%PRESET%
+echo "BUILD_DIR=%BUILD_DIR%"
 mkdir %BUILD_DIR%
 
-set CMAKE_GENERATOR="Visual Studio 17 2022"
-set PRESET="windows-msvc-release-developer-mode"
+set INSTALL_DIR=%REPOSITORY_PARENT_PATH%\cpp_proj_template_install\%PRESET%
+echo "INSTALL_DIR=%INSTALL_DIR%"
 
-cmake   -B %BUILD_DIR% -S %SOURCE_DIR% -G %CMAKE_GENERATOR% -A x64 ^
+cd %SOURCE_DIR%
+
+cmake   -B %BUILD_DIR% -S %SOURCE_DIR% ^
         --preset %PRESET% ^
         -DBUILD_SHARED_LIBS=ON ^
         -DCMAKE_CXX_STANDARD=20 ^
