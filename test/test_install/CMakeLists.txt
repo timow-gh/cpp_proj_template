@@ -1,7 +1,7 @@
 set(test_target "example_library")
 set(${test_target}_TEST_INSTALL_DIR "${CMAKE_CURRENT_BINARY_DIR}/${test_target}_install_dir")
 set(${test_target}_TEST_SOURCE_DIR "${CMAKE_CURRENT_BINARY_DIR}/${test_target}_use_install_test")
-set(${test_target}_TEMPLATE_PROJECT_DIR "${CMAKE_CURRENT_LIST_DIR}/${test_target}_install_test_template")
+set(${test_target}_TEMPLATE_PROJECT_DIR_NAME "${test_target}_install_test_template")
 
 set(PRESET "")
 if (MSVC)
@@ -18,7 +18,7 @@ add_custom_target(${test_target}_use_install_test
         ${CMAKE_COMMAND} --install ${PROJECT_BINARY_DIR} --config ${CMAKE_BUILD_TYPE} --prefix ${${test_target}_TEST_INSTALL_DIR}
 
         COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${${test_target}_TEMPLATE_PROJECT_DIR}
+        "${CMAKE_CURRENT_LIST_DIR}/${${test_target}_TEMPLATE_PROJECT_DIR_NAME}"
         ${${test_target}_TEST_SOURCE_DIR}
 
         COMMAND ${CMAKE_COMMAND}
