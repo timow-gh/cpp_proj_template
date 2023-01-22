@@ -11,7 +11,7 @@ list(APPEND CMAKE_MODULE_PATH "@PACKAGE_cmakeModulesDir@")
 
 # If your package depends an another one, you MUST specify it here
 include(CMakeFindDependencyMacro)
-find_dependency(example_library REQUIRED)
+find_dependency(fmt REQUIRED)
 
 
 include("@PACKAGE_cmakeProjTargetsFilePath@.cmake")

@@ -9,6 +9,7 @@ project(cpp_proj_template
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake)
 include(project_preamble)
 include(setup_export_set_installation)
+include(cmake/CPM.cmake)
 
 # Set common properties for cross platform builds
 project_preamble()
@@ -22,6 +23,8 @@ option(USE_SCCACHE "Use sccache" ON)
 if (ENABLE_DEVELOPER_MODE)
     option(${PROJECT_NAME}_WARNINGS_AS_ERRORS "Treat compiler warnings as errors" ON)
     option(${PROJECT_NAME}_STATIC_ANALYSIS "" ON)
+    option(${PROJECT_NAME}_TESTS "" ON)
+
 
     # check if the file CPMSourceVariable.cmake exists in project root
     if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/CPMSourceVariable.cmake")
@@ -36,6 +39,7 @@ if (ENABLE_DEVELOPER_MODE)
 else ()
     option(${PROJECT_NAME}_WARNINGS_AS_ERRORS "Treat compiler warnings as errors" OFF)
     option(${PROJECT_NAME}_STATIC_ANALYSIS "" OFF)
+    option(${PROJECT_NAME}_TESTS "" OFF)
 endif ()
 
 if (NOT "${CMAKE_GENERATOR}" STREQUAL "Ninja")

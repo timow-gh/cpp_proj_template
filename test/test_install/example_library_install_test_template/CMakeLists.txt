@@ -15,12 +15,12 @@ include(${PROJECT_SOURCE_DIR}/cmake/project_preamble.cmake)
 project_preamble()
 
 # Find the installed package
-find_package(example_library CONFIG REQUIRED)
+find_package(cpp_proj_template CONFIG REQUIRED)
 
 set(TARGET_NAME use_installdir)
 # Use the installed package
 add_executable(${TARGET_NAME} main.cpp)
-target_link_libraries(${TARGET_NAME} PRIVATE example_library::example_library)
+target_link_libraries(${TARGET_NAME} PRIVATE cpp_proj_template::example_library)
 
 set_target_properties(${TARGET_NAME}
         PROPERTIES
@@ -43,6 +43,7 @@ if (BUILD_SHARED_LIBS)
         # Get all dependencies of the executable
         install(TARGETS ${TARGET_NAME}
                 RUNTIME_DEPENDENCY_SET appDeps
+                RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
                 )
 
         # Install the executable and all its dependencies, except for the system libraries

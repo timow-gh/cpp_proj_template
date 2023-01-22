@@ -1,7 +1,7 @@
 set(TARGET_NAME example_executable)
 
 add_executable(${TARGET_NAME} main.cpp)
-target_link_libraries(${TARGET_NAME} PRIVATE example_library::example_library)
+target_link_libraries(${TARGET_NAME} PRIVATE cpp_proj_template::example_library)
 
 set_target_properties(${TARGET_NAME}
         PROPERTIES
@@ -20,8 +20,7 @@ if (${PROJECT_NAME}_STATIC_ANALYSIS)
 endif ()
 
 if (${PROJECT_NAME}_INSTALL)
-    install(TARGETS
-            ${TARGET_NAME}
+    install(TARGETS ${TARGET_NAME}
             RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
             LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
             ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
