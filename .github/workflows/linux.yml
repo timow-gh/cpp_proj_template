@@ -56,28 +56,7 @@ jobs:
         env:
           CTEST_OUTPUT_ON_FAILURE: True
 
-      - name: Find Package Installation Test
-        working-directory: ${{runner.workspace}}
+      - name: Package Installation Test
+        working-directory: ${{runner.workspace}}/build
         run: |
-          threads=`nproc`
-          
-          cmake --install ./build --config ${{matrix.build_type}} --prefix ${{runner.workspace}}/install
-          
-          cmake \
-          -S $GITHUB_WORKSPACE/test/test_install/template_find_package_install_test \
-          -B ${{runner.workspace}}/find_package_install_test_build \
-          -DCMAKE_BUILD_TYPE=${{matrix.build_type}} ${{matrix.shared}} \
-          -DCMAKE_CXX_STANDARD=${{ matrix.std }} \
-          -DCMAKE_CXX_FLAGS="${{ matrix.cxxflags }}" \
-          -DCMAKE_CXX_COMPILER=${{matrix.cxx}} \
-          -DCMAKE_PREFIX_PATH=${{runner.workspace}}/install
-
-          cmake \
-          --build ${{runner.workspace}}/find_package_install_test_build \
-          --config ${{matrix.build_type}} \
-          --parallel $threads
-
-          cmake \
-          --install ${{runner.workspace}}/find_package_install_test_build \
-          --config ${{matrix.build_type}} \
-          --prefix ${{runner.workspace}}/find_package_install_test_install
+          cmake --build . --config ${{matrix.build_type}} --target test_install

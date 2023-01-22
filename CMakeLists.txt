@@ -57,7 +57,7 @@ if (USE_SCCACHE)
         set(CMAKE_C_COMPILER_LAUNCHER "${CCACHE_PROGRAM}")
         set(CMAKE_CXX_COMPILER_LAUNCHER "${CCACHE_PROGRAM}")
     else ()
-        message(FATAL_ERROR "sccache not found. Please install it or disable USE_SCCACHE")
+        message(AUTHOR_WARNING "sccache not found. Please install it or disable USE_SCCACHE")
     endif ()
 
     include(cmake/sccache_setup.cmake)

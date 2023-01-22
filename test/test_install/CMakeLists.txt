@@ -14,7 +14,7 @@ else ()
     message(AUTHOR_WARNING "Unsupported compiler")
 endif ()
 
-add_custom_target(${test_target}_use_install_test
+add_custom_target(test_install
         ${CMAKE_COMMAND} --install ${PROJECT_BINARY_DIR} --config ${CMAKE_BUILD_TYPE} --prefix ${${test_target}_TEST_INSTALL_DIR}
 
         COMMAND ${CMAKE_COMMAND} -E copy_directory
@@ -40,7 +40,7 @@ add_custom_target(${test_target}_use_install_test
         --prefix ${${test_target}_TEST_SOURCE_DIR}/install
         )
 
-add_custom_target(clean_${test_target}_use_install_test
+add_custom_target(test_install_clean
         ${CMAKE_COMMAND} -E rm -Rf ${${test_target}_TEST_INSTALL_DIR}
         COMMAND ${CMAKE_COMMAND} -E rm -Rf ${${test_target}_TEST_SOURCE_DIR}
         )
