@@ -20,9 +20,9 @@ jobs:
         include:
           - cxx: clang++-11
             cxxflags: -stdlib=libc++
-            cmd_install: sudo apt install clang-11 libc++-11-dev libc++abi-11-dev
+            cmd_install: sudo apt install clang-11 libc++-11-dev libc++abi-11-dev ninja-build
           - cxx: g++-11
-            cmd_install: sudo apt install g++-11
+            cmd_install: sudo apt install g++-11 ninja-build
           - shared: -DBUILD_SHARED_LIBS=ON
 
     steps:
