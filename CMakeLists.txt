@@ -9,40 +9,35 @@ project(cpp_proj_template
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake)
 include(project_preamble)
 include(setup_export_set_installation)
+include(Warnings)
+include(static_analysis)
+
 include(cmake/CPM.cmake)
-include(CPMSourceVariable.cmake)
+if (NOT CPM_SOURCE_CACHE AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/CPMSourceVariable.cmake")
+    include(CPMSourceVariable.cmake)
+endif ()
+
+if (NOT CPM_SOURCE_CACHE)
+    message(AUTHOR_WARNING "CPM_SOURCE_CACHE not set. The source files are downloaded for every build. This is not recommended.
+        Set the CPM_SOURCE_CACHE variable to a directory of your choice to cache the cloned git repositories.
+        Set the CPM_SOURCE_CACHE variable in CPMSourceVariable.cmake to keep your paths private.")
+endif ()
 
 # Set common properties for cross platform builds
 project_preamble()
-
-# Create options for the project
-set(ENABLE_DEVELOPER_MODE
-        TRUE
-        CACHE BOOL "Enable 'developer mode'")
 
 if ((CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR))
     set(IS_TOP_LEVEL_PROJECT TRUE)
 else ()
     set(IS_TOP_LEVEL_PROJECT FALSE)
 endif ()
+message(STATUS "IS_TOP_LEVEL_PROJECT: ${IS_TOP_LEVEL_PROJECT}")
 
 if (IS_TOP_LEVEL_PROJECT)
     option(${PROJECT_NAME}_USE_SCCACHE "Use sccache" ON)
-    option(${PROJECT_NAME}_WARNINGS_AS_ERRORS "Treat compiler warnings as errors" ON)
+    option(${PROJECT_NAME}_WARNINGS_AS_ERRORS"Treat compiler warnings as errors " ON)
     option(${PROJECT_NAME}_STATIC_ANALYSIS "" ON)
     option(${PROJECT_NAME}_TESTS "" ON)
-
-
-    # check if the file CPMSourceVariable.cmake exists in project root
-    if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/CPMSourceVariable.cmake")
-        include(CPMSourceVariable.cmake)
-    else ()
-        message(AUTHOR_WARNING "CPMSourceVariable.cmake not found. Set the CPM_SOURCE_CACHE variable to a directory to cache the git clones or create a the CPMSourceVariable.cmake file in the project root. Set the CPM_SOURCE_CACHE variable in CPMSourceVariable.cmake to keep your paths private.")
-    endif ()
-
-    if (NOT CPM_SOURCE_CACHE)
-        message(AUTHOR_WARNING "CPM_SOURCE_CACHE not set. The source files are downloaded for each project.")
-    endif ()
 else ()
     option(${PROJECT_NAME}_USE_SCCACHE "Use sccache" OFF)
     option(${PROJECT_NAME}_WARNINGS_AS_ERRORS "Treat compiler warnings as errors" OFF)
@@ -57,7 +52,6 @@ if (${PROJECT_NAME}_USE_SCCACHE)
     endif ()
 
     find_program(CCACHE_PROGRAM sccache)
-    message(STATUS "CCACHE_PROGRAM=${CCACHE_PROGRAM}")
     if (CCACHE_PROGRAM)
         # Makefile Generators and the Ninja generator prefix compiler commands with the given launcher command line.
         # This is intended to allow launchers to intercept build problems with high granularity. Other generators ignore

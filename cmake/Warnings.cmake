@@ -1,7 +1,7 @@
 include_guard()
 include(cpp_proj_utils)
 
-function(add_warnings_and_compile_options target WARNINGS_AS_ERRORS)
+function(add_warnings_and_compile_options target warnings_are_errors)
 
     if (NOT TARGET ${target})
         message(FATAL_ERROR "add_warnings_and_compile_options: target ${target} does not exist")
@@ -21,7 +21,7 @@ function(add_warnings_and_compile_options target WARNINGS_AS_ERRORS)
         # treat linker warnings as errors
         target_link_options(${target} ${${target}_INHERITANCE_PROPERTY} "/WX")
 
-        if (WARNINGS_AS_ERRORS)
+        if (warnings_are_errors)
             target_compile_options(${target} ${${target}_INHERITANCE_PROPERTY} "/WX")
         endif ()
 
@@ -52,7 +52,7 @@ function(add_warnings_and_compile_options target WARNINGS_AS_ERRORS)
     elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
         message(STATUS "Compiler Settings ${CMAKE_CXX_COMPILER_ID}")
 
-        if (WARNINGS_AS_ERRORS)
+        if (warnings_are_errors)
             target_compile_options(${target} ${${target}_INHERITANCE_PROPERTY} "-Werror")
         endif ()
 
@@ -79,7 +79,7 @@ function(add_warnings_and_compile_options target WARNINGS_AS_ERRORS)
     elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
         message(STATUS "Compiler Settings ${CMAKE_CXX_COMPILER_ID}")
 
-        if (WARNINGS_AS_ERRORS)
+        if (warnings_are_errors)
             target_compile_options(${target} ${${target}_INHERITANCE_PROPERTY} "-Werror")
         endif ()
         

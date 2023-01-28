@@ -49,8 +49,10 @@ set_target_properties(${TARGET_NAME}
         SOVERSION ${PROJECT_VERSION_MAJOR}
         EXPORT_NAME ${TARGET_EXPORT_NAME})
 
-include(Warnings)
-add_warnings_and_compile_options(${TARGET_NAME} ${${PROJECT_NAME}_WARNINGS_AS_ERRORS})
+add_warnings_and_compile_options(${TARGET_NAME} "${${PROJECT_NAME}_WARNINGS_AS_ERRORS}")
+if (${PROJECT_NAME}_STATIC_ANALYSIS)
+    enable_static_analysis(${TARGET_NAME} "${${PROJECT_NAME}_WARNINGS_AS_ERRORS}")
+endif ()
 
 # Link to all targets that are required to build this library. Use the target alias to link to the target,
 # otherwise no error message will be shown if the target is not found.
@@ -62,11 +64,6 @@ target_link_libraries(${TARGET_NAME}
         # Link headeronly_supporting_lib::headeronly_supporting_lib as a private dependency, if the user requested
         # static libraries. In this case the installation of the dependency fmt::fmt is not required.
         PRIVATE $<$<NOT:$<BOOL:${BUILD_SHARED_LIBS}>>:cpp_proj_template::headeronly_supporting_lib>)
-
-if (${PROJECT_NAME}_STATIC_ANALYSIS)
-    include(static_analysis)
-    enable_static_analysis(${TARGET_NAME} ${${PROJECT_NAME}_WARNINGS_AS_ERRORS})
-endif ()
 
 if (${PROJECT_NAME}_INSTALL)
     # Install (i.e. copy) the library headers

@@ -26,12 +26,9 @@ set_target_properties(${TARGET_NAME}
         SOVERSION ${${TARGET_NAME}_MAJOR}
         )
 
-include(Warnings)
-add_warnings_and_compile_options(${TARGET_NAME} ${PROJECT_NAME}_WARNINGS_AS_ERRORS)
-
+add_warnings_and_compile_options(${TARGET_NAME} "${${PROJECT_NAME}_WARNINGS_AS_ERRORS}")
 if (${PROJECT_NAME}_STATIC_ANALYSIS)
-    include(static_analysis)
-    enable_static_analysis(${TARGET_NAME} ${${PROJECT_NAME}_WARNINGS_AS_ERRORS})
+    enable_static_analysis(${TARGET_NAME} "${${PROJECT_NAME}_WARNINGS_AS_ERRORS}")
 endif ()
 
 if (${PROJECT_NAME}_INSTALL)

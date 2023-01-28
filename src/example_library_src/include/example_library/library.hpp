@@ -5,7 +5,7 @@
 
 namespace example_library
 {
-EXAMPLE_LIBRARY_EXPORT void libraryFunction(int value );
+EXAMPLE_LIBRARY_EXPORT void libraryFunction(int value);
 }
 
 #endif // CPP_LIB_TEMPLATE_LIBRARY_H
