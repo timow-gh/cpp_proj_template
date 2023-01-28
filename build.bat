@@ -25,16 +25,17 @@ cd %SOURCE_DIR%
 
 cmake   -B %BUILD_DIR% -S %SOURCE_DIR% ^
         --preset %PRESET% ^
-        -DBUILD_SHARED_LIBS=ON ^
-        -DCMAKE_CXX_STANDARD=20
+        -DBUILD_SHARED_LIBS=OFF ^
+        -DCMAKE_CXX_STANDARD=20 ^
+        -Dcpp_proj_template_BENCHMARKS=OFF
 
 cmake --build %BUILD_DIR% --parallel 24
 
 pushd %REL_REPOSITORY_PATH%
 
 cd %BUILD_DIR%
-ctest -C
-cpack -C
+ctest
+cpack
 
 popd
 
