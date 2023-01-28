@@ -9,11 +9,10 @@ FetchContent_Declare(
 
 set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "Enable testing of the benchmark library." FORCE)
 set(BENCHMARK_ENABLE_EXCEPTIONS ON CACHE BOOL "Enable the use of exceptions in the benchmark library." FORCE)
+set(BENCHMARK_ENABLE_LTO OFF CACHE BOOL "Enable link time optimisation of the benchmark library." FORCE)
 if (MSVC)
     #OFF, because of a bug in msvc 2017, see https://developercommunity.visualstudio.com/t/incompatible-release-settings-ltcg-and-incremental/422384
     set(BENCHMARK_ENABLE_LTO OFF CACHE BOOL "Enable link time optimisation of the benchmark library." FORCE)
-else ()
-    set(BENCHMARK_ENABLE_LTO ON CACHE BOOL "Enable link time optimisation of the benchmark library." FORCE)
 endif ()
 set(BENCHMARK_USE_LIBCXX OFF CACHE BOOL "Build and test using libc++ as the standard library." FORCE)
 set(BENCHMARK_ENABLE_WERROR OFF CACHE BOOL "Build Release candidates with -Werror." FORCE)
