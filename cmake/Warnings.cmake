@@ -19,14 +19,13 @@ function(add_warnings_and_compile_options target warnings_are_errors)
         target_compile_options(${target} ${${target}_INHERITANCE_PROPERTY} "/MP")
 
         # treat linker warnings as errors
-        target_link_options(${target} ${${target}_INHERITANCE_PROPERTY} "/WX")
+        target_link_options(${target} PRIVATE ${${target}_INHERITANCE_PROPERTY} "/WX")
 
         if (warnings_are_errors)
-            target_compile_options(${target} ${${target}_INHERITANCE_PROPERTY} "/WX")
+            target_compile_options(${target} PRIVATE ${${target}_INHERITANCE_PROPERTY} "/WX")
         endif ()
 
-        target_compile_options(${target} ${${target}_INHERITANCE_PROPERTY}
-                /WX # treat warnings as errors
+        target_compile_options(${target} PRIVATE ${${target}_INHERITANCE_PROPERTY}
                 /W4 # Baseline reasonable warnings
                 /w14242 # 'identifier': conversion from 'type1' to 'type1', possible loss of data
                 /w14254 # 'operator': conversion from 'type1:field_bits' to 'type2:field_bits', possible loss of data
@@ -53,12 +52,11 @@ function(add_warnings_and_compile_options target warnings_are_errors)
         message(STATUS "Compiler Settings ${CMAKE_CXX_COMPILER_ID}")
 
         if (warnings_are_errors)
-            target_compile_options(${target} ${${target}_INHERITANCE_PROPERTY} "-Werror")
+            target_compile_options(${target} PRIVATE ${${target}_INHERITANCE_PROPERTY} "-Werror")
         endif ()
 
-        target_compile_options(${target} ${${target}_INHERITANCE_PROPERTY}
+        target_compile_options(${target} PRIVATE ${${target}_INHERITANCE_PROPERTY}
                 -Wall
-                -Werror
                 -Wextra # reasonable and standard
                 -Wextra-semi # Warn about semicolon after in-class function definition.
                 -Wshadow # warn the user if a variable declaration shadows one from a parent context
@@ -80,12 +78,11 @@ function(add_warnings_and_compile_options target warnings_are_errors)
         message(STATUS "Compiler Settings ${CMAKE_CXX_COMPILER_ID}")
 
         if (warnings_are_errors)
-            target_compile_options(${target} ${${target}_INHERITANCE_PROPERTY} "-Werror")
+            target_compile_options(${target} PRIVATE ${${target}_INHERITANCE_PROPERTY} "-Werror")
         endif ()
         
-        target_compile_options(${target} ${${target}_INHERITANCE_PROPERTY}
+        target_compile_options(${target} PRIVATE ${${target}_INHERITANCE_PROPERTY}
                 -Wall
-                -Werror
                 -Wextra # reasonable and standard
                 -Wextra-semi # Warn about semicolon after in-class function definition.
                 -Wshadow # warn the user if a variable declaration shadows one from a parent context

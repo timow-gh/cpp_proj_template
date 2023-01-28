@@ -35,15 +35,20 @@ message(STATUS "IS_TOP_LEVEL_PROJECT: ${IS_TOP_LEVEL_PROJECT}")
 
 if (IS_TOP_LEVEL_PROJECT)
     option(${PROJECT_NAME}_USE_SCCACHE "Use sccache" ON)
-    option(${PROJECT_NAME}_WARNINGS_AS_ERRORS"Treat compiler warnings as errors " ON)
+    option(${PROJECT_NAME}_WARNINGS_AS_ERRORS"Treat compiler warnings as errors " OFF)
     option(${PROJECT_NAME}_STATIC_ANALYSIS "" ON)
     option(${PROJECT_NAME}_TESTS "" ON)
+    option(${PROJECT_NAME}_BENCHMARKS "" ON)
+    option(${PROJECT_NAME}_PACKAGE "Use CPack to create an installer" OFF)
 else ()
     option(${PROJECT_NAME}_USE_SCCACHE "Use sccache" OFF)
     option(${PROJECT_NAME}_WARNINGS_AS_ERRORS "Treat compiler warnings as errors" OFF)
     option(${PROJECT_NAME}_STATIC_ANALYSIS "" OFF)
     option(${PROJECT_NAME}_TESTS "" OFF)
+    option(${PROJECT_NAME}_BENCHMARKS "" OFF)
+    option(${PROJECT_NAME}_PACKAGE "Use CPack to create an installer" OFF)
 endif ()
+option(${PROJECT_NAME}_INSTALL "Install project targets" ON)
 
 if (${PROJECT_NAME}_USE_SCCACHE)
     if (NOT "${CMAKE_GENERATOR}" STREQUAL "Ninja")
@@ -71,8 +76,6 @@ message(STATUS "${PROJECT_NAME}_WARNINGS_AS_ERRORS: ${${PROJECT_NAME}_WARNINGS_A
 message(STATUS "${PROJECT_NAME}_STATIC_ANALYSIS: ${${PROJECT_NAME}_STATIC_ANALYSIS}")
 # It is possible to exclude this project from installation by setting the following option to OFF.
 # This is useful if you want to use this project as a subproject in another project.
-option(${PROJECT_NAME}_INSTALL "Install project targets" ON)
-option(${PROJECT_NAME}_PACKAGE "Use CPack to create an installer" ON)
 
 # Add dependencies using the FetchContent module. This will download the dependencies and
 # build them with this project.

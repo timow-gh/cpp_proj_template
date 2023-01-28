@@ -12,7 +12,7 @@ echo "REPOSITORY_PARENT_PATH=%REPOSITORY_PARENT_PATH%"
 set SOURCE_DIR=%REPOSITORY_PARENT_PATH%\cpp_proj_template
 echo "SOURCE_DIR=%SOURCE_DIR%"
 
-set PRESET=windows-msvc-release-user-mode
+set PRESET=windows-msvc-release
 
 set BUILD_DIR=%REPOSITORY_PARENT_PATH%\cpp_proj_template_build\%PRESET%
 echo "BUILD_DIR=%BUILD_DIR%"
@@ -26,21 +26,17 @@ cd %SOURCE_DIR%
 cmake   -B %BUILD_DIR% -S %SOURCE_DIR% ^
         --preset %PRESET% ^
         -DBUILD_SHARED_LIBS=ON ^
-        -DCMAKE_CXX_STANDARD=20 ^
-        -Dcpp_proj_template_BUILD_TESTS=ON ^
-        -Dcpp_proj_template_BUILD_BENCMARKS=ON ^
-        -Dcpp_proj_template_WARNINGS_AS_ERRORS=ON ^
-        -Dcpp_proj_template_BUILD_PACKAGE=ON
+        -DCMAKE_CXX_STANDARD=20
 
-cmake --build %BUILD_DIR% --config Release --parallel 24
+cmake --build %BUILD_DIR% --parallel 24
 
 pushd %REL_REPOSITORY_PATH%
 
 cd %BUILD_DIR%
-ctest -C Release
-cpack -C Release
+ctest -C
+cpack -C
 
 popd
 
 mkdir %INSTALL_DIR%
-cmake --install %BUILD_DIR% --config Release --prefix %INSTALL_DIR%
+cmake --install %BUILD_DIR% --prefix %INSTALL_DIR%
