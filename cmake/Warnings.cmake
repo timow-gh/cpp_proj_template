@@ -15,12 +15,6 @@ function(add_warnings_and_compile_options target warnings_are_errors)
     if (MSVC)
         message(STATUS "Compiler Settings ${CMAKE_CXX_COMPILER_ID}")
 
-        # compile in parallel
-        target_compile_options(${target} ${${target}_INHERITANCE_PROPERTY} "/MP")
-
-        # treat linker warnings as errors
-        target_link_options(${target} PRIVATE ${${target}_INHERITANCE_PROPERTY} "/WX")
-
         if (warnings_are_errors)
             target_compile_options(${target} PRIVATE ${${target}_INHERITANCE_PROPERTY} "/WX")
         endif ()

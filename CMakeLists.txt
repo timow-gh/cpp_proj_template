@@ -35,7 +35,7 @@ message(STATUS "IS_TOP_LEVEL_PROJECT: ${IS_TOP_LEVEL_PROJECT}")
 
 if (IS_TOP_LEVEL_PROJECT)
     option(${PROJECT_NAME}_USE_SCCACHE "Use sccache" ON)
-    option(${PROJECT_NAME}_WARNINGS_AS_ERRORS"Treat compiler warnings as errors " OFF)
+    option(${PROJECT_NAME}_WARNINGS_AS_ERRORS "Treat compiler warnings as errors " ON)
     option(${PROJECT_NAME}_STATIC_ANALYSIS "" ON)
     option(${PROJECT_NAME}_TESTS "" ON)
     option(${PROJECT_NAME}_BENCHMARKS "" ON)

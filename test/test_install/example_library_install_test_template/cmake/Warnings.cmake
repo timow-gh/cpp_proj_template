@@ -1,4 +1,7 @@
-function(add_warnings_and_compile_options target WARNINGS_AS_ERRORS)
+include_guard()
+include(cpp_proj_utils)
+
+function(add_warnings_and_compile_options target warnings_are_errors)
 
     if (NOT TARGET ${target})
         message(FATAL_ERROR "add_warnings_and_compile_options: target ${target} does not exist")
@@ -7,29 +10,16 @@ function(add_warnings_and_compile_options target WARNINGS_AS_ERRORS)
     # Clang and gcc compile and link options based on:
     # * https://github.com/aminya/project_options/blob/main/src/CompilerWarnings.cmake
 
-    set(LIB_INHERITANCE_PROPERTY "")
-    get_target_property(target_type ${target} TYPE)
-    if (${target_type} STREQUAL "INTERFACE_LIBRARY")
-        set(LIB_INHERITANCE_PROPERTY "INTERFACE")
-    else ()
-        set(LIB_INHERITANCE_PROPERTY "PRIVATE")
-    endif ()
+    private_or_interface_inheritance_property(${target})
 
     if (MSVC)
         message(STATUS "Compiler Settings ${CMAKE_CXX_COMPILER_ID}")
 
-        # compile in parallel
-        target_compile_options(${target} ${LIB_INHERITANCE_PROPERTY} "/MP")
-
-        # treat linker warnings as errors
-        target_link_options(${target} ${LIB_INHERITANCE_PROPERTY} "/WX")
-
-        if (WARNINGS_AS_ERRORS)
-            target_compile_options(${target} ${LIB_INHERITANCE_PROPERTY} "/WX")
+        if (warnings_are_errors)
+            target_compile_options(${target} PRIVATE ${${target}_INHERITANCE_PROPERTY} "/WX")
         endif ()
 
-        target_compile_options(${target} ${LIB_INHERITANCE_PROPERTY}
-                /WX # treat warnings as errors
+        target_compile_options(${target} PRIVATE ${${target}_INHERITANCE_PROPERTY}
                 /W4 # Baseline reasonable warnings
                 /w14242 # 'identifier': conversion from 'type1' to 'type1', possible loss of data
                 /w14254 # 'operator': conversion from 'type1:field_bits' to 'type2:field_bits', possible loss of data
@@ -55,13 +45,12 @@ function(add_warnings_and_compile_options target WARNINGS_AS_ERRORS)
     elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
         message(STATUS "Compiler Settings ${CMAKE_CXX_COMPILER_ID}")
 
-        if (WARNINGS_AS_ERRORS)
-            target_compile_options(${target} ${LIB_INHERITANCE_PROPERTY} "-Werror")
+        if (warnings_are_errors)
+            target_compile_options(${target} PRIVATE ${${target}_INHERITANCE_PROPERTY} "-Werror")
         endif ()
 
-        target_compile_options(${target} ${LIB_INHERITANCE_PROPERTY}
+        target_compile_options(${target} PRIVATE ${${target}_INHERITANCE_PROPERTY}
                 -Wall
-                -Werror
                 -Wextra # reasonable and standard
                 -Wextra-semi # Warn about semicolon after in-class function definition.
                 -Wshadow # warn the user if a variable declaration shadows one from a parent context
@@ -82,13 +71,12 @@ function(add_warnings_and_compile_options target WARNINGS_AS_ERRORS)
     elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
         message(STATUS "Compiler Settings ${CMAKE_CXX_COMPILER_ID}")
 
-        if (WARNINGS_AS_ERRORS)
-            target_compile_options(${target} ${LIB_INHERITANCE_PROPERTY} "-Werror")
+        if (warnings_are_errors)
+            target_compile_options(${target} PRIVATE ${${target}_INHERITANCE_PROPERTY} "-Werror")
         endif ()
         
-        target_compile_options(${target} ${LIB_INHERITANCE_PROPERTY}
+        target_compile_options(${target} PRIVATE ${${target}_INHERITANCE_PROPERTY}
                 -Wall
-                -Werror
                 -Wextra # reasonable and standard
                 -Wextra-semi # Warn about semicolon after in-class function definition.
                 -Wshadow # warn the user if a variable declaration shadows one from a parent context
