@@ -44,6 +44,11 @@ function(setup_export_set_installation project_name export_set_name config_cmake
             FILE ${projTargetsFileName}.cmake
             DESTINATION "${cmakeProjDir}/")
 
+    export(EXPORT ${export_set_name}
+            FILE "${CMAKE_BINARY_DIR}/${project_name}Targets.cmake"
+            NAMESPACE ${project_name}::
+            )
+
     install(FILES
             "${CMAKE_BINARY_DIR}/${project_name}Config.cmake"
             "${CMAKE_BINARY_DIR}/${project_name}ConfigVersion.cmake"

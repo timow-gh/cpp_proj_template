@@ -9,7 +9,7 @@ project(cpp_proj_template
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake)
 include(project_preamble)
 include(setup_export_set_installation)
-include(Warnings)
+include(warnings)
 include(static_analysis)
 
 include(cmake/CPM.cmake)

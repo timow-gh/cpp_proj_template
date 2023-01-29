@@ -1,5 +1,5 @@
 include_guard()
-include(cpp_proj_utils)
+include(set_target_inheritance_property)
 
 function(add_warnings_and_compile_options target warnings_are_errors)
 
