@@ -19,7 +19,7 @@ string(TOLOWER "${TARGET_NAME}_export.h" GENERATED_TARGET_EXPORTS_FILE_NAME)
 file(COPY
         ${CMAKE_CURRENT_BINARY_DIR}/${GENERATED_TARGET_EXPORTS_FILE_NAME}
         DESTINATION
-        ${CMAKE_CURRENT_BINARY_DIR}/export_header_includes/example_library)
+        ${CMAKE_CURRENT_BINARY_DIR}/export_header_includes/${TARGET_NAME})
 
 target_include_directories(${TARGET_NAME}
         PUBLIC
@@ -59,7 +59,7 @@ endif ()
 # The library fmt::fmt is linked private, since the library is not exposed to the user of this library.
 target_link_libraries(${TARGET_NAME}
         # Link headeronly_supporting_lib::headeronly_supporting_lib as a public dependency, if the user requested
-        # shared libraries. Otherwise, the dependency fmt::fmt is not installed.
+        # shared libraries. Otherwise, the dependency fmt::fmt of the headeronly_supporting_lig is not installed.
         PUBLIC $<$<BOOL:${BUILD_SHARED_LIBS}>:cpp_proj_template::headeronly_supporting_lib>
         # Link headeronly_supporting_lib::headeronly_supporting_lib as a private dependency, if the user requested
         # static libraries. In this case the installation of the dependency fmt::fmt is not required.

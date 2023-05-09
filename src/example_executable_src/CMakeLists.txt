@@ -18,6 +18,7 @@ endif ()
 
 if (${PROJECT_NAME}_INSTALL)
     install(TARGETS ${TARGET_NAME}
+            EXPORT ${project_export_set_name}
             RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
             LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
             ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
