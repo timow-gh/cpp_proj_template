@@ -1,19 +1,94 @@
----
-Checks: "*,
-        -abseil-*,
-        -altera-*,
-        -android-*,
-        -fuchsia-*,
-        -google-*,
-        -llvm*,
-        -modernize-use-trailing-return-type,
-        -zircon-*,
-        -readability-else-after-return,
-        -readability-static-accessed-through-instance,
-        -readability-avoid-const-params-in-decls,
-        -cppcoreguidelines-non-private-member-variables-in-classes,
-        -misc-non-private-member-variables-in-classes,
-"
-WarningsAsErrors: ''
-HeaderFilterRegex: ''
-FormatStyle:     none
+Checks: '-*,
+clang-diagnostic-*,
+bugprone-,
+llvm-*,
+cppcoreguidelines-avoid-capturing-lambda-coroutines,
+cppcoreguidelines-avoid-const-or-ref-data-members,
+cppcoreguidelines-avoid-do-while,
+cppcoreguidelines-avoid-goto,
+cppcoreguidelines-avoid-non-const-global-variables,
+cppcoreguidelines-avoid-reference-coroutine-parameters,
+cppcoreguidelines-init-variables,
+cppcoreguidelines-interfaces-global-init,
+cppcoreguidelines-macro-usage,
+cppcoreguidelines-misleading-capture-default-by-value,
+cppcoreguidelines-missing-std-forward,
+cppcoreguidelines-narrowing-conversions,
+cppcoreguidelines-no-malloc,
+cppcoreguidelines-owning-memory,
+cppcoreguidelines-prefer-member-initializer,
+cppcoreguidelines-pro-bounds-array-to-pointer-decay,
+cppcoreguidelines-pro-type-const-cast,
+cppcoreguidelines-pro-type-cstyle-cast,
+cppcoreguidelines-pro-type-member-init,
+cppcoreguidelines-pro-type-reinterpret-cast,
+cppcoreguidelines-pro-type-static-cast-downcast,
+cppcoreguidelines-pro-type-union-access,
+cppcoreguidelines-pro-type-vararg,
+cppcoreguidelines-rvalue-reference-param-not-moved,
+cppcoreguidelines-slicing,
+cppcoreguidelines-special-member-functions,
+cppcoreguidelines-virtual-class-destructor,
+misc-*,
+performance-*,
+readability-*,
+modernize-avoid-bind,	
+modernize-avoid-c-arrays,	 
+modernize-concat-nested-namespaces,	
+modernize-deprecated-headers,	
+modernize-deprecated-ios-base-aliases,	
+modernize-loop-convert,	
+modernize-macro-to-enum,	
+modernize-make-shared,	
+modernize-make-unique,	
+modernize-pass-by-value,	
+modernize-raw-string-literal,	
+modernize-redundant-void-arg,	
+modernize-replace-auto-ptr,	
+modernize-replace-disallow-copy-and-assign-macro,	
+modernize-replace-random-shuffle,	
+modernize-return-braced-init-list,	
+modernize-shrink-to-fit,	
+modernize-type-traits,	
+modernize-unary-static-assert,	
+modernize-use-auto,	
+modernize-use-bool-literals,	
+modernize-use-default-member-init,	
+modernize-use-emplace,	
+modernize-use-equals-default,	
+modernize-use-equals-delete,	
+modernize-use-nodiscard,	
+modernize-use-noexcept,	
+modernize-use-nullptr,	
+modernize-use-override,	
+modernize-use-transparent-functors,	
+modernize-use-uncaught-exceptions,	
+modernize-use-using,
+clang-analyzer-*,
+-misc-const-correctness,-misc-unused-parameters,-misc-non-private-member-variables-in-classes,-misc-no-recursion,-misc-use-anonymous-namespace,readability-identifier-naming'
+
+# cppcoreguidelines-pro-bounds-pointer-arithmetic
+# cppcoreguidelines-pro-bounds-constant-array-index # Removed, too many false positives
+
+CheckOptions:
+  - key: readability-identifier-naming.ClassCase
+    value: CamelCase
+  - key: readability-identifier-naming.EnumCase
+    value: CamelCase
+  - key: readability-identifier-naming.FunctionCase
+    value: snake_case
+  # Doesn't work with prefix for member
+  #  - key: readability-identifier-naming.MemberCase
+  #    value: camelBack
+  - key: readability-identifier-naming.ParameterCase
+    value: camelBack
+  - key: readability-identifier-naming.UnionCase
+    value: CamelCase
+  - key: readability-identifier-naming.VariableCase
+    value: camelBack
+  - key: readability-identifier-naming.IgnoreMainLikeFunctions
+    value: 1
+  - key: readability-redundant-member-init.IgnoreBaseInCopyConstructors
+    value: 1
+  - key: modernize-use-default-member-init.UseAssignment
+    value: 1
