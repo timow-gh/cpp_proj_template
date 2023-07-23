@@ -33,3 +33,5 @@ $RECYCLE.BIN/
 ehthumbs.db
 Thumbs.db
 /CPMSourceVariable.cmake
+/Doxyfile
+/doc/

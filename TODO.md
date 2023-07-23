@@ -13,21 +13,15 @@
 - add stack protection, see sqlitecpp
 - ~~add sccache~~
 - ~~Add warnings to the project~~
-- Add usage of static analyzers
-    - cppcheck
-    - clang-tidy
-- Add include-what-you-use
-- Add documentation generation
-    - Doxygen or Sphinx
+- Add option to use cppcheck
+- ~~Add settings for clang-tidy~~
+- ~~Add documentation generation~~
 - Add code coverage
 - Add sanitizers
-    - AddressSanitizer
-    - ThreadSanitizer
-    - UndefinedBehaviorSanitizer
-    - MemorySanitizer
-- Add fuzzing
 
-## CMake improvements
+## CMake install improvements
 
 - Add dev and release components to the project
 - Remove the need for Config.cmake.in files when installing targets
+    - A custom function is needed that wraps target_link_libraries. This function must collect the dependencies of the
+      target and use them to generate the Config.cmake file.

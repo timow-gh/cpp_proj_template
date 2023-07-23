@@ -77,6 +77,30 @@ message(STATUS "${PROJECT_NAME}_USE_SCCACHE: ${${PROJECT_NAME}_USE_SCCACHE}")
 message(STATUS "${PROJECT_NAME}_WARNINGS_AS_ERRORS: ${${PROJECT_NAME}_WARNINGS_AS_ERRORS}")
 message(STATUS "${PROJECT_NAME}_STATIC_ANALYSIS: ${${PROJECT_NAME}_STATIC_ANALYSIS}")
 
+find_program(DOXYGEN_EXECUTABLE doxygen)
+
+if (NOT DOXYGEN_EXECUTABLE)
+    message(AUTHOR_WARNING "Doxygen not found. Documentation will not be generated.")
+endif ()
+
+# if doxygen is found, generate the documentation
+if (DOXYGEN_EXECUTABLE)
+    message(STATUS "Doxygen found. Documentation will be generated.")
+    message(STATUS "DOXGEN_PROGRAM=${DOXGEN_PROGRAM}")
+
+    # configure doxygen file
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile @ONLY)
+
+    # Define the custom target for building the documentation
+    add_custom_target(
+            docs ALL
+            COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile
+            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+            COMMENT "Generating API documentation with Doxygen"
+            VERBATIM
+    )
+endif ()
+
 # Add dependencies using the FetchContent module. This will download the dependencies and
 # build them with this project.
 add_subdirectory(dependencies)
@@ -105,4 +129,3 @@ if (${PROJECT_NAME}_TESTS)
     enable_testing()
     add_subdirectory(test)
 endif ()
-
