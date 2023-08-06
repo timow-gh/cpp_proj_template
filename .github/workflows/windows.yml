@@ -35,7 +35,6 @@ jobs:
         cmake -A ${{matrix.platform}} -T ${{matrix.toolset}} \
               -DCMAKE_CXX_STANDARD=${{matrix.standard}} \
               ${{matrix.shared}} -DCMAKE_BUILD_TYPE=${{matrix.build_type}} \
-              -DENABLE_DEVELOPER_MODE=ON \
               $GITHUB_WORKSPACE
 
     - name: Build

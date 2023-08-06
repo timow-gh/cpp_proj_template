@@ -41,7 +41,6 @@ jobs:
           cmake -DCMAKE_BUILD_TYPE=${{matrix.build_type}} ${{matrix.shared}} \
                 -DCMAKE_CXX_STANDARD=${{matrix.std}} \
                 -DCMAKE_CXX_FLAGS="${{ matrix.cxxflags }}" \
-                -DENABLE_DEVELOPER_MODE=ON \
                 $GITHUB_WORKSPACE
 
       - name: Build
