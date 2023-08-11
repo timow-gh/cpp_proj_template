@@ -10,6 +10,7 @@ function(enable_static_analysis target WARNINGS_AS_ERRORS)
     endif ()
 endfunction()
 
+# Enable clang-tidy static analysis project wide
 function(enable_clang_tidy WARNINGS_AS_ERRORS)
     find_program(CLANGTIDY clang-tidy)
 

@@ -5,7 +5,7 @@ set(${test_target}_TEMPLATE_PROJECT_DIR_NAME "${test_target}_install_test_templa
 
 set(PRESET "")
 if (MSVC)
-    set(PRESET "windows-msvc-debug-developer-mode")
+    set(PRESET "windows-msvc-debug")
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set(PRESET "unixlike-clang-debug")
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")

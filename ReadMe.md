@@ -15,28 +15,34 @@ The goal is to support three types of usage:
     cpp_proj_template
     │   
     ├── benchmark                                   # Downloads and builds the benchmark library
-    │   ├── ...
+    │   ├── ...                                     # Benchmark cpp files
     │   └── CMakeLists.txt
     │      
     ├── cmake                                       # CMake modules
-    │   └── ...
+    │   ├── Config.cmake.in                         # Config file for find_package. When installing the project, this file is modified and copied to the install directory.
+    │   ├── CPM.cmake                               # OPTIONAL Use CPM to download and build dependencies in a shared directory across different projects.
+    │   ├── project_preamble.cmake                  # Generic options to be used in all projects                
+    │   ├── sccache.cmake                           # OPTIONAL Looks for sccache to speed up the compilation
+    │   ├── setup_exeport_set_installation.cmake    # Function that configures the installation of the project targets
+    │   ├── static_analysis.cmake                   # OPTIONAL Configures clang-tidy project wide
+    │   └── warnings.cmake                          # OPTIONAL Configures warnings per target
     │                                
-    ├── dependencies
-    │   │                                
-    │   ├── fmt                                     # Downloads and builds fmt using the FetchContent module
+    ├── dependencies                                # Dependency sources are downloaded using FetchContent if not found in the CPM cache directory 
+    │   ├── fmt                                     
     │   │   └── CMakelists.txt
-    │   ├── googletest                              # Downloads and builds googletest using the FetchContent module
+    │   ├── googletest                              
     │   │   └── CMakelists.txt
-    │   ├── ...
     │   └── CMakelists.txt
     │
     ├── src                                         # Source files of this project
-    │   │
     │   ├── example_executable                      # example executable that uses example_library
-    │   │   ├── ...
+    │   │   ├── main.cpp
     │   │   └── CMakelists.txt
     │   │
-    │   ├── example_library_src                     # example_library files
+    │   ├── example_library_src                     # example_library files. Library may be build as static or shared library.
+    │   │   │                                       #
+    │   │   │                                       # The idea of this example lib is to print a message to the console 
+    │   │   │                                       # using the header-only supporting lib, while not exposing the header-only lib to the user.
     │   │   ├── example_library             
     │   │   │   └── library.h      
     │   │   ├── source                      
@@ -51,11 +57,10 @@ The goal is to support three types of usage:
     │   └── CMakelists.txt     
     │
     ├── test                                        # Test files
-    │   ├── test_install                            # Tests the installed library using find_package()
+    │   ├── test_install                            # Tests the installed library targets using find_package()
     │   │   ├── template_find_package_install_test  
     │   │   └── CMakeLists.txt
-    │   │
-    │   ├── ...
+    │   ├── using_google_test                       # Tests the library by using the targets of the build directory
     │   └── CMakelists.txt
     │
     ├── .clang-format                               # specifies the formatting style
