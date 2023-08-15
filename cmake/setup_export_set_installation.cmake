@@ -39,18 +39,32 @@ function(setup_export_set_installation project_name export_set_name config_cmake
             NO_SET_AND_CHECK_MACRO
             NO_CHECK_REQUIRED_COMPONENTS_MACRO)
 
+    install(EXPORT MyProj_Runtime
+            DESTINATION "${cmakeProjDir}/"
+            NAMESPACE ${project_name}::
+            FILE MyProj_Runtime.cmake
+            COMPONENT MyProj_Runtime
+    )
+    install(EXPORT MyProj_Development
+            DESTINATION "${cmakeProjDir}/"
+            NAMESPACE ${project_name}::
+            FILE MyProj_Development.cmake
+            COMPONENT MyProj_Development
+    )
+
     install(EXPORT ${export_set_name}
             NAMESPACE ${project_name}::
             FILE ${projTargetsFileName}.cmake
-            DESTINATION "${cmakeProjDir}/")
+            DESTINATION "${cmakeProjDir}/"
+            COMPONENT MyProj_Development)
 
     export(EXPORT ${export_set_name}
             FILE "${CMAKE_BINARY_DIR}/${project_name}Targets.cmake"
-            NAMESPACE ${project_name}::
-            )
+            NAMESPACE ${project_name}::)
 
     install(FILES
             "${CMAKE_BINARY_DIR}/${project_name}Config.cmake"
             "${CMAKE_BINARY_DIR}/${project_name}ConfigVersion.cmake"
-            DESTINATION "${cmakeProjDir}/")
+            DESTINATION "${cmakeProjDir}/"
+            COMPONENT MyProj_Development)
 endfunction()

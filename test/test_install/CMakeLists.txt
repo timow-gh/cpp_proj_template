@@ -15,7 +15,7 @@ else ()
 endif ()
 
 add_custom_target(test_install
-        ${CMAKE_COMMAND} --install ${PROJECT_BINARY_DIR} --config ${CMAKE_BUILD_TYPE} --prefix ${${test_target}_TEST_INSTALL_DIR}
+        ${CMAKE_COMMAND} --install ${PROJECT_BINARY_DIR} --config ${CMAKE_BUILD_TYPE} --prefix ${${test_target}_TEST_INSTALL_DIR} --component MyProj_Development
 
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         "${CMAKE_CURRENT_LIST_DIR}/${${test_target}_TEMPLATE_PROJECT_DIR_NAME}"

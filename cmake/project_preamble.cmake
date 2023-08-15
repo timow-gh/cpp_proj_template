@@ -24,10 +24,16 @@ function(project_preamble)
     set(CMAKE_CXX_VISIBILITY_PRESET hidden PARENT_SCOPE)
     set(CMAKE_VISIBILITY_INLINES_HIDDEN 1 PARENT_SCOPE)
 
+    # Set the rpath for the executable to the libraries.
+    # Ignore Xcode because apple has a different layout.
     if (NOT CMAKE_GENERATOR STREQUAL "Xcode")
+        # The loader will look for the libraries at the paths specified in the INSTALL_RPATH.
+        # Set relative paths from the executable to the libraries for the rpath.
         file(RELATIVE_PATH relDir
                 ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_INSTALL_BINDIR}
                 ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
+
+        # Set the install rpath for all targets in the project.
         set(CMAKE_INSTALL_RPATH $ORIGIN $ORIGIN/${relDir} PARENT_SCOPE)
     endif ()
 endfunction()

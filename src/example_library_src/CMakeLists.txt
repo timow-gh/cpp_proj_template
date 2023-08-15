@@ -1,10 +1,10 @@
 set(HEADER_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/example_library/library.hpp
-        )
+)
 
 set(SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/source/library.cpp
-        )
+)
 
 set(TARGET_NAME example_library)
 # Don't use STATIC ore SHARED for the library, the user should decide by setting the BUILD_SHARED_LIBS
@@ -25,7 +25,7 @@ target_include_directories(${TARGET_NAME}
         PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/export_header_includes/>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
-        )
+)
 
 # Add an alias so that library can be used inside the build tree the same way it is consumed after installation
 # All libraries get an alias of the form <PROJECT_NAME>::<TARGET_NAME>
@@ -67,18 +67,30 @@ target_link_libraries(${TARGET_NAME}
 
 if (${PROJECT_NAME}_INSTALL)
     # Install (i.e. copy) the library headers
-    install(DIRECTORY "include/${TARGET_NAME}" DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
+    install(DIRECTORY "include/${TARGET_NAME}" DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
+            COMPONENT MyProj_Development)
 
     install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${GENERATED_TARGET_EXPORTS_FILE_NAME}"
-            DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${TARGET_NAME}")
+            DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${TARGET_NAME}"
+            COMPONENT MyProj_Development)
 
     # Install the library target
     # ${TARGET_NAME}TargetsExportSet is the name of the export set that is created by the call to install(EXPORT)
     install(TARGETS
             ${TARGET_NAME}
             EXPORT ${project_export_set_name}
+
             RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+            COMPONENT MyProj_Runtime
+
             LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            COMPONENT MyProj_Runtime
+
             ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            COMPONENT MyProj_Development
+            # CMake doc on INCLUDES DESTINATION:
+            # This option specifies a list of directories which will be added to the INTERFACE_INCLUDE_DIRECTORIES
+            # target property of the <targets> when exported by the install(EXPORT) command. If a relative path is
+            # specified, it is treated as relative to the $<INSTALL_PREFIX>.
             INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 endif ()
