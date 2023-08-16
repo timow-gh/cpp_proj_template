@@ -55,26 +55,13 @@ function(setup_export_set_installation
             NO_CHECK_REQUIRED_COMPONENTS_MACRO
     )
 
-#    install(EXPORT MyProj_Runtime
-#            DESTINATION "${cmake_project_install_dir}/"
-#            NAMESPACE ${project_name}::
-#            FILE MyProj_Runtime.cmake
-#            COMPONENT MyProj_Runtime
-#    )
-#    install(EXPORT MyProj_Development
-#            DESTINATION "${cmake_project_install_dir}/"
-#            NAMESPACE ${project_name}::
-#            FILE MyProj_Development.cmake
-#            COMPONENT MyProj_Development
-#    )
-
     install(EXPORT ${export_set_name}
             NAMESPACE ${project_name}::
             FILE ${proj_targets_file_name}.cmake
             DESTINATION "${cmake_project_install_dir}/"
-            COMPONENT MyProj_Development
     )
 
+    # writes an export file directly into the build tree
     export(EXPORT ${export_set_name}
             FILE "${CMAKE_BINARY_DIR}/${project_name}Targets.cmake"
             NAMESPACE ${project_name}::
@@ -84,7 +71,6 @@ function(setup_export_set_installation
             "${CMAKE_BINARY_DIR}/${project_name}Config.cmake"
             "${CMAKE_BINARY_DIR}/${project_name}ConfigVersion.cmake"
             DESTINATION "${cmake_project_install_dir}/"
-            COMPONENT MyProj_Development
     )
 
 endfunction()
