@@ -18,14 +18,12 @@ endif ()
 
 if (${PROJECT_NAME}_INSTALL)
     install(TARGETS ${TARGET_NAME}
+            EXPORT ${project_export_set_name}
             RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
             COMPONENT MyProj_Runtime
-
             LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
             COMPONENT MyProj_Runtime
-
             ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
             COMPONENT MyProj_Development
-
             INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 endif ()
