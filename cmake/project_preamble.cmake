@@ -1,4 +1,5 @@
-# Sets default values that should be used by all projects.
+# Sets default values that should be used by the whole project.
+# Must be called before the first cmake target is created.
 function(project_preamble)
     include(GNUInstallDirs)
     if (MSVC)
@@ -23,6 +24,11 @@ function(project_preamble)
     # The default visibility is visible, so we need to explicitly hide symbols.
     set(CMAKE_CXX_VISIBILITY_PRESET hidden PARENT_SCOPE)
     set(CMAKE_VISIBILITY_INLINES_HIDDEN 1 PARENT_SCOPE)
+    # CMAKE_LINK_LIBRARIES_ONLY_TARGETS: All linked libraries must be cmake targets.
+    # Incase a target is linked to a library without using the target alias, a system library may be linked.
+    # To prevent this, we only allow linking to cmake targets.
+    # Not allowed: target_link_libraries(myTarget PRIVATE m) -> if m is a system library.
+    set(CMAKE_LINK_LIBRARIES_ONLY_TARGETS OFF PARENT_SCOPE) # Off due to google benchmark linking to system libraries.
 
     # Set the rpath for the executable to the libraries.
     # Ignore Xcode because apple has a different layout.

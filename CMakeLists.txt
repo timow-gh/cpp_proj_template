@@ -51,6 +51,7 @@ endif ()
 # It is possible to exclude this project from installation by setting the following option to OFF.
 # This is useful if you want to use this project as a subproject in another project.
 option(${PROJECT_NAME}_INSTALL "Install project targets" ON)
+option(${PROJECT_NAME}_BUILD_DOCUMENTATION "Build documentation" ON)
 
 if (${PROJECT_NAME}_USE_SCCACHE)
     if (NOT "${CMAKE_GENERATOR}" STREQUAL "Ninja")
@@ -77,33 +78,36 @@ message(STATUS "${PROJECT_NAME}_USE_SCCACHE: ${${PROJECT_NAME}_USE_SCCACHE}")
 message(STATUS "${PROJECT_NAME}_WARNINGS_AS_ERRORS: ${${PROJECT_NAME}_WARNINGS_AS_ERRORS}")
 message(STATUS "${PROJECT_NAME}_STATIC_ANALYSIS: ${${PROJECT_NAME}_STATIC_ANALYSIS}")
 
-find_program(DOXYGEN_EXECUTABLE doxygen)
-
-if (NOT DOXYGEN_EXECUTABLE)
-    message(AUTHOR_WARNING "Doxygen not found. Documentation will not be generated.")
-endif ()
-
-# if doxygen is found, generate the documentation
-if (DOXYGEN_EXECUTABLE)
-    message(STATUS "Doxygen found. Documentation will be generated.")
-    message(STATUS "DOXGEN_PROGRAM=${DOXGEN_PROGRAM}")
-
-    # configure doxygen file
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile @ONLY)
-
-    # Define the custom target for building the documentation
-    add_custom_target(
-            docs ALL
-            COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile
-            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-            COMMENT "Generating API documentation with Doxygen"
-            VERBATIM
-    )
-endif ()
-
 # Add dependencies using the FetchContent module. This will download the dependencies and
 # build them with this project.
 add_subdirectory(dependencies)
+
+if (${PROJECT_NAME}_BUILD_DOCUMENTATION)
+    find_program(DOXYGEN_EXECUTABLE doxygen)
+
+    if (NOT DOXYGEN_EXECUTABLE)
+        message(FATAL_ERROR "Doxygen not found. Documentation will not be generated.")
+    endif ()
+
+    # if doxygen is found, generate the documentation
+    if (DOXYGEN_EXECUTABLE)
+        message(STATUS "Doxygen found. Documentation will be generated.")
+        message(STATUS "DOXGEN_PROGRAM=${DOXGEN_PROGRAM}")
+
+        # configure doxygen file
+        # @ONLY means only replace variables of the form @VAR@ (and not ${VAR}
+        configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile @ONLY)
+
+        # Define the custom target for building the documentation
+        add_custom_target(
+                docs ALL
+                COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile
+                WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+                COMMENT "Generating API documentation with Doxygen"
+                VERBATIM
+        )
+    endif ()
+endif ()
 
 # Use find_package to find dependencies that are installed on the system
 # Example:

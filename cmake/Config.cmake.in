@@ -7,12 +7,12 @@ set(CMAKE_MAP_IMPORTED_CONFIG_MINSIZEREL MinSizeRel RelWithDebInfo Release Debug
 set(CMAKE_MAP_IMPORTED_CONFIG_RELWITHDEBINFO RelWithDebInfo Release MinSizeRel Debug "")
 set(CMAKE_MAP_IMPORTED_CONFIG_RELEASE Release RelWithDebInfo MinSizeRel Debug "")
 
-list(APPEND CMAKE_MODULE_PATH "@PACKAGE_cmakeModulesDir@")
+list(APPEND CMAKE_MODULE_PATH "@PACKAGE_cmake_modules_install_dir@")
 
 # If your package depends an another one, you MUST specify it here
 include(CMakeFindDependencyMacro)
 find_dependency(fmt REQUIRED)
-include(${CMAKE_CURRENT_LIST_DIR}/MyProj_Runtime.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/MyProj_Development.cmake)
+# include(${CMAKE_CURRENT_LIST_DIR}/MyProj_Runtime.cmake)
+# include(${CMAKE_CURRENT_LIST_DIR}/MyProj_Development.cmake)
 
-include("@PACKAGE_cmakeProjTargetsFilePath@.cmake")
+include("@PACKAGE_cmake_proj_targets_file_path@.cmake")

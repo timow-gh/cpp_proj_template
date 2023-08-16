@@ -14,8 +14,12 @@ else ()
     message(AUTHOR_WARNING "Unsupported compiler")
 endif ()
 
+# Possible extension:
+# - Test with different CXX_STANDARD values for the test project
+# - Test with different BUILD_SHARED_LIBS values for the test project
+
 add_custom_target(test_install
-        ${CMAKE_COMMAND} --install ${PROJECT_BINARY_DIR} --config ${CMAKE_BUILD_TYPE} --prefix ${${test_target}_TEST_INSTALL_DIR} --component MyProj_Development
+        ${CMAKE_COMMAND} --install ${PROJECT_BINARY_DIR} --config ${CMAKE_BUILD_TYPE} --prefix ${${test_target}_TEST_INSTALL_DIR}
 
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         "${CMAKE_CURRENT_LIST_DIR}/${${test_target}_TEMPLATE_PROJECT_DIR_NAME}"
@@ -25,8 +29,8 @@ add_custom_target(test_install
         -B ${${test_target}_TEST_SOURCE_DIR}/build
         -S ${${test_target}_TEST_SOURCE_DIR}
         --preset "${PRESET}"
+        # Test with the same BUILD_SHARED_LIBS value as the main project
         -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
-        -DCMAKE_CXX_STANDARD=20
         -DCMAKE_PREFIX_PATH=${${test_target}_TEST_INSTALL_DIR}
 
         COMMAND ${CMAKE_COMMAND}
@@ -38,9 +42,9 @@ add_custom_target(test_install
         --install ${${test_target}_TEST_SOURCE_DIR}/build
         --config ${CMAKE_BUILD_TYPE}
         --prefix ${${test_target}_TEST_SOURCE_DIR}/install
-        )
+)
 
 add_custom_target(test_install_clean
         ${CMAKE_COMMAND} -E rm -Rf ${${test_target}_TEST_INSTALL_DIR}
         COMMAND ${CMAKE_COMMAND} -E rm -Rf ${${test_target}_TEST_SOURCE_DIR}
-        )
+)

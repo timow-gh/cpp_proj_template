@@ -1,4 +1,10 @@
-function(setup_export_set_installation project_name export_set_name config_cmake_in_file_name major_version minor_version patch_version)
+function(setup_export_set_installation
+        project_name
+        export_set_name
+        config_cmake_in_file_name
+        major_version
+        minor_version
+        patch_version)
     include(GNUInstallDirs)
     include(CMakePackageConfigHelpers)
 
@@ -19,52 +25,66 @@ function(setup_export_set_installation project_name export_set_name config_cmake
             VERSION ${major_version}.${minor_version}.${patch_version}
             COMPATIBILITY SameMajorVersion)
 
-    # Name of ${target_name}'s targets file.
-    set(projTargetsFileName "${project_name}Targets")
-
     # The cmake module path for ${target_name}.
-    set(cmakeModulesDir "${CMAKE_INSTALL_LIBDIR}/cmake")
+    set(cmake_modules_install_dir "${CMAKE_INSTALL_LIBDIR}/cmake")
 
     # Installation path for ${target_name} files.
-    set(cmakeProjDir "${cmakeModulesDir}/${project_name}")
+    set(cmake_project_install_dir "${cmake_modules_install_dir}/${project_name}")
+
+    set(proj_targets_file_name "${project_name}Targets")
 
     # Installation path and file name of ${target_name}'s targets file.
-    set(cmakeProjTargetsFilePath "${cmakeProjDir}/${projTargetsFileName}")
+    set(cmake_proj_targets_file_path "${cmake_project_install_dir}/${proj_targets_file_name}")
+
+    # NO_SET_AND_CHECK_MACRO, NO_CHECK_REQUIRED_COMPONENTS_MACRO
+    # https://cmake.org/cmake/help/latest/module/CMakePackageConfigHelpers.html
+    # Prevents @PACKAGE_INIT@ from defining helper functions.
+    #
+    # The helper functions are used to set variables for directories and file
+    # locations only if they are not already defined.
+    #
+    # When a package provides imported targets, no such paths are needed and it
+    # is not necessary to generate the helper functions.
 
     configure_package_config_file(
             ${${target_name}_CONFIG_IN_FILE}
             ${CMAKE_BINARY_DIR}/${project_name}Config.cmake
-            INSTALL_DESTINATION ${cmakeProjDir}
-            PATH_VARS cmakeModulesDir cmakeProjTargetsFilePath
+            INSTALL_DESTINATION ${cmake_project_install_dir}
+            PATH_VARS cmake_modules_install_dir cmake_proj_targets_file_path
             NO_SET_AND_CHECK_MACRO
-            NO_CHECK_REQUIRED_COMPONENTS_MACRO)
+            NO_CHECK_REQUIRED_COMPONENTS_MACRO
+    )
 
-    install(EXPORT MyProj_Runtime
-            DESTINATION "${cmakeProjDir}/"
-            NAMESPACE ${project_name}::
-            FILE MyProj_Runtime.cmake
-            COMPONENT MyProj_Runtime
-    )
-    install(EXPORT MyProj_Development
-            DESTINATION "${cmakeProjDir}/"
-            NAMESPACE ${project_name}::
-            FILE MyProj_Development.cmake
-            COMPONENT MyProj_Development
-    )
+#    install(EXPORT MyProj_Runtime
+#            DESTINATION "${cmake_project_install_dir}/"
+#            NAMESPACE ${project_name}::
+#            FILE MyProj_Runtime.cmake
+#            COMPONENT MyProj_Runtime
+#    )
+#    install(EXPORT MyProj_Development
+#            DESTINATION "${cmake_project_install_dir}/"
+#            NAMESPACE ${project_name}::
+#            FILE MyProj_Development.cmake
+#            COMPONENT MyProj_Development
+#    )
 
     install(EXPORT ${export_set_name}
             NAMESPACE ${project_name}::
-            FILE ${projTargetsFileName}.cmake
-            DESTINATION "${cmakeProjDir}/"
-            COMPONENT MyProj_Development)
+            FILE ${proj_targets_file_name}.cmake
+            DESTINATION "${cmake_project_install_dir}/"
+            COMPONENT MyProj_Development
+    )
 
     export(EXPORT ${export_set_name}
             FILE "${CMAKE_BINARY_DIR}/${project_name}Targets.cmake"
-            NAMESPACE ${project_name}::)
+            NAMESPACE ${project_name}::
+    )
 
     install(FILES
             "${CMAKE_BINARY_DIR}/${project_name}Config.cmake"
             "${CMAKE_BINARY_DIR}/${project_name}ConfigVersion.cmake"
-            DESTINATION "${cmakeProjDir}/"
-            COMPONENT MyProj_Development)
+            DESTINATION "${cmake_project_install_dir}/"
+            COMPONENT MyProj_Development
+    )
+
 endfunction()
