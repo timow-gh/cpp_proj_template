@@ -1,3 +1,5 @@
+include_guard()
+
 # Sets default values that should be used by the whole project.
 # Must be called before the first cmake target is created.
 function(project_preamble)

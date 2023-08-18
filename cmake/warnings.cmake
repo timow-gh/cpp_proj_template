@@ -1,4 +1,5 @@
 include_guard()
+
 include(set_target_inheritance_property)
 
 function(add_warnings_and_compile_options target warnings_are_errors)
@@ -13,13 +14,11 @@ function(add_warnings_and_compile_options target warnings_are_errors)
     private_or_interface_inheritance_property(${target})
 
     if (MSVC)
-        message(STATUS "Compiler Settings ${CMAKE_CXX_COMPILER_ID}")
-
         if (warnings_are_errors)
-            target_compile_options(${target} PRIVATE ${${target}_INHERITANCE_PROPERTY} "/WX")
+            target_compile_options(${target} ${${target}_INHERITANCE_PROPERTY} "/WX")
         endif ()
 
-        target_compile_options(${target} PRIVATE ${${target}_INHERITANCE_PROPERTY}
+        target_compile_options(${target} ${${target}_INHERITANCE_PROPERTY}
                 /W4 # Baseline reasonable warnings
                 /w14242 # 'identifier': conversion from 'type1' to 'type1', possible loss of data
                 /w14254 # 'operator': conversion from 'type1:field_bits' to 'type2:field_bits', possible loss of data
@@ -40,16 +39,14 @@ function(add_warnings_and_compile_options target warnings_are_errors)
                 /w14905 # wide string literal cast to 'LPSTR'
                 /w14906 # string literal cast to 'LPWSTR'
                 /w14928 # illegal copy-initialization; more than one user-defined conversion has been implicitly applied
-                /permissive - # standards conformance mode for MSVC compiler.
+                /permissive # standards conformance mode for MSVC compiler.
                 )
     elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-        message(STATUS "Compiler Settings ${CMAKE_CXX_COMPILER_ID}")
-
         if (warnings_are_errors)
-            target_compile_options(${target} PRIVATE ${${target}_INHERITANCE_PROPERTY} "-Werror")
+            target_compile_options(${target} ${${target}_INHERITANCE_PROPERTY} "-Werror")
         endif ()
 
-        target_compile_options(${target} PRIVATE ${${target}_INHERITANCE_PROPERTY}
+        target_compile_options(${target} ${${target}_INHERITANCE_PROPERTY}
                 -Wall
                 -Wextra # reasonable and standard
                 -Wextra-semi # Warn about semicolon after in-class function definition.
@@ -69,13 +66,11 @@ function(add_warnings_and_compile_options target warnings_are_errors)
                 -Wimplicit-fallthrough # warn on statements that fallthrough without an explicit annotation
                 )
     elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-        message(STATUS "Compiler Settings ${CMAKE_CXX_COMPILER_ID}")
-
         if (warnings_are_errors)
-            target_compile_options(${target} PRIVATE ${${target}_INHERITANCE_PROPERTY} "-Werror")
+            target_compile_options(${target} ${${target}_INHERITANCE_PROPERTY} "-Werror")
         endif ()
-        
-        target_compile_options(${target} PRIVATE ${${target}_INHERITANCE_PROPERTY}
+
+        target_compile_options(${target} ${${target}_INHERITANCE_PROPERTY}
                 -Wall
                 -Wextra # reasonable and standard
                 -Wextra-semi # Warn about semicolon after in-class function definition.
@@ -93,7 +88,6 @@ function(add_warnings_and_compile_options target warnings_are_errors)
                 -Wdouble-promotion # warn if float is implicit promoted to double
                 -Wformat=2 # warn on security issues around functions that format output (ie printf)
                 -Wimplicit-fallthrough # warn on statements that fallthrough without an explicit annotation
-
                 -Wmisleading-indentation # warn if indentation implies blocks where blocks do not exist
                 -Wduplicated-cond # warn if if / else chain has duplicated conditions
                 -Wduplicated-branches # warn if if / else branches have duplicated code
@@ -101,6 +95,6 @@ function(add_warnings_and_compile_options target warnings_are_errors)
                 -Wuseless-cast # warn if you perform a cast to the same type
                 )
     else ()
-        message(AUTHOR_WARNING "No compiler warnings set for CXX compiler: '${CMAKE_CXX_COMPILER_ID}'")
+        message(FATAL_ERROR "No compiler warnings set for CXX compiler: '${CMAKE_CXX_COMPILER_ID}'")
     endif ()
 endfunction()

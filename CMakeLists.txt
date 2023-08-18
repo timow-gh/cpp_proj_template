@@ -7,8 +7,6 @@ project(cpp_proj_template
 # Make all modules available to this project and other projects that consume this project by
 # adding the cmake directory to the CMAKE_MODULE_PATH
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake)
-include(project_preamble)
-include(setup_export_set_installation)
 include(warnings)
 include(static_analysis)
 
@@ -24,18 +22,22 @@ if (NOT CPM_SOURCE_CACHE)
 endif ()
 
 # Set common properties for cross platform builds
+include(project_preamble)
 project_preamble()
 
+# Use IS_TOP_LEVEL_PROJECT to detect if this project is the top level project.
+# If this project is not the top level project, use the IS_TOP_LEVEL_PROJECT variable
+# to remove project specific settings like WarningsAsErrors or StaticAnalysis.
+# The use of settings of this project should not affect the settings of the parent project.
 if ((CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR))
     set(IS_TOP_LEVEL_PROJECT TRUE)
 else ()
     set(IS_TOP_LEVEL_PROJECT FALSE)
 endif ()
-message(STATUS "IS_TOP_LEVEL_PROJECT: ${IS_TOP_LEVEL_PROJECT}")
 
 if (IS_TOP_LEVEL_PROJECT)
     option(${PROJECT_NAME}_USE_SCCACHE "Use sccache" ON)
-    option(${PROJECT_NAME}_WARNINGS_AS_ERRORS "Treat compiler warnings as errors " OFF)
+    option(${PROJECT_NAME}_WARNINGS_AS_ERRORS "Treat compiler warnings as errors " ON)
     option(${PROJECT_NAME}_STATIC_ANALYSIS "" ON)
     option(${PROJECT_NAME}_TESTS "" ON)
     option(${PROJECT_NAME}_BENCHMARKS "" ON)
@@ -54,67 +56,33 @@ option(${PROJECT_NAME}_INSTALL "Install project targets" ON)
 option(${PROJECT_NAME}_BUILD_DOCUMENTATION "Build documentation" ON)
 
 if (${PROJECT_NAME}_USE_SCCACHE)
-    if (NOT "${CMAKE_GENERATOR}" STREQUAL "Ninja")
-        message(AUTHOR_WARNING "sccache is only testet with the generator Ninja. Setting ${PROJECT_NAME}_USE_SCCACHE to OFF.")
-        set(${PROJECT_NAME}_USE_SCCACHE OFF CACHE BOOL "" FORCE)
-    else ()
-        find_program(CCACHE_PROGRAM sccache)
-        if (CCACHE_PROGRAM)
-            # Makefile Generators and the Ninja generator prefix compiler commands with the given launcher command line.
-            # This is intended to allow launchers to intercept build problems with high granularity. Other generators ignore
-            # this property because their underlying build systems provide no hook to wrap individual commands with a launcher.
-            set(CMAKE_C_COMPILER_LAUNCHER "${CCACHE_PROGRAM}")
-            set(CMAKE_CXX_COMPILER_LAUNCHER "${CCACHE_PROGRAM}")
-
-            include(cmake/sccache_setup.cmake)
-            fix_msvc_ninja_compile_flags()
-        else ()
-            message(AUTHOR_WARNING "sccache not found. Please install it or disable USE_SCCACHE")
-        endif ()
-    endif ()
-endif ()
-
-message(STATUS "${PROJECT_NAME}_USE_SCCACHE: ${${PROJECT_NAME}_USE_SCCACHE}")
-message(STATUS "${PROJECT_NAME}_WARNINGS_AS_ERRORS: ${${PROJECT_NAME}_WARNINGS_AS_ERRORS}")
-message(STATUS "${PROJECT_NAME}_STATIC_ANALYSIS: ${${PROJECT_NAME}_STATIC_ANALYSIS}")
-
-# Add dependencies using the FetchContent module. This will download the dependencies and
-# build them with this project.
-add_subdirectory(dependencies)
-
-if (${PROJECT_NAME}_BUILD_DOCUMENTATION)
-    find_program(DOXYGEN_EXECUTABLE doxygen)
-
-    if (NOT DOXYGEN_EXECUTABLE)
-        message(FATAL_ERROR "Doxygen not found. Documentation will not be generated.")
-    endif ()
-
-    # if doxygen is found, generate the documentation
-    if (DOXYGEN_EXECUTABLE)
-        message(STATUS "Doxygen found. Documentation will be generated.")
-        message(STATUS "DOXGEN_PROGRAM=${DOXGEN_PROGRAM}")
-
-        # configure doxygen file
-        # @ONLY means only replace variables of the form @VAR@ (and not ${VAR}
-        configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile @ONLY)
-
-        # Define the custom target for building the documentation
-        add_custom_target(
-                docs ALL
-                COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile
-                WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-                COMMENT "Generating API documentation with Doxygen"
-                VERBATIM
-        )
-    endif ()
+    include(setup_sccache)
+    enable_sccache()
 endif ()
 
 # Use find_package to find dependencies that are installed on the system
 # Example:
 # find_package(Boost REQUIRED)
 
+# Add dependencies using the FetchContent module. This will download the dependencies and
+# build them with this project.
+add_subdirectory(dependencies)
+
+if (${PROJECT_NAME}_BUILD_DOCUMENTATION)
+    include(setup_doxygen)
+    enable_doxygen()
+endif ()
+
 # Add the source code of this project
 add_subdirectory(src)
+
+if (${PROJECT_NAME}_TESTS)
+    include(CTest)
+    # "This command should be in the source directory root because ctest expects to find a test
+    # file in the build directory root.", CMake docs
+    enable_testing()
+    add_subdirectory(test)
+endif ()
 
 # Add files for packaging if this project is the top level project
 if (${PROJECT_NAME}_PACKAGE)
@@ -126,10 +94,4 @@ if (${PROJECT_NAME}_BENCHMARKS)
     add_subdirectory(benchmark)
 endif ()
 
-if (${PROJECT_NAME}_TESTS)
-    include(CTest)
-    # "This command should be in the source directory root because ctest expects to find a test
-    # file in the build directory root.", CMake docs
-    enable_testing()
-    add_subdirectory(test)
-endif ()
+

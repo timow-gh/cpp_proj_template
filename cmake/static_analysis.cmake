@@ -1,13 +1,21 @@
 include_guard()
 
-function(enable_static_analysis target WARNINGS_AS_ERRORS)
+include(cppcheck)
+
+# Enable static analysis for a target
+#
+# @param targetName Name of the target to enable static analysis for
+# @param WARNINGS_AS_ERRORS Set to true, 1 or ON to enable warnings as errors
+function(enable_static_analysis targetName WARNINGS_AS_ERRORS)
     if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-        enable_clang_tidy(${target})
+        enable_clang_tidy(${targetName})
     elseif (MSVC)
-        enable_vs_analysis("" ${target})
+        enable_vs_analysis("" ${targetName})
     else ()
         message(AUTHOR_WARNING "No static analysis enabled for ${CMAKE_CXX_COMPILER_ID}")
     endif ()
+
+    enable_cppcheck(${targetName})
 endfunction()
 
 # Enable clang-tidy static analysis project wide
@@ -35,10 +43,7 @@ function(enable_clang_tidy WARNINGS_AS_ERRORS)
         set(CMAKE_C_CLANG_TIDY ${CMAKE_CXX_CLANG_TIDY})
 
         # set C++ standard
-        if (NOT
-                "${CMAKE_CXX_STANDARD}"
-                STREQUAL
-                "")
+        if (NOT "${CMAKE_CXX_STANDARD}" STREQUAL "")
             if ("${CMAKE_CXX_CLANG_TIDY_DRIVER_MODE}" STREQUAL "cl")
                 set(CMAKE_CXX_CLANG_TIDY ${CMAKE_CXX_CLANG_TIDY} -extra-arg=/std:c++${CMAKE_CXX_STANDARD})
             else ()
@@ -47,10 +52,7 @@ function(enable_clang_tidy WARNINGS_AS_ERRORS)
         endif ()
 
         # set C standard
-        if (NOT
-                "${CMAKE_C_STANDARD}"
-                STREQUAL
-                "")
+        if (NOT "${CMAKE_C_STANDARD}" STREQUAL "")
             if ("${CMAKE_C_CLANG_TIDY_DRIVER_MODE}" STREQUAL "cl")
                 set(CMAKE_C_CLANG_TIDY ${CMAKE_C_CLANG_TIDY} -extra-arg=/std:c${CMAKE_C_STANDARD})
             else ()
@@ -72,10 +74,7 @@ function(enable_vs_analysis VS_ANALYSIS_RULESET target)
         # See for other rulesets: C:\Program Files (x86)\Microsoft Visual Studio\20xx\xx\Team Tools\Static Analysis Tools\Rule Sets\
         set(VS_ANALYSIS_RULESET "AllRules.ruleset")
     endif ()
-    if (NOT
-            "${CMAKE_CXX_CLANG_TIDY}"
-            STREQUAL
-            "")
+    if (NOT "${CMAKE_CXX_CLANG_TIDY}" STREQUAL "")
         set(_VS_CLANG_TIDY "true")
     else ()
         set(_VS_CLANG_TIDY "false")

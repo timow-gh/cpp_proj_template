@@ -1,3 +1,5 @@
+include_guard()
+
 # CPM.cmake - CMake's missing package manager
 # ===========================================
 # See https://github.com/cpm-cmake/CPM.cmake for usage and update instructions.

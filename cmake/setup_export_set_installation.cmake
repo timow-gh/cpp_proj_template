@@ -1,3 +1,5 @@
+include_guard()
+
 function(setup_export_set_installation
         project_name
         export_set_name

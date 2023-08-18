@@ -21,7 +21,6 @@ set(TARGET_EXPORT_NAME example_library)
 set(${TARGET_NAME}_MAJOR 0)
 set(${TARGET_NAME}_MINOR 1)
 set(${TARGET_NAME}_PATCH 0)
-message(STATUS "Configuring ${TARGET_NAME} ${${TARGET_NAME}_MAJOR}.${${TARGET_NAME}_MINOR}.${${TARGET_NAME}_PATCH}")
 
 set_target_properties(${TARGET_NAME}
         PROPERTIES

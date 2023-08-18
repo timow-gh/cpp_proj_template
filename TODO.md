@@ -13,7 +13,7 @@
 - add stack protection, see sqlitecpp
 - ~~add sccache~~
 - ~~Add warnings to the project~~
-- Add option to use cppcheck
+- ~~Add option to use cppcheck~~
 - ~~Add settings for clang-tidy~~
 - ~~Add documentation generation~~
 - Add code coverage
