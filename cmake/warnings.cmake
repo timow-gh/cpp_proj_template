@@ -95,6 +95,6 @@ function(add_warnings_and_compile_options target warnings_are_errors)
                 -Wuseless-cast # warn if you perform a cast to the same type
                 )
     else ()
-        message(FATAL_ERROR "No compiler warnings set for CXX compiler: '${CMAKE_CXX_COMPILER_ID}'")
+        message(AUTHOR_WARNING "No compiler warnings set for CXX compiler: '${CMAKE_CXX_COMPILER_ID}'")
     endif ()
 endfunction()
