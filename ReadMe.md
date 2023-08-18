@@ -25,8 +25,10 @@ The goal is to support three types of usage:
     ├── cmake                                       # CMake modules
     │   ├── Config.cmake.in                         # Config file for find_package. When installing the project, this file is modified and copied to the install directory.
     │   ├── CPM.cmake                               # OPTIONAL Use CPM to download and build dependencies in a shared directory across different projects.
+    │   ├── cppcheck.cmake                          # OPTIONAL Use cppcheck per target to check the code for errors
+    │   ├── setup_doxygen.cmake                     # OPTIONAL Find the doxygen executable and configure the doxygen documentation
     │   ├── project_preamble.cmake                  # Generic options to be used in all projects                
-    │   ├── sccache.cmake                           # OPTIONAL Looks for sccache to speed up the compilation
+    │   ├── setup_sccache.cmake                     # OPTIONAL Looks for sccache to speed up the compilation
     │   ├── setup_exeport_set_installation.cmake    # Function that configures the installation of the project targets
     │   ├── static_analysis.cmake                   # OPTIONAL Configures clang-tidy project wide
     │   └── warnings.cmake                          # OPTIONAL Configures warnings per target
@@ -52,11 +54,6 @@ The goal is to support three types of usage:
     │   │   ├── source                      
     │   │   │   └── library.cpp
     │   │   └── CMakelists.txt
-    │   │
-    │   │── headeronly_supporting_lib_src           # headeronly_supporting_lib files
-    │   │   ├── headeronly_supporting_lib   
-    │   │   │  └── library.h
-    │   │   └── CMakelists.txt  
     │   │
     │   └── CMakelists.txt     
     │

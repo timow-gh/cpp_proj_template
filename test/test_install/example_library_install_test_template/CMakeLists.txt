@@ -47,7 +47,6 @@ if (BUILD_SHARED_LIBS)
                 )
 
         # Install the executable and all its dependencies, except for the system libraries
-
         install(RUNTIME_DEPENDENCY_SET appDeps
                 PRE_EXCLUDE_REGEXES
                 [[api-ms-win-.*]] [[ext-ms-.*]] [[kernel32\.dll]] [[msvc.*]] [[vcruntime.*]] [[ucrt.*]]

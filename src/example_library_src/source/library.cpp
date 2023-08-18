@@ -1,12 +1,11 @@
 #include <example_library/library.hpp>
-#include <headeronly_supporting_lib/supporting_lib.hpp>
-#include <iostream>
+#include <fmt/format.h>
 
 namespace example_library
 {
 
 // cppcheck should find an error
-//static void foo(int x)
+// static void foo(int x)
 //{
 //  int buf[10];
 //  if (x == 1000)
@@ -17,7 +16,7 @@ namespace example_library
 
 void libraryFunction(int value)
 {
-  std::cout << supporting_lib::supportingLibStringFormat(value) << std::endl;
+  fmt::print("Hello from example_library!\n");
 }
 
 } // namespace example_library
