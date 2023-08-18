@@ -1,4 +1,8 @@
-﻿# CPP project template
+﻿[![linux](https://github.com/timow-gh/cpp_proj_template/actions/workflows/linux.yml/badge.svg?branch=main)](https://github.com/timow-gh/cpp_proj_template/actions/workflows/linux.yml)
+[![macos](https://github.com/timow-gh/cpp_proj_template/actions/workflows/macos.yml/badge.svg?branch=main)](https://github.com/timow-gh/cpp_proj_template/actions/workflows/macos.yml)
+[![windows](https://github.com/timow-gh/cpp_proj_template/actions/workflows/windows.yml/badge.svg?branch=main)](https://github.com/timow-gh/cpp_proj_template/actions/workflows/windows.yml)
+
+# CPP project template
 
 This is a template for a C++ project. It is based on the project
 [gui_starter_template](https://github.com/cpp-best-practices/gui_starter_template) but avoids using package
