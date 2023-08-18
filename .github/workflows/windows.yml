@@ -24,6 +24,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - name: Install Doxygen
+      run: choco install doxygen.install -y
+
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build
 
