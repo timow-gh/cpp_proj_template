@@ -134,6 +134,7 @@ Example projects
 * [cpp-best-practices/gui_starter_template](https://github.com/cpp-best-practices/gui_starter_template)
 * [aminya/project_options](https://github.com/aminya/project_options)
 * [gitlab.io/modern-cmake/](https://cliutils.gitlab.io/modern-cmake/)
+* [Modern-CMake-for-Cpp](https://github.com/PacktPublishing/Modern-CMake-for-Cpp)
 
 Talks:
 
