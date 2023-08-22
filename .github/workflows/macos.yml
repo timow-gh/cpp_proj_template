@@ -22,9 +22,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install Doxygen
-        run: brew install doxygen
-
       - name: Create Build Environment
         run: cmake -E make_directory ${{runner.workspace}}/build
 
