@@ -58,7 +58,7 @@ macro(enable_sccache)
 
             fix_msvc_ninja_compile_flags()
         else ()
-            message(FATAL_ERROR "sccache not found. Please install it or disable USE_SCCACHE")
+            message(AUTHOR_WARNING "sccache not found.")
         endif ()
     endif ()
 endmacro()

@@ -59,10 +59,13 @@ target_include_directories(${TARGET_NAME}
         $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/export_header_includes/>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
 )
+if (${PROJECT_NAME}_USE_WARNINGS)
+    add_warnings_and_compile_options(${TARGET_NAME} "${${PROJECT_NAME}_WARNINGS_AS_ERRORS}")
+endif ()
 
-add_warnings_and_compile_options(${TARGET_NAME} "${${PROJECT_NAME}_WARNINGS_AS_ERRORS}")
 if (${PROJECT_NAME}_STATIC_ANALYSIS)
     enable_static_analysis(${TARGET_NAME} "${${PROJECT_NAME}_WARNINGS_AS_ERRORS}")
+    enable_cppcheck(${targetName})
 endif ()
 
 # The library fmt::fmt is linked private, since the library is not exposed to the user of this library.

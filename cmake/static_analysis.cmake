@@ -14,8 +14,6 @@ function(enable_static_analysis targetName WARNINGS_AS_ERRORS)
     else ()
         message(AUTHOR_WARNING "No static analysis enabled for ${CMAKE_CXX_COMPILER_ID}")
     endif ()
-
-    enable_cppcheck(${targetName})
 endfunction()
 
 # Enable clang-tidy static analysis project wide
