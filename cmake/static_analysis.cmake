@@ -1,7 +1,5 @@
 include_guard()
 
-include(cppcheck)
-
 # Enable static analysis for a target
 #
 # @param targetName Name of the target to enable static analysis for

@@ -65,7 +65,8 @@ endif ()
 
 if (${PROJECT_NAME}_STATIC_ANALYSIS)
     enable_static_analysis(${TARGET_NAME} "${${PROJECT_NAME}_WARNINGS_AS_ERRORS}")
-    enable_cppcheck(${targetName})
+    include(cppcheck)
+    enable_cppcheck(${TARGET_NAME})
 endif ()
 
 # The library fmt::fmt is linked private, since the library is not exposed to the user of this library.
