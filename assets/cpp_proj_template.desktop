@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=cpp_proj_template
+Exec=/usr/bin/cpp_proj_template
+Icon=/usr/share/cpp_proj_template/assets/logo.png
+Terminal=false
+Type=Application
+Categories=Utility;

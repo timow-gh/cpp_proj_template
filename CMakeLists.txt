@@ -87,7 +87,6 @@ endif ()
 
 # Add files for packaging if this project is the top level project
 if (${PROJECT_NAME}_PACKAGE)
-    # include(CPack) will happen inside the following call
     add_subdirectory(packaging)
 endif ()
 
