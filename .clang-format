@@ -56,7 +56,7 @@ SpaceBeforeCtorInitializerColon: true
 SpaceBeforeRangeBasedForLoopColon: false
 SpaceBeforeSquareBrackets: false
 SpacesInSquareBrackets: false
-Standard: c++17
+Standard: c++20
 UseTab: Never
 ---
 Language: Proto
