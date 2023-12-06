@@ -44,19 +44,8 @@ add_library(${PROJECT_NAME}::${TARGET_EXPORT_NAME} ALIAS ${TARGET_NAME})
 
 # Generate the export header for the library. All Symbols that are marked as "exported" in the header files
 # will be exported. The export header is generated in the build directory and will be installed with the library.
-include(GenerateExportHeader)
-generate_export_header(${TARGET_NAME}
-        BASE_NAME ${TARGET_EXPORT_NAME}
-)
-string(TOLOWER "${TARGET_EXPORT_NAME}_export.h" GENERATED_TARGET_EXPORTS_FILE_NAME)
-file(COPY
-        ${CMAKE_CURRENT_BINARY_DIR}/${GENERATED_TARGET_EXPORTS_FILE_NAME}
-        DESTINATION
-        ${CMAKE_CURRENT_BINARY_DIR}/export_header_includes/${TARGET_EXPORT_NAME}
-)
-file(REMOVE
-        ${CMAKE_CURRENT_BINARY_DIR}/${GENERATED_TARGET_EXPORTS_FILE_NAME}
-)
+include(${CMAKE_SOURCE_DIR}/cmake/create_target_export_header.cmake)
+create_target_export_header(${TARGET_NAME} ${TARGET_EXPORT_NAME})
 
 target_include_directories(${TARGET_NAME}
         PUBLIC

@@ -37,14 +37,14 @@ if (BUILD_SHARED_LIBS)
         add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
                 COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:${TARGET_NAME}> $<TARGET_FILE_DIR:${TARGET_NAME}>
                 COMMAND_EXPAND_LISTS
-                )
+        )
 
 
         # Get all dependencies of the executable
         install(TARGETS ${TARGET_NAME}
                 RUNTIME_DEPENDENCY_SET appDeps
                 RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-                )
+        )
 
         # Install the executable and all its dependencies, except for the system libraries
         install(RUNTIME_DEPENDENCY_SET appDeps
@@ -52,7 +52,7 @@ if (BUILD_SHARED_LIBS)
                 [[api-ms-win-.*]] [[ext-ms-.*]] [[kernel32\.dll]] [[msvc.*]] [[vcruntime.*]] [[ucrt.*]]
                 POST_EXCLUDE_REGEXES
                 [[.*/system32/.*\.dll]]
-                )
+        )
     endif ()
 else ()
     install(TARGETS ${TARGET_NAME} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})

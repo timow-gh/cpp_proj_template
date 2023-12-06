@@ -41,7 +41,7 @@ function(add_warnings_and_compile_options target warnings_are_errors)
                 /w14906 # string literal cast to 'LPWSTR'
                 /w14928 # illegal copy-initialization; more than one user-defined conversion has been implicitly applied
                 /permissive - # standards conformance mode for MSVC compiler.
-                )
+        )
     elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
         message(STATUS "Compiler Settings ${CMAKE_CXX_COMPILER_ID}")
 
@@ -67,14 +67,14 @@ function(add_warnings_and_compile_options target warnings_are_errors)
                 -Wdouble-promotion # warn if float is implicit promoted to double
                 -Wformat=2 # warn on security issues around functions that format output (ie printf)
                 -Wimplicit-fallthrough # warn on statements that fallthrough without an explicit annotation
-                )
+        )
     elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
         message(STATUS "Compiler Settings ${CMAKE_CXX_COMPILER_ID}")
 
         if (warnings_are_errors)
             target_compile_options(${target} PRIVATE ${${target}_INHERITANCE_PROPERTY} "-Werror")
         endif ()
-        
+
         target_compile_options(${target} PRIVATE ${${target}_INHERITANCE_PROPERTY}
                 -Wall
                 -Wextra # reasonable and standard
@@ -99,7 +99,7 @@ function(add_warnings_and_compile_options target warnings_are_errors)
                 -Wduplicated-branches # warn if if / else branches have duplicated code
                 -Wlogical-op # warn about logical operations being used where bitwise were probably wanted
                 -Wuseless-cast # warn if you perform a cast to the same type
-                )
+        )
     else ()
         message(AUTHOR_WARNING "No compiler warnings set for CXX compiler: '${CMAKE_CXX_COMPILER_ID}'")
     endif ()

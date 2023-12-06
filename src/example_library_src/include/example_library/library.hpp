@@ -16,6 +16,6 @@ namespace example_library
  * @param value The value to print
  */
 EXAMPLE_LIBRARY_EXPORT void libraryFunction(int value);
-}
+} // namespace example_library
 
 #endif // CPP_LIB_TEMPLATE_LIBRARY_H
