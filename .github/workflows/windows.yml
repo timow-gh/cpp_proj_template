@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: windows-2022
+    runs-on: windows-latest
     strategy:
       fail-fast: false
       matrix:
@@ -23,6 +23,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+
+    - name: Install Ninja using Chocolatey
+      run: |
+        choco install ninja -y
+        ninja --version
 
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build
