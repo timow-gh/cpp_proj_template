@@ -45,11 +45,13 @@ add_library(${PROJECT_NAME}::${TARGET_EXPORT_NAME} ALIAS ${TARGET_NAME})
 # Generate the export header for the library. All Symbols that are marked as "exported" in the header files
 # will be exported. The export header is generated in the build directory and will be installed with the library.
 include(${CMAKE_SOURCE_DIR}/cmake/create_target_export_header.cmake)
-create_target_export_header(${TARGET_NAME} ${TARGET_EXPORT_NAME})
+set(EXPORT_HEADER_FILE_NAME "")
+set(EXPORT_HEADER_DIR "")
+create_target_export_header(${TARGET_NAME} ${TARGET_EXPORT_NAME} EXPORT_HEADER_FILE_NAME EXPORT_HEADER_DIR)
 
 target_include_directories(${TARGET_NAME}
         PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/export_header_includes/>
+        $<BUILD_INTERFACE:${EXPORT_HEADER_DIR}>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
 )
 if (${PROJECT_NAME}_USE_WARNINGS)
@@ -70,7 +72,10 @@ if (${PROJECT_NAME}_INSTALL)
     install(DIRECTORY "include/${TARGET_EXPORT_NAME}" DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
             COMPONENT MyProj_Development)
 
-    install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${GENERATED_TARGET_EXPORTS_FILE_NAME}"
+
+    # Install the export header. The export header is generated using the target name and the export name.
+    # I.e. "${EXPORTHEADER_DIR}/example_library/example_library_export.hpp"
+    install(FILES "${EXPORT_HEADER_DIR}/${TARGET_EXPORT_NAME}/${EXPORT_HEADER_FILE_NAME}"
             DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${TARGET_EXPORT_NAME}"
             COMPONENT MyProj_Development)
 
