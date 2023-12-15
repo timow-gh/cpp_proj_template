@@ -61,6 +61,7 @@ function(setup_export_set_installation
             NAMESPACE ${project_name}::
             FILE ${proj_targets_file_name}.cmake
             DESTINATION "${cmake_project_install_dir}/"
+            COMPONENT MyProj_Development
     )
 
     # writes an export file directly into the build tree
@@ -73,6 +74,7 @@ function(setup_export_set_installation
             "${CMAKE_BINARY_DIR}/${project_name}Config.cmake"
             "${CMAKE_BINARY_DIR}/${project_name}ConfigVersion.cmake"
             DESTINATION "${cmake_project_install_dir}/"
+            COMPONENT MyProj_Development
     )
 
 endfunction()

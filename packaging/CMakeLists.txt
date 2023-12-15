@@ -13,15 +13,19 @@ set(CPACK_VERBATIM_VARIABLES YES)
 install(
         FILES ${PROJECT_SOURCE_DIR}/assets/logo.jpg
         DESTINATION ${CMAKE_INSTALL_LIBDIR}/${CPACK_PACKAGE_NAME}/assets
+        COMPONENT MyProj_Runtime
 )
 
-# Install the desktop entry to /usr/share/applications
-install(
-        FILES ${PROJECT_SOURCE_DIR}/assets/${CPACK_PACKAGE_NAME}.desktop
-        DESTINATION ${CMAKE_INSTALL_LIBDIR}/applications
-)
+if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    # Install the desktop entry to /usr/share/applications
+    install(
+            FILES ${PROJECT_SOURCE_DIR}/assets/${CPACK_PACKAGE_NAME}.desktop
+            DESTINATION ${CMAKE_INSTALL_LIBDIR}/applications
+            COMPONENT MyProj_Runtime
+    )
 
-#set(CPACK_DEBIAN_PACKAGE_DEPENDS list dependencies here like: "libboost-all-dev")
+    #set(CPACK_DEBIAN_PACKAGE_DEPENDS list dependencies here like: "libboost-all-dev")
+endif ()
 
 #set(parent_dir ${CMAKE_CURRENT_LIST_DIR})
 #cmake_path(GET parent_dir PARENT_PATH parent_dir)

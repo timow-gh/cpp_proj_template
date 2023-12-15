@@ -68,6 +68,22 @@ endif ()
 target_link_libraries(${TARGET_NAME} PRIVATE fmt::fmt)
 
 if (${PROJECT_NAME}_INSTALL)
+    # Install the fmt lib using a custom target.
+    # Remark: The fmt lib is not installed using the fmt-project option FMT_INSTALL, since this would install the fmt
+    # headers too. Here, fmt is a private dependency of this library and the fmt headers are not exposed to the user of
+    # this library.
+    # If this library is build as a static library, the fmt lib is linked statically. In this case, fmt isn't installed
+    # at all.
+    if (BUILD_SHARED_LIBS)
+        add_custom_target(copy_fmt_dll ALL
+                COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:fmt> ${CMAKE_CURRENT_BINARY_DIR}/runtime_component_directory/$<TARGET_FILE_NAME:fmt>
+                DEPENDS fmt
+        )
+        install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/runtime_component_directory/
+                DESTINATION ${CMAKE_INSTALL_BINDIR}
+                COMPONENT MyProj_Runtime)
+    endif ()
+
     # Install (i.e. copy) the library headers
     install(DIRECTORY "include/${TARGET_EXPORT_NAME}" DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
             COMPONENT MyProj_Development)
@@ -81,7 +97,8 @@ if (${PROJECT_NAME}_INSTALL)
 
     # Install the library target
     # ${TARGET_NAME}TargetsExportSet is the name of the export set that is created by the call to install(EXPORT)
-    install(TARGETS ${TARGET_NAME} ${deps}
+    # Remark: The export set contains fmt, since fmt is a private dependency of this library and must
+    install(TARGETS ${TARGET_NAME} fmt
             EXPORT ${project_export_set_name}
             RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
             COMPONENT MyProj_Runtime

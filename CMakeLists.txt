@@ -54,7 +54,7 @@ endif ()
 # This is useful if you want to use this project as a subproject in another project.
 option(${PROJECT_NAME}_INSTALL "Install project targets" ON)
 option(${PROJECT_NAME}_BUILD_DOCUMENTATION "Build documentation" OFF)
-option(${PROJECT_NAME}_PACKAGE "Use CPack to create an installer" OFF)
+option(${PROJECT_NAME}_PACKAGE "Use CPack to create an installer" ON)
 
 if (${PROJECT_NAME}_USE_SCCACHE)
     include(setup_sccache)
