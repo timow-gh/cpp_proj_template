@@ -13,31 +13,32 @@ PackConstructorInitializers: Never
 BinPackArguments: false
 BinPackParameters: false
 AllowAllParametersOfDeclarationOnNextLine: false
-AllowShortBlocksOnASingleLine: Always
+AllowShortBlocksOnASingleLine: Empty
 AllowShortCaseLabelsOnASingleLine: true
 AllowShortEnumsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: InlineOnly
-AllowShortIfStatementsOnASingleLine: WithoutElse
+AllowShortIfStatementsOnASingleLine: Never
 AllowShortLambdasOnASingleLine: All
 AllowShortLoopsOnASingleLine: false
 AlwaysBreakAfterReturnType: None
 BreakBeforeBraces: Custom
 BraceWrapping:
-  BeforeCatch: true
-  BeforeElse: true
-  BeforeLambdaBody: true
-  BeforeWhile: true
-  AfterEnum: true
+  AfterClass: false
   AfterStruct: false
+  AfterEnum: true
   AfterCaseLabel: true
   AfterControlStatement: Always
   # AfterFunction: true # This splits requires clauses
   AfterNamespace: true
   AfterUnion: true
   AfterExternBlock: true
+  BeforeCatch: true
+  BeforeElse: true
+  BeforeLambdaBody: true
+  BeforeWhile: true
   SplitEmptyFunction: false
   SplitEmptyRecord: false
-  SplitEmptyNamespace: true
+  SplitEmptyNamespace: false
 BreakBeforeBinaryOperators: None
 BreakBeforeConceptDeclarations: true
 BreakBeforeTernaryOperators: true
