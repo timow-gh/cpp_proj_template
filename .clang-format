@@ -2,7 +2,9 @@ ColumnLimit: '140'
 IndentWidth: '2'
 Language: Cpp
 AlignAfterOpenBracket: Align
-AlignTrailingComments: true
+AlignTrailingComments:
+  Kind: Always
+  OverEmptyLines: 2
 ReflowComments: true
 AllowAllArgumentsOnNextLine: false
 AlwaysBreakBeforeMultilineStrings: true
