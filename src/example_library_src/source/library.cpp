@@ -14,7 +14,8 @@ namespace example_library
 //  }
 //}
 
-void libraryFunction(int value) {
+void libraryFunction(int value)
+{
   fmt::print("Hello from example_library! The answer is {}\n", value);
 }
 
