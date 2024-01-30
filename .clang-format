@@ -21,24 +21,7 @@ AllowShortIfStatementsOnASingleLine: Never
 AllowShortLambdasOnASingleLine: All
 AllowShortLoopsOnASingleLine: false
 AlwaysBreakAfterReturnType: None
-BreakBeforeBraces: Custom
-BraceWrapping:
-  AfterClass: false
-  AfterStruct: false
-  AfterEnum: true
-  AfterCaseLabel: true
-  AfterControlStatement: Always
-  # AfterFunction: true # This splits requires clauses
-  AfterNamespace: true
-  AfterUnion: true
-  AfterExternBlock: true
-  BeforeCatch: true
-  BeforeElse: true
-  BeforeLambdaBody: true
-  BeforeWhile: true
-  SplitEmptyFunction: false
-  SplitEmptyRecord: false
-  SplitEmptyNamespace: false
+BreakBeforeBraces: Allman
 BreakBeforeBinaryOperators: None
 BreakBeforeConceptDeclarations: true
 BreakBeforeTernaryOperators: true
