@@ -15,3 +15,4 @@ cmake --build $BUILD_DIR  --config Release --parallel --parallel $threads
 
 mkdir $INSTALL_DIR
 cmake --install ./$BUILD_DIR --config Release --prefix $INSTALL_DIR
+

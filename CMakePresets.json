@@ -17,7 +17,6 @@
         "CMAKE_CXX_STANDARD": "20",
         "CMAKE_CXX_EXTENSIONS": "OFF"
       }
-      // "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
     },
     {
       "name": "conf-windows-common",
