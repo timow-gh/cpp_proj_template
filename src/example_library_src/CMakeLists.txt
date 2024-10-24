@@ -1,5 +1,6 @@
 set(HEADER_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/example_library/library.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/example_library/warnings.hpp
 )
 
 set(SOURCE_FILES

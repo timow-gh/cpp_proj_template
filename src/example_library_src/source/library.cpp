@@ -1,5 +1,9 @@
 #include <example_library/library.hpp>
+#include <example_library/warnings.hpp>
+DISABLE_ALL_WARNINGS
 #include <fmt/format.h>
+ENABLE_ALL_WARNINGS
+
 
 namespace example_library
 {
