@@ -16,15 +16,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        cxx: [ g++-11, clang++-11 ]
+        cxx: [ g++-11, clang++-14 ]
         build_type: [ Debug, Release ]
         std: [ 11, 14, 17, 20 ]
         include:
-          - cxx: clang++-11
+          - cxx: clang++-14
             cxxflags: -stdlib=libc++
-            cmd_install: sudo apt install clang-11 libc++-11-dev libc++abi-11-dev ninja-build
+            cmd_install: sudo apt update && sudo apt install clang-14 libc++-14-dev libc++abi-14-dev ninja-build
           - cxx: g++-11
-            cmd_install: sudo apt install g++-11 ninja-build
+            cmd_install: sudo apt update && sudo apt install g++-11 ninja-build
           - shared: -DBUILD_SHARED_LIBS=ON
 
     steps:
