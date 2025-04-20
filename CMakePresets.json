@@ -2,7 +2,7 @@
   "version": 3,
   "cmakeMinimumRequired": {
     "major": 3,
-    "minor": 21,
+    "minor": 31,
     "patch": 0
   },
   "configurePresets": [
@@ -14,13 +14,14 @@
       "binaryDir": "${sourceDir}/out/build/${presetName}",
       "installDir": "${sourceDir}/out/install/${presetName}",
       "cacheVariables": {
-        "CMAKE_CXX_STANDARD": "20",
+        "CMAKE_CXX_STANDARD": "23",
+        "BUILD_SHARED_LIBS": "OFF",
         "CMAKE_CXX_EXTENSIONS": "OFF"
       }
     },
     {
       "name": "conf-windows-common",
-      "description": "Windows settings for MSBuild toolchain that apply to msvc and clang",
+      "description": "Windows settings for MSBuild toolchain.",
       "hidden": true,
       "inherits": "conf-common",
       "condition": {
@@ -57,6 +58,27 @@
       }
     },
     {
+      "name": "conf-unixlike-clang-common",
+      "description": "Common settings for clang compiler on Unix-like OS",
+      "hidden": true,
+      "inherits": "conf-unixlike-common",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "clang-20",
+        "CMAKE_CXX_COMPILER": "clang++-20",
+        "CMAKE_CXX_FLAGS": "-stdlib=libstdc++"
+      }
+    },
+    {
+      "name": "conf-unixlike-gcc-common",
+      "description": "Common settings for gcc compiler on Unix-like OS",
+      "hidden": true,
+      "inherits": "conf-unixlike-common",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "gcc",
+        "CMAKE_CXX_COMPILER": "g++"
+      }
+    },
+    {
       "name": "windows-msvc-debug",
       "displayName": "msvc Debug (User Mode)",
       "description": "Target Windows with the msvc compiler, debug build type",
@@ -78,21 +100,17 @@
       "name": "unixlike-gcc-debug",
       "displayName": "gcc Debug",
       "description": "Target Unix-like OS with the gcc compiler, debug build type",
-      "inherits": "conf-unixlike-common",
+      "inherits": "conf-unixlike-gcc-common",
       "cacheVariables": {
-        "CMAKE_C_COMPILER": "gcc",
-        "CMAKE_CXX_COMPILER": "g++",
         "CMAKE_BUILD_TYPE": "Debug"
       }
     },
     {
       "name": "unixlike-gcc-relwithdebinfo",
       "displayName": "gcc Release",
-      "description": "Target Unix-like OS with the gcc compiler, release build type",
-      "inherits": "conf-unixlike-common",
+      "description": "Target Unix-like OS with the gcc compiler, release with debug info build type",
+      "inherits": "conf-unixlike-gcc-common",
       "cacheVariables": {
-        "CMAKE_C_COMPILER": "gcc",
-        "CMAKE_CXX_COMPILER": "g++",
         "CMAKE_BUILD_TYPE": "RelWithDebInfo"
       }
     },
@@ -100,10 +118,8 @@
       "name": "unixlike-gcc-release",
       "displayName": "gcc Release",
       "description": "Target Unix-like OS with the gcc compiler, release build type",
-      "inherits": "conf-unixlike-common",
+      "inherits": "conf-unixlike-gcc-common",
       "cacheVariables": {
-        "CMAKE_C_COMPILER": "gcc",
-        "CMAKE_CXX_COMPILER": "g++",
         "CMAKE_BUILD_TYPE": "Release"
       }
     },
@@ -111,37 +127,62 @@
       "name": "unixlike-clang-debug",
       "displayName": "clang Debug",
       "description": "Target Unix-like OS with the clang compiler, debug build type",
-      "inherits": "conf-unixlike-common",
+      "inherits": "conf-unixlike-clang-common",
       "cacheVariables": {
-        "CMAKE_C_COMPILER": "clang",
-        "CMAKE_CXX_COMPILER": "clang++",
-        "CMAKE_BUILD_TYPE": "Debug",
-        "CMAKE_CXX_FLAGS": "-stdlib=libc++"
+        "CMAKE_BUILD_TYPE": "Debug"
       }
     },
     {
       "name": "unixlike-clang-reldebug",
-      "displayName": "clang Release",
-      "description": "Target Unix-like OS with the clang compiler, release build type",
-      "inherits": "conf-unixlike-common",
+      "displayName": "clang RelWithDebInfo",
+      "description": "Target Unix-like OS with the clang compiler, release with debug info build type",
+      "inherits": "conf-unixlike-clang-common",
       "cacheVariables": {
-        "CMAKE_C_COMPILER": "clang",
-        "CMAKE_CXX_COMPILER": "clang++",
-        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
-        "CMAKE_CXX_FLAGS": "-stdlib=libc++"
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
       }
     },
     {
       "name": "unixlike-clang-release",
       "displayName": "clang Release",
       "description": "Target Unix-like OS with the clang compiler, release build type",
-      "inherits": "conf-unixlike-common",
+      "inherits": "conf-unixlike-clang-common",
       "cacheVariables": {
-        "CMAKE_C_COMPILER": "clang",
-        "CMAKE_CXX_COMPILER": "clang++",
-        "CMAKE_BUILD_TYPE": "Release",
-        "CMAKE_CXX_FLAGS": "-stdlib=libc++"
+        "CMAKE_BUILD_TYPE": "Release"
       }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "windows-msvc-debug",
+      "configurePreset": "windows-msvc-debug"
+    },
+    {
+      "name": "windows-msvc-release",
+      "configurePreset": "windows-msvc-release"
+    },
+    {
+      "name": "unixlike-gcc-debug",
+      "configurePreset": "unixlike-gcc-debug"
+    },
+    {
+      "name": "unixlike-gcc-relwithdebinfo",
+      "configurePreset": "unixlike-gcc-relwithdebinfo"
+    },
+    {
+      "name": "unixlike-gcc-release",
+      "configurePreset": "unixlike-gcc-release"
+    },
+    {
+      "name": "unixlike-clang-debug",
+      "configurePreset": "unixlike-clang-debug"
+    },
+    {
+      "name": "unixlike-clang-reldebug",
+      "configurePreset": "unixlike-clang-reldebug"
+    },
+    {
+      "name": "unixlike-clang-release",
+      "configurePreset": "unixlike-clang-release"
     }
   ],
   "testPresets": [
