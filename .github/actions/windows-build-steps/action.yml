@@ -1,0 +1,36 @@
+name: 'Windows Build Steps'
+description: 'Configure, Build and Test steps for Windows'
+inputs:
+  preset:
+    description: 'The CMake preset to use (e.g., windows-msvc-debug, windows-msvc-release)'
+    required: true
+  config:
+    description: 'The configuration to use for CTest (Debug, Release, RelWithDebInfo, MinSizeRel)'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: 'recursive'
+    
+    # Initialize MSVC environment
+    - name: Set up MSVC
+      uses: ilammy/msvc-dev-cmd@v1
+      with:
+        arch: x64
+    
+    - name: Configure CMake
+      run: cmake --preset ${{ inputs.preset }}
+      shell: pwsh
+    
+    - name: Build
+      run: cmake --build --preset ${{ inputs.preset }}
+      shell: pwsh
+    
+    - name: Test
+      run: ctest --preset test-${{ inputs.preset }} -C ${{ inputs.config }}
+      shell: pwsh
+      env:
+        CTEST_OUTPUT_ON_FAILURE: True

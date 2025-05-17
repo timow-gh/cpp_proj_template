@@ -1,0 +1,27 @@
+name: Windows Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  windows-build-debug:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/windows-build-steps
+        with:
+          preset: windows-msvc-debug
+          config: Debug
+
+  windows-build-release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/windows-build-steps
+        with:
+          preset: windows-msvc-release
+          config: Release

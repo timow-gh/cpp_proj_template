@@ -2,7 +2,7 @@
 
 REM Define preset to use
 set PRESET=windows-msvc-release
-set PACKAGE_PRESET=package-windows
+set PACKAGE_PRESET=package-windows-msvc-release
 
 REM Configure the project using the preset
 echo Configuring project with preset: %PRESET%

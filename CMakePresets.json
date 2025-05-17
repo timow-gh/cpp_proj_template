@@ -256,13 +256,11 @@
       "configurations": ["Release"],
       "variables": {
         "CPACK_PACKAGE_DIRECTORY": "${sourceDir}/out/packages/${presetName}",
-        "CPACK_PACKAGE_NAME": "cpp_proj_template",
-        "CPACK_PACKAGE_INSTALL_DIRECTORY": "cpp_proj_template",
         "CPACK_VERBATIM_VARIABLES": "YES"
       }
     },
     {
-      "name": "package-windows",
+      "name": "package-windows-msvc-release",
       "displayName": "Windows Package",
       "description": "Create ZIP packages on Windows",
       "inherits": "package-common",
@@ -270,7 +268,7 @@
       "generators": ["ZIP"]
     },
     {
-      "name": "package-unixlike-gcc",
+      "name": "package-unixlike-gcc-release",
       "displayName": "Unix GCC Package",
       "description": "Create TGZ and DEB packages on Unix-like systems with GCC",
       "inherits": "package-common",
@@ -278,7 +276,7 @@
       "generators": ["TGZ", "DEB"]
     },
     {
-      "name": "package-unixlike-clang",
+      "name": "package-unixlike-clang-release",
       "displayName": "Unix Clang Package",
       "description": "Create TGZ and DEB packages on Unix-like systems with Clang",
       "inherits": "package-common",
@@ -288,7 +286,7 @@
   ],
   "workflowPresets": [
     {
-      "name": "clang-test-workflow",
+      "name": "workflow-test-clang",
       "displayName": "Clang Default Workflow",
       "description": "Configure, build, test, and package with Clang in one step",
       "steps": [
@@ -307,7 +305,7 @@
       ]
     },
     {
-      "name": "gcc-test-workflow",
+      "name": "workflow-test-gcc",
       "displayName": "GCC Default Workflow",
       "description": "Configure, build, test, and package with GCC in one step",
       "steps": [
@@ -326,7 +324,7 @@
       ]
     },
     {
-      "name": "windows-test-workflow",
+      "name": "workflow-test-msvc",
       "displayName": "Windows Default Workflow",
       "description": "Configure, build, test, and package on Windows in one step",
       "steps": [
@@ -345,7 +343,7 @@
       ]
     },
     {
-      "name": "package-clang-workflow",
+      "name": "workflow-package-clang",
       "displayName": "Clang Package Workflow",
       "description": "Configure, build, test, and package with Clang in release mode",
       "steps": [
@@ -363,12 +361,12 @@
         },
         {
           "type": "package",
-          "name": "package-unixlike-clang"
+          "name": "package-unixlike-clang-release"
         }
       ]
     },
     {
-      "name": "package-windows-workflow",
+      "name": "workflow-package-msvc",
       "displayName": "Windows Package Workflow",
       "description": "Configure, build, test, and package on Windows in release mode",
       "steps": [
@@ -386,7 +384,7 @@
         },
         {
           "type": "package",
-          "name": "package-windows"
+          "name": "package-windows-msvc-release"
         }
       ]
     }

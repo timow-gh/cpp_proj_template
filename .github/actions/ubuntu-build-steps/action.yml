@@ -1,0 +1,27 @@
+name: 'Ubuntu Build Steps'
+description: 'Configure, Build and Test steps for Ubuntu'
+inputs:
+  preset:
+    description: 'The CMake preset to use (e.g., unixlike-gcc-debug, unixlike-gcc-release)'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: 'recursive'
+    
+    - name: Configure CMake
+      run: cmake --preset ${{ inputs.preset }}
+      shell: bash
+    
+    - name: Build
+      run: cmake --build --preset ${{ inputs.preset }}
+      shell: bash
+    
+    - name: Test
+      run: ctest --preset test-${{ inputs.preset }}
+      shell: bash
+      env:
+        CTEST_OUTPUT_ON_FAILURE: True

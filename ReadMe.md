@@ -1,6 +1,5 @@
-﻿[![linux](https://github.com/timow-gh/cpp_proj_template/actions/workflows/linux.yml/badge.svg?branch=main)](https://github.com/timow-gh/cpp_proj_template/actions/workflows/linux.yml)
-[![macos](https://github.com/timow-gh/cpp_proj_template/actions/workflows/macos.yml/badge.svg?branch=main)](https://github.com/timow-gh/cpp_proj_template/actions/workflows/macos.yml)
-[![windows](https://github.com/timow-gh/cpp_proj_template/actions/workflows/windows.yml/badge.svg?branch=main)](https://github.com/timow-gh/cpp_proj_template/actions/workflows/windows.yml)
+﻿[![Ubuntu Build](https://github.com/timow-gh/cpp_proj_template/actions/workflows/ubuntu-build.yml/badge.svg)](https://github.com/timow-gh/cpp_proj_template/actions/workflows/ubuntu-build.yml)
+[![Windows Build](https://github.com/timow-gh/cpp_proj_template/actions/workflows/windows-build.yml/badge.svg)](https://github.com/timow-gh/cpp_proj_template/actions/workflows/windows-build.yml)
 
 # CPP project template
 
@@ -69,63 +68,10 @@ The goal is to support three types of usage:
     ├── .gitignore                          
     └── CMakelists.txt
 
-# Build instructions
-
-## Setup
-
-### Platform: Windows
-
-Requirements
-
-- Visual Studio 16, 64bit or older
-- CMake 3.21 or older
-- Git
-
-### Platform: Ubuntu
-
-Requirements
-
-- Clang or GCC
-- CMake 3.21 or older
-- Git
-- Ninja
-
-## Example build scripts
+# Example build scripts
 
 Take a look at the example build scripts for windows (*.bat) and ubuntu (*.sh) in the main directory or use the
 commands below.
-
-## Configure cmake
-
-### Platform: Windows
-
-```
-cmake -B <path-to-build-dir> -S <path-to-source-dir> -G "Visual Studio 16 2019" -A x64 -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_STANDARD=20
-```
-
-### Platform: Ubuntu
-
-```
-cmake -B <path-to-build-dir> -S <path-to-source-dir> -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_STANDARD=20
-```
-
-## Build a single target, all platforms
-
-```
-cmake --build <path-to-build-dir> --target <target-name> --config Release --parallel
-```
-
-## Build all targets, all platforms
-
-```
-cmake --build <path-to-build-dir> --config Release --parallel
-```
-
-## Install the project, all platforms
-
-```
-cmake --install <path-to-build-dir> --config Release --prefix <path-to-install-dir>
-```
 
 # Resources
 

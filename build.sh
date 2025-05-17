@@ -2,7 +2,7 @@
 
 # Define preset to use
 PRESET="unixlike-clang-release"
-PACKAGE_PRESET="package-unixlike-clang"
+PACKAGE_PRESET="package-unixlike-clang-release"
 
 # Configure the project using the preset
 echo "Configuring project with preset: $PRESET"
