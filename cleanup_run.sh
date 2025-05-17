@@ -1,4 +1,5 @@
 #!/bin/bash
 
-yes | rm -r ../cpp_proj_template_build
-yes | rm -r ../cpp_proj_template_install
+echo "Cleaning up output directory..."
+rm -rf ./out/
+echo "Cleanup complete."

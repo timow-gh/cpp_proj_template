@@ -1,8 +1,8 @@
 {
-  "version": 3,
+  "version": 6,
   "cmakeMinimumRequired": {
     "major": 3,
-    "minor": 31,
+    "minor": 28,
     "patch": 0
   },
   "configurePresets": [
@@ -10,7 +10,6 @@
       "name": "conf-common",
       "description": "General settings that apply to all configurations",
       "hidden": true,
-      "generator": "Ninja",
       "binaryDir": "${sourceDir}/out/build/${presetName}",
       "installDir": "${sourceDir}/out/install/${presetName}",
       "cacheVariables": {
@@ -93,7 +92,7 @@
       "description": "Target Windows with the msvc compiler, release build type",
       "inherits": "conf-windows-common",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+        "CMAKE_BUILD_TYPE": "Release"
       }
     },
     {
@@ -107,7 +106,7 @@
     },
     {
       "name": "unixlike-gcc-relwithdebinfo",
-      "displayName": "gcc Release",
+      "displayName": "gcc RelWithDebInfo",
       "description": "Target Unix-like OS with the gcc compiler, release with debug info build type",
       "inherits": "conf-unixlike-gcc-common",
       "cacheVariables": {
@@ -154,35 +153,43 @@
   "buildPresets": [
     {
       "name": "windows-msvc-debug",
-      "configurePreset": "windows-msvc-debug"
+      "configurePreset": "windows-msvc-debug",
+      "jobs": 0
     },
     {
       "name": "windows-msvc-release",
-      "configurePreset": "windows-msvc-release"
+      "configurePreset": "windows-msvc-release",
+      "jobs": 0
     },
     {
       "name": "unixlike-gcc-debug",
-      "configurePreset": "unixlike-gcc-debug"
+      "configurePreset": "unixlike-gcc-debug",
+      "jobs": 0
     },
     {
       "name": "unixlike-gcc-relwithdebinfo",
-      "configurePreset": "unixlike-gcc-relwithdebinfo"
+      "configurePreset": "unixlike-gcc-relwithdebinfo",
+      "jobs": 0
     },
     {
       "name": "unixlike-gcc-release",
-      "configurePreset": "unixlike-gcc-release"
+      "configurePreset": "unixlike-gcc-release",
+      "jobs": 0
     },
     {
       "name": "unixlike-clang-debug",
-      "configurePreset": "unixlike-clang-debug"
+      "configurePreset": "unixlike-clang-debug",
+      "jobs": 0
     },
     {
       "name": "unixlike-clang-reldebug",
-      "configurePreset": "unixlike-clang-reldebug"
+      "configurePreset": "unixlike-clang-reldebug",
+      "jobs": 0
     },
     {
       "name": "unixlike-clang-release",
-      "configurePreset": "unixlike-clang-release"
+      "configurePreset": "unixlike-clang-release",
+      "jobs": 0
     }
   ],
   "testPresets": [
@@ -239,6 +246,149 @@
       "description": "Enable output and stop on failure",
       "inherits": "test-common",
       "configurePreset": "unixlike-clang-release"
+    }
+  ],
+  "packagePresets": [
+    {
+      "name": "package-common",
+      "description": "Common settings for packages",
+      "hidden": true,
+      "configurations": ["Release"],
+      "variables": {
+        "CPACK_PACKAGE_DIRECTORY": "${sourceDir}/out/packages/${presetName}",
+        "CPACK_PACKAGE_NAME": "cpp_proj_template",
+        "CPACK_PACKAGE_INSTALL_DIRECTORY": "cpp_proj_template",
+        "CPACK_VERBATIM_VARIABLES": "YES"
+      }
+    },
+    {
+      "name": "package-windows",
+      "displayName": "Windows Package",
+      "description": "Create ZIP packages on Windows",
+      "inherits": "package-common",
+      "configurePreset": "windows-msvc-release",
+      "generators": ["ZIP"]
+    },
+    {
+      "name": "package-unixlike-gcc",
+      "displayName": "Unix GCC Package",
+      "description": "Create TGZ and DEB packages on Unix-like systems with GCC",
+      "inherits": "package-common",
+      "configurePreset": "unixlike-gcc-release",
+      "generators": ["TGZ", "DEB"]
+    },
+    {
+      "name": "package-unixlike-clang",
+      "displayName": "Unix Clang Package",
+      "description": "Create TGZ and DEB packages on Unix-like systems with Clang",
+      "inherits": "package-common",
+      "configurePreset": "unixlike-clang-release",
+      "generators": ["TGZ", "DEB"]
+    }
+  ],
+  "workflowPresets": [
+    {
+      "name": "clang-test-workflow",
+      "displayName": "Clang Default Workflow",
+      "description": "Configure, build, test, and package with Clang in one step",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "unixlike-clang-release"
+        },
+        {
+          "type": "build",
+          "name": "unixlike-clang-release"
+        },
+        {
+          "type": "test",
+          "name": "test-unixlike-clang-release"
+        }
+      ]
+    },
+    {
+      "name": "gcc-test-workflow",
+      "displayName": "GCC Default Workflow",
+      "description": "Configure, build, test, and package with GCC in one step",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "unixlike-gcc-release"
+        },
+        {
+          "type": "build",
+          "name": "unixlike-gcc-release"
+        },
+        {
+          "type": "test",
+          "name": "test-unixlike-gcc-release"
+        }
+      ]
+    },
+    {
+      "name": "windows-test-workflow",
+      "displayName": "Windows Default Workflow",
+      "description": "Configure, build, test, and package on Windows in one step",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "windows-msvc-release"
+        },
+        {
+          "type": "build",
+          "name": "windows-msvc-release"
+        },
+        {
+          "type": "test",
+          "name": "test-windows-msvc-release"
+        }
+      ]
+    },
+    {
+      "name": "package-clang-workflow",
+      "displayName": "Clang Package Workflow",
+      "description": "Configure, build, test, and package with Clang in release mode",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "unixlike-clang-release"
+        },
+        {
+          "type": "build",
+          "name": "unixlike-clang-release"
+        },
+        {
+          "type": "test",
+          "name": "test-unixlike-clang-release"
+        },
+        {
+          "type": "package",
+          "name": "package-unixlike-clang"
+        }
+      ]
+    },
+    {
+      "name": "package-windows-workflow",
+      "displayName": "Windows Package Workflow",
+      "description": "Configure, build, test, and package on Windows in release mode",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "windows-msvc-release"
+        },
+        {
+          "type": "build",
+          "name": "windows-msvc-release"
+        },
+        {
+          "type": "test",
+          "name": "test-windows-msvc-release"
+        },
+        {
+          "type": "package",
+          "name": "package-windows"
+        }
+      ]
     }
   ]
 }
