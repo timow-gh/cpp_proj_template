@@ -18,8 +18,6 @@ endif ()
 
 if (${PROJECT_NAME}_INSTALL)
     install(TARGETS ${TARGET_NAME}
-            COMPONENT MyProj_Runtime
             EXPORT ${project_export_set_name}
-            RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-            COMPONENT MyProj_Runtime)
+            RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 endif ()

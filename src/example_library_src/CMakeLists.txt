@@ -79,35 +79,45 @@ if (${PROJECT_NAME}_INSTALL)
                 DEPENDS fmt
         )
         install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/runtime_component_directory/
-                DESTINATION ${CMAKE_INSTALL_BINDIR}
-                COMPONENT MyProj_Runtime)
+                DESTINATION ${CMAKE_INSTALL_BINDIR})
     endif ()
 
     # Install (i.e. copy) the library headers
-    install(DIRECTORY "include/${TARGET_EXPORT_NAME}" DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
-            COMPONENT MyProj_Development)
+    install(DIRECTORY "include/${TARGET_EXPORT_NAME}" DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
 
 
     # Install the export header. The export header is generated using the target name and the export name.
     # I.e. "${EXPORTHEADER_DIR}/example_library/example_library_export.hpp"
     install(FILES "${EXPORT_HEADER_DIR}/${TARGET_EXPORT_NAME}/${EXPORT_HEADER_FILE_NAME}"
-            DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${TARGET_EXPORT_NAME}"
-            COMPONENT MyProj_Development)
+            DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${TARGET_EXPORT_NAME}")
 
     # Install the library target
     # ${TARGET_NAME}TargetsExportSet is the name of the export set that is created by the call to install(EXPORT)
-    # Remark: The export set contains fmt, since fmt is a private dependency of this library and must
-    install(TARGETS ${TARGET_NAME} fmt
+    install(TARGETS ${TARGET_NAME}
             EXPORT ${project_export_set_name}
             RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-            COMPONENT MyProj_Runtime
             LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-            COMPONENT MyProj_Runtime
             ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-            COMPONENT MyProj_Development
             # CMake doc on INCLUDES DESTINATION:
             # This option specifies a list of directories which will be added to the INTERFACE_INCLUDE_DIRECTORIES
             # target property of the <targets> when exported by the install(EXPORT) command. If a relative path is
             # specified, it is treated as relative to the $<INSTALL_PREFIX>.
             INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
+    # Add 'fmt' to the export set as well, because cppprojtemplate_example_library depends on it.
+    # This is required by install(EXPORT ...) to resolve dependencies.
+    # We only install its linkable library artifact (static lib or import lib for shared).
+    # The DLL for shared 'fmt' is handled by the 'copy_fmt_dll' custom target.
+    if (TARGET fmt)
+        install(TARGETS fmt
+                EXPORT ${project_export_set_name} # Add to the same export set
+                # LIBRARY for .so import libs (non-Windows) or some static libs.
+                # OPTIONAL in case the target doesn't produce this specific artifact type.
+                LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} OPTIONAL
+                # ARCHIVE for .lib import (Windows) or static libs.
+                ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} OPTIONAL
+                # No RUNTIME destination here; copy_fmt_dll handles the DLL for shared fmt.
+                # No INCLUDES destination here; fmt is a private dependency, its headers are not part of the public API.
+        )
+    endif()
 endif ()

@@ -1,18 +1,27 @@
 #!/bin/bash
 
-BUILD_DIR=../cpp_proj_template_build
-SOURCE_DIR=./
-INSTALL_DIR=../cpp_proj_template_install
+# Define preset to use
+PRESET="unixlike-clang-release"
+PACKAGE_PRESET="package-unixlike-clang-release"
 
-mkdir $BUILD_DIR 
+# Configure the project using the preset
+echo "Configuring project with preset: $PRESET"
+cmake --preset "conf-$PRESET"
 
-cmake -B $BUILD_DIR -S $SOURCE_DIR -G Ninja --preset "unixlike-clang-release" \
--DBUILD_SHARED_LIBS=ON \
--DCMAKE_CXX_STANDARD=20
+# Build the project
+echo "Building project"
+cmake --build --preset "build-$PRESET" --parallel
 
-threads=`nproc`
-cmake --build $BUILD_DIR  --config Release --parallel --parallel $threads
+# Run tests
+echo "Running tests"
+ctest --preset "test-$PRESET"
 
-mkdir $INSTALL_DIR
-cmake --install ./$BUILD_DIR --config Release --prefix $INSTALL_DIR
+# Install the project (using the install location from CMakePresets.json)
+echo "Installing project"
+cmake --install ./out/build/$PRESET
 
+# Package the project using the proper package preset command
+echo "Creating package"
+cpack --preset $PACKAGE_PRESET
+
+exit 0

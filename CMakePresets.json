@@ -1,8 +1,8 @@
 {
-  "version": 3,
+  "version": 6,
   "cmakeMinimumRequired": {
     "major": 3,
-    "minor": 31,
+    "minor": 28,
     "patch": 0
   },
   "configurePresets": [
@@ -10,13 +10,39 @@
       "name": "conf-common",
       "description": "General settings that apply to all configurations",
       "hidden": true,
-      "generator": "Ninja",
       "binaryDir": "${sourceDir}/out/build/${presetName}",
       "installDir": "${sourceDir}/out/install/${presetName}",
       "cacheVariables": {
-        "CMAKE_CXX_STANDARD": "23",
+        "CMAKE_CXX_STANDARD": "20",
         "BUILD_SHARED_LIBS": "OFF",
         "CMAKE_CXX_EXTENSIONS": "OFF"
+      }
+    },
+    {
+      "name": "conf-debug",
+      "description": "Debug build settings",
+      "hidden": true,
+      "inherits": "conf-common",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "conf-release",
+      "description": "Release build settings",
+      "hidden": true,
+      "inherits": "conf-common",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "conf-relwithdebinfo",
+      "description": "Release build with debug info settings",
+      "hidden": true,
+      "inherits": "conf-common",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
       }
     },
     {
@@ -63,8 +89,8 @@
       "hidden": true,
       "inherits": "conf-unixlike-common",
       "cacheVariables": {
-        "CMAKE_C_COMPILER": "clang-20",
-        "CMAKE_CXX_COMPILER": "clang++-20",
+        "CMAKE_C_COMPILER": "clang",
+        "CMAKE_CXX_COMPILER": "clang++",
         "CMAKE_CXX_FLAGS": "-stdlib=libstdc++"
       }
     },
@@ -79,110 +105,125 @@
       }
     },
     {
-      "name": "windows-msvc-debug",
+      "name": "conf-windows-msvc-debug",
       "displayName": "msvc Debug (User Mode)",
       "description": "Target Windows with the msvc compiler, debug build type",
-      "inherits": "conf-windows-common",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
-      }
+      "inherits": ["conf-windows-common", "conf-debug"]
     },
     {
-      "name": "windows-msvc-release",
+      "name": "conf-windows-msvc-release",
       "displayName": "msvc Release (User Mode)",
       "description": "Target Windows with the msvc compiler, release build type",
-      "inherits": "conf-windows-common",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
-      }
+      "inherits": ["conf-windows-common", "conf-release"]
     },
     {
-      "name": "unixlike-gcc-debug",
+      "name": "conf-unixlike-gcc-debug",
       "displayName": "gcc Debug",
       "description": "Target Unix-like OS with the gcc compiler, debug build type",
-      "inherits": "conf-unixlike-gcc-common",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
-      }
+      "inherits": ["conf-unixlike-gcc-common", "conf-debug"]
     },
     {
-      "name": "unixlike-gcc-relwithdebinfo",
-      "displayName": "gcc Release",
+      "name": "conf-unixlike-gcc-relwithdebinfo",
+      "displayName": "gcc RelWithDebInfo",
       "description": "Target Unix-like OS with the gcc compiler, release with debug info build type",
-      "inherits": "conf-unixlike-gcc-common",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
-      }
+      "inherits": ["conf-unixlike-gcc-common", "conf-relwithdebinfo"]
     },
     {
-      "name": "unixlike-gcc-release",
+      "name": "conf-unixlike-gcc-release",
       "displayName": "gcc Release",
       "description": "Target Unix-like OS with the gcc compiler, release build type",
-      "inherits": "conf-unixlike-gcc-common",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
-      }
+      "inherits": ["conf-unixlike-gcc-common", "conf-release"]
     },
     {
-      "name": "unixlike-clang-debug",
+      "name": "conf-unixlike-clang-debug",
       "displayName": "clang Debug",
       "description": "Target Unix-like OS with the clang compiler, debug build type",
-      "inherits": "conf-unixlike-clang-common",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
-      }
+      "inherits": ["conf-unixlike-clang-common", "conf-debug"]
     },
     {
-      "name": "unixlike-clang-reldebug",
+      "name": "conf-unixlike-clang-relwithdebinfo",
       "displayName": "clang RelWithDebInfo",
       "description": "Target Unix-like OS with the clang compiler, release with debug info build type",
-      "inherits": "conf-unixlike-clang-common",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
-      }
+      "inherits": ["conf-unixlike-clang-common", "conf-relwithdebinfo"]
     },
     {
-      "name": "unixlike-clang-release",
+      "name": "conf-unixlike-clang-release",
       "displayName": "clang Release",
       "description": "Target Unix-like OS with the clang compiler, release build type",
-      "inherits": "conf-unixlike-clang-common",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
-      }
+      "inherits": ["conf-unixlike-clang-common", "conf-release"]
     }
   ],
   "buildPresets": [
     {
-      "name": "windows-msvc-debug",
-      "configurePreset": "windows-msvc-debug"
+      "name": "build-common",
+      "hidden": true,
+      "jobs": 0
     },
     {
-      "name": "windows-msvc-release",
-      "configurePreset": "windows-msvc-release"
+      "name": "build-debug",
+      "hidden": true,
+      "inherits": "build-common",
+      "configuration": "Debug"
     },
     {
-      "name": "unixlike-gcc-debug",
-      "configurePreset": "unixlike-gcc-debug"
+      "name": "build-release",
+      "hidden": true,
+      "inherits": "build-common",
+      "configuration": "Release"
     },
     {
-      "name": "unixlike-gcc-relwithdebinfo",
-      "configurePreset": "unixlike-gcc-relwithdebinfo"
+      "name": "build-relwithdebinfo",
+      "hidden": true,
+      "inherits": "build-common",
+      "configuration": "RelWithDebInfo"
     },
     {
-      "name": "unixlike-gcc-release",
-      "configurePreset": "unixlike-gcc-release"
+      "name": "build-windows-msvc-debug",
+      "inherits": "build-debug",
+      "configurePreset": "conf-windows-msvc-debug",
+      "displayName": "msvc Debug Build"
     },
     {
-      "name": "unixlike-clang-debug",
-      "configurePreset": "unixlike-clang-debug"
+      "name": "build-windows-msvc-release",
+      "inherits": "build-release",
+      "configurePreset": "conf-windows-msvc-release",
+      "displayName": "msvc Release Build"
     },
     {
-      "name": "unixlike-clang-reldebug",
-      "configurePreset": "unixlike-clang-reldebug"
+      "name": "build-unixlike-gcc-debug",
+      "inherits": "build-debug",
+      "configurePreset": "conf-unixlike-gcc-debug",
+      "displayName": "gcc Debug Build"
     },
     {
-      "name": "unixlike-clang-release",
-      "configurePreset": "unixlike-clang-release"
+      "name": "build-unixlike-gcc-relwithdebinfo",
+      "inherits": "build-relwithdebinfo",
+      "configurePreset": "conf-unixlike-gcc-relwithdebinfo",
+      "displayName": "gcc RelWithDebInfo Build"
+    },
+    {
+      "name": "build-unixlike-gcc-release",
+      "inherits": "build-release",
+      "configurePreset": "conf-unixlike-gcc-release",
+      "displayName": "gcc Release Build"
+    },
+    {
+      "name": "build-unixlike-clang-debug",
+      "inherits": "build-debug",
+      "configurePreset": "conf-unixlike-clang-debug",
+      "displayName": "clang Debug Build"
+    },
+    {
+      "name": "build-unixlike-clang-relwithdebinfo",
+      "inherits": "build-relwithdebinfo",
+      "configurePreset": "conf-unixlike-clang-relwithdebinfo",
+      "displayName": "clang RelWithDebInfo Build"
+    },
+    {
+      "name": "build-unixlike-clang-release",
+      "inherits": "build-release",
+      "configurePreset": "conf-unixlike-clang-release",
+      "displayName": "clang Release Build"
     }
   ],
   "testPresets": [
@@ -195,50 +236,335 @@
       },
       "execution": {
         "noTestsAction": "error",
-        "stopOnFailure": true
+        "stopOnFailure": true,
+        "jobs": 0
+      },
+      "environment": {
+        "CTEST_OUTPUT_ON_FAILURE": "1"
       }
     },
     {
-      "name": "test-windows-msvc-debug",
+      "name": "test-debug",
+      "description": "Debug build test settings",
+      "hidden": true,
+      "inherits": "test-common",
+      "configuration": "Debug",
+      "environment": {
+        "CTEST_CONFIGURATION_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "test-release",
+      "description": "Release build test settings",
+      "hidden": true,
+      "inherits": "test-common",
+      "configuration": "Release",
+      "environment": {
+        "CTEST_CONFIGURATION_TYPE": "Release"
+      }
+    },
+    {
+      "name": "test-relwithdebinfo",
+      "description": "RelWithDebInfo build test settings",
+      "hidden": true,
+      "inherits": "test-common",
+      "configuration": "RelWithDebInfo",
+      "environment": {
+        "CTEST_CONFIGURATION_TYPE": "RelWithDebInfo"
+      }
+    },
+    {
+      "name": "test-unixlike-common",
       "displayName": "Strict",
       "description": "Enable output and stop on failure",
-      "inherits": "test-common",
-      "configurePreset": "windows-msvc-debug"
+      "hidden": true,
+      "inherits": "test-common"
+    },
+    {
+      "name": "test-windows-msvc-common",
+      "displayName": "Strict",
+      "description": "Enable output and stop on failure",
+      "hidden": true,
+      "inherits": "test-common"
+    },
+    {
+      "name": "test-windows-msvc-debug",
+      "displayName": "msvc Debug Tests",
+      "description": "Enable output and stop on failure",
+      "inherits": ["test-windows-msvc-common", "test-debug"],
+      "configurePreset": "conf-windows-msvc-debug"
     },
     {
       "name": "test-windows-msvc-release",
-      "displayName": "Strict",
+      "displayName": "msvc Release Tests",
       "description": "Enable output and stop on failure",
-      "inherits": "test-common",
-      "configurePreset": "windows-msvc-release"
+      "inherits": ["test-windows-msvc-common", "test-release"],
+      "configurePreset": "conf-windows-msvc-release"
     },
     {
       "name": "test-unixlike-gcc-debug",
-      "displayName": "Strict",
+      "displayName": "gcc Debug Tests",
       "description": "Enable output and stop on failure",
-      "inherits": "test-common",
-      "configurePreset": "unixlike-gcc-debug"
+      "inherits": ["test-unixlike-common", "test-debug"],
+      "configurePreset": "conf-unixlike-gcc-debug"
     },
     {
       "name": "test-unixlike-gcc-release",
-      "displayName": "Strict",
+      "displayName": "gcc Release Tests",
       "description": "Enable output and stop on failure",
-      "inherits": "test-common",
-      "configurePreset": "unixlike-gcc-release"
+      "inherits": ["test-unixlike-common", "test-release"],
+      "configurePreset": "conf-unixlike-gcc-release"
     },
     {
       "name": "test-unixlike-clang-debug",
-      "displayName": "Strict",
+      "displayName": "clang Debug Tests",
       "description": "Enable output and stop on failure",
-      "inherits": "test-common",
-      "configurePreset": "unixlike-clang-debug"
+      "inherits": ["test-unixlike-common", "test-debug"],
+      "configurePreset": "conf-unixlike-clang-debug"
     },
     {
       "name": "test-unixlike-clang-release",
-      "displayName": "Strict",
+      "displayName": "clang Release Tests",
       "description": "Enable output and stop on failure",
-      "inherits": "test-common",
-      "configurePreset": "unixlike-clang-release"
+      "inherits": ["test-unixlike-common", "test-release"],
+      "configurePreset": "conf-unixlike-clang-release"
+    }
+  ],
+  "packagePresets": [
+    {
+      "name": "package-common",
+      "description": "Common settings for packages",
+      "hidden": true,
+      "variables": {
+        "CPACK_PACKAGE_DIRECTORY": "${sourceDir}/out/packages/${presetName}",
+        "CPACK_VERBATIM_VARIABLES": "YES"
+      }
+    },
+    {
+      "name": "package-release",
+      "description": "Release package settings",
+      "hidden": true,
+      "inherits": "package-common",
+      "configurations": ["Release"]
+    },
+    {
+      "name": "package-windows-common",
+      "description": "Common Windows package settings",
+      "hidden": true,
+      "inherits": "package-common",
+      "generators": ["ZIP"]
+    },
+    {
+      "name": "package-unixlike-common",
+      "description": "Common Unix-like package settings",
+      "hidden": true,
+      "inherits": "package-common",
+      "generators": ["TGZ", "DEB"]
+    },
+    {
+      "name": "package-windows-msvc-release",
+      "displayName": "Windows Release Package",
+      "description": "Create ZIP packages on Windows",
+      "inherits": ["package-windows-common", "package-release"],
+      "configurePreset": "conf-windows-msvc-release"
+    },
+    {
+      "name": "package-unixlike-gcc-release",
+      "displayName": "Unix GCC Release Package",
+      "description": "Create TGZ and DEB packages on Unix-like systems with GCC",
+      "inherits": ["package-unixlike-common", "package-release"],
+      "configurePreset": "conf-unixlike-gcc-release"
+    },
+    {
+      "name": "package-unixlike-clang-release",
+      "displayName": "Unix Clang Release Package",
+      "description": "Create TGZ and DEB packages on Unix-like systems with Clang",
+      "inherits": ["package-unixlike-common", "package-release"],
+      "configurePreset": "conf-unixlike-clang-release"
+    }
+  ],
+  "workflowPresets": [{
+    "name": "workflow-test-clang-debug",
+    "displayName": "Clang Debug Workflow",
+    "description": "Configure, build and test with Clang in one step",
+    "steps": [
+      {
+        "type": "configure",
+        "name": "conf-unixlike-clang-debug"
+      },
+      {
+        "type": "build",
+        "name": "build-unixlike-clang-debug"
+      },
+      {
+        "type": "test",
+        "name": "test-unixlike-clang-debug"
+      }
+    ]
+  },
+    {
+      "name": "workflow-test-clang-release",
+      "displayName": "Clang Release Workflow",
+      "description": "Configure, build and test with Clang in one step",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "conf-unixlike-clang-release"
+        },
+        {
+          "type": "build",
+          "name": "build-unixlike-clang-release"
+        },
+        {
+          "type": "test",
+          "name": "test-unixlike-clang-release"
+        }
+      ]
+    },
+    {
+      "name": "workflow-test-gcc-debug",
+      "displayName": "GCC Debug Workflow",
+      "description": "Configure, build and test with GCC in one step",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "conf-unixlike-gcc-debug"
+        },
+        {
+          "type": "build",
+          "name": "build-unixlike-gcc-debug"
+        },
+        {
+          "type": "test",
+          "name": "test-unixlike-gcc-debug"
+        }
+      ]
+    },
+    {
+      "name": "workflow-test-gcc-release",
+      "displayName": "GCC Release Workflow",
+      "description": "Configure, build and test with GCC in one step",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "conf-unixlike-gcc-release"
+        },
+        {
+          "type": "build",
+          "name": "build-unixlike-gcc-release"
+        },
+        {
+          "type": "test",
+          "name": "test-unixlike-gcc-release"
+        }
+      ]
+    },
+    {
+      "name": "workflow-test-msvc-debug",
+      "displayName": "Windows Debug Workflow",
+      "description": "Configure, build and test on Windows in one step",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "conf-windows-msvc-debug"
+        },
+        {
+          "type": "build",
+          "name": "build-windows-msvc-debug"
+        },
+        {
+          "type": "test",
+          "name": "test-windows-msvc-debug"
+        }
+      ]
+    },
+    {
+      "name": "workflow-test-msvc-release",
+      "displayName": "Windows Release Workflow",
+      "description": "Configure, build and test on Windows in one step",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "conf-windows-msvc-release"
+        },
+        {
+          "type": "build",
+          "name": "build-windows-msvc-release"
+        },
+        {
+          "type": "test",
+          "name": "test-windows-msvc-release"
+        }
+      ]
+    },
+    {
+      "name": "workflow-package-clang",
+      "displayName": "Clang Package Workflow",
+      "description": "Configure, build, test, and package with Clang in release mode",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "conf-unixlike-clang-release"
+        },
+        {
+          "type": "build",
+          "name": "build-unixlike-clang-release"
+        },
+        {
+          "type": "test",
+          "name": "test-unixlike-clang-release"
+        },
+        {
+          "type": "package",
+          "name": "package-unixlike-clang-release"
+        }
+      ]
+    },
+    {
+      "name": "workflow-package-gcc",
+      "displayName": "GCC Package Workflow",
+      "description": "Configure, build, test, and package with GCC in release mode",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "conf-unixlike-gcc-release"
+        },
+        {
+          "type": "build",
+          "name": "build-unixlike-gcc-release"
+        },
+        {
+          "type": "test",
+          "name": "test-unixlike-gcc-release"
+        },
+        {
+          "type": "package",
+          "name": "package-unixlike-gcc-release"
+        }
+      ]
+    },
+    {
+      "name": "workflow-package-msvc",
+      "displayName": "Windows Package Workflow",
+      "description": "Configure, build, test, and package on Windows in release mode",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "conf-windows-msvc-release"
+        },
+        {
+          "type": "build",
+          "name": "build-windows-msvc-release"
+        },
+        {
+          "type": "test",
+          "name": "test-windows-msvc-release"
+        },
+        {
+          "type": "package",
+          "name": "package-windows-msvc-release"
+        }
+      ]
     }
   ]
 }

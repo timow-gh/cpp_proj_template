@@ -1,12 +1,17 @@
-cmake_minimum_required(VERSION 3.21) # CMakePresets are supported since version 3.21
+cmake_minimum_required(VERSION 3.28) # CMakePresets are supported since version 3.21
+
+# Make all modules available to this project and other projects that consume this project by
+# adding the cmake directory to the CMAKE_MODULE_PATH
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake)
+
+# Auto-detect and use Ninja if available (must be before project() call)
+include(detect_ninja)
 
 project(cpp_proj_template
         VERSION 0.1.0
         LANGUAGES CXX)
 
-# Make all modules available to this project and other projects that consume this project by
-# adding the cmake directory to the CMAKE_MODULE_PATH
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake)
+
 include(warnings)
 include(static_analysis)
 
@@ -40,7 +45,7 @@ if (IS_TOP_LEVEL_PROJECT)
     option(${PROJECT_NAME}_USE_WARNINGS "Compile using warnings." ON)
     option(${PROJECT_NAME}_WARNINGS_AS_ERRORS "Treat compiler warnings as errors " ON)
     option(${PROJECT_NAME}_STATIC_ANALYSIS "" ON)
-    option(${PROJECT_NAME}_USE_CPPCHECK "" ON)
+    option(${PROJECT_NAME}_USE_CPPCHECK "" OFF)
     option(${PROJECT_NAME}_TESTS "" ON)
     option(${PROJECT_NAME}_BENCHMARKS "" ON)
 else ()
@@ -56,7 +61,6 @@ endif ()
 # This is useful if you want to use this project as a subproject in another project.
 option(${PROJECT_NAME}_INSTALL "Install project targets" ON)
 option(${PROJECT_NAME}_BUILD_DOCUMENTATION "Build documentation" OFF)
-option(${PROJECT_NAME}_PACKAGE "Use CPack to create an installer" ON)
 
 if (${PROJECT_NAME}_USE_SCCACHE)
     include(setup_sccache)
@@ -84,17 +88,14 @@ endif ()
 # Add the source code of this project
 add_subdirectory(src)
 
+add_subdirectory(packaging)
+
 if (${PROJECT_NAME}_TESTS)
     include(CTest)
     # "This command should be in the source directory root because ctest expects to find a test
     # file in the build directory root.", CMake docs
     enable_testing()
     add_subdirectory(test)
-endif ()
-
-# Add files for packaging if this project is the top level project
-if (${PROJECT_NAME}_PACKAGE)
-    add_subdirectory(packaging)
 endif ()
 
 if (${PROJECT_NAME}_BENCHMARKS)

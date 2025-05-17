@@ -1,0 +1,77 @@
+name: Create Release
+
+# Trigger the workflow only when a tag starting with 'v' is pushed
+# Example: v1.0.0, v2.3.1-beta, etc.
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  # Use the Windows composite action for the release build
+  windows-build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+          
+      - name: Create Windows package
+        run: |
+          cmake --workflow --preset workflow-package-msvc
+      
+      # Upload the build artifact to be used in the create-release job
+      - name: Upload Windows build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-build
+          path: ${{github.workspace}}/out/packages/package-windows-msvc-release/*.zip
+          retention-days: 1  # Only need to retain until release is created
+
+  build-ubuntu:
+    # Build the Linux executable first
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create Linux package
+        run: |
+          cmake --workflow --preset workflow-package-gcc
+        shell: bash
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: unixlike-gcc-release-build
+          path: |
+            ${{ github.workspace }}/out/packages/package-unixlike-gcc-release/*.deb
+            ${{ github.workspace }}/out/packages/package-unixlike-gcc-release/*.tar.gz
+          retention-days: 1
+
+  # Create the GitHub release with the build artifacts
+  create-release:
+    needs: [windows-build, build-ubuntu]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Required to create releases
+    steps:
+      # Extract the version number from the tag (removes the 'v' prefix)
+      - name: Get version from tag
+        id: get_version
+        run: echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      # Download all build artifacts
+      - name: Download all build artifacts
+        uses: actions/download-artifact@v4
+
+      # Create the GitHub release and upload all artifacts in one step
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Release ${{ steps.get_version.outputs.version }}
+          draft: false            # Make the release visible immediately
+          prerelease: false       # Mark as a full release, not a pre-release
+          generate_release_notes: true  # Auto-generate release notes from commits
+          files: |
+            windows-build/*
+            unixlike-gcc-release-build/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

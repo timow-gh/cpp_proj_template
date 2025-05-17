@@ -1,23 +1,57 @@
 include_guard()
 
-# Sets default values that should be used by the whole project.
+# Sets default values that are used by the whole project.
 # Must be called before the first cmake target is created.
 function(project_preamble)
-    include(GNUInstallDirs)
+    include(GNUInstallDirs)    
     if (MSVC)
         set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
-
+          # Check if we're using a multi-config generator (like Visual Studio)
+        get_property(is_multi_config GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+        
+        # Get the list of configuration types if using a multi-config generator
+        if(is_multi_config)
+            # Use CMAKE_CONFIGURATION_TYPES if defined, otherwise fall back to default configs
+            if(DEFINED CMAKE_CONFIGURATION_TYPES)
+                set(config_types ${CMAKE_CONFIGURATION_TYPES})
+            else()
+                set(config_types Debug Release MinSizeRel RelWithDebInfo)
+            endif()
+        endif()
+        
         # Set default output directories for windows if it is not already set by another project.
         if (NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
             set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_BINDIR} PARENT_SCOPE)
-        endif ()
+            if(is_multi_config)                # For multi-config generators, we need to append the configuration type to match CTest's expectations
+                foreach(config_type IN LISTS config_types)
+                    string(TOUPPER ${config_type} config_type_upper)
+                    # CTest expects executables at CMAKE_BINARY_DIR/bin/CONFIG/ for multi-config generators
+                    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${config_type_upper} 
+                        ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_BINDIR}/${config_type} PARENT_SCOPE)
+                endforeach()
+            endif()
+        endif ()        
         if (NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)
-            #CMAKE_INSTALL_LIBDIR
             set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_BINDIR} PARENT_SCOPE)
-        endif ()
+            if(is_multi_config)                
+                foreach(config_type IN LISTS config_types)
+                    string(TOUPPER ${config_type} config_type_upper)
+                    # Keep libraries in the same directory as executables without config subdirectory
+                    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_${config_type_upper} 
+                        ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_BINDIR}/${config_type} PARENT_SCOPE)
+                endforeach()
+            endif()
+        endif ()        
         if (NOT CMAKE_ARCHIVE_OUTPUT_DIRECTORY)
-            #CMAKE_INSTALL_LIBDIR
             set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_BINDIR} PARENT_SCOPE)
+            if(is_multi_config)                
+                foreach(config_type IN LISTS config_types)
+                    string(TOUPPER ${config_type} config_type_upper)
+                    # Keep static libraries in the same directory without config subdirectory
+                    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${config_type_upper} 
+                        ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_BINDIR}/${config_type} PARENT_SCOPE)
+                endforeach()
+            endif()
         endif ()
     endif ()
 

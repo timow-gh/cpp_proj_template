@@ -1,0 +1,23 @@
+name: 'Windows CMake Workflow'
+description: 'Run a CMake workflow preset for Windows builds'
+inputs:
+  cmake_workflow:
+    description: 'The cmake workflow to use.'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: 'recursive'
+    
+    - name: Set up MSVC
+      uses: ilammy/msvc-dev-cmd@v1
+      with:
+        arch: x64
+    
+    - name: Run CMake workflow
+      run: |
+        cmake --workflow --preset ${{ inputs.cmake_workflow }}
+      shell: bash
