@@ -62,6 +62,9 @@
       "toolset": {
         "value": "host=x64",
         "strategy": "external"
+      },
+      "cacheVariables": {
+        "CPACK_GENERATOR": "NSIS"
       }
     },
     {
@@ -352,7 +355,7 @@
       "description": "Common Windows package settings",
       "hidden": true,
       "inherits": "package-common",
-      "generators": ["ZIP"]
+      "generators": ["ZIP", "NSIS"]
     },
     {
       "name": "package-unixlike-common",
@@ -360,13 +363,20 @@
       "hidden": true,
       "inherits": "package-common",
       "generators": ["TGZ", "DEB"]
-    },
-    {
+    },    {
       "name": "package-windows-msvc-release",
       "displayName": "Windows Release Package",
       "description": "Create ZIP packages on Windows",
       "inherits": ["package-windows-common", "package-release"],
       "configurePreset": "conf-windows-msvc-release"
+    },
+    {
+      "name": "package-windows-msvc-release-nsis",
+      "displayName": "Windows NSIS Installer Package",
+      "description": "Create NSIS installer on Windows",
+      "inherits": ["package-release"],
+      "configurePreset": "conf-windows-msvc-release",
+      "generators": ["NSIS"]
     },
     {
       "name": "package-unixlike-gcc-release",
@@ -542,8 +552,7 @@
           "name": "package-unixlike-gcc-release"
         }
       ]
-    },
-    {
+    },    {
       "name": "workflow-package-msvc",
       "displayName": "Windows Package Workflow",
       "description": "Configure, build, test, and package on Windows in release mode",

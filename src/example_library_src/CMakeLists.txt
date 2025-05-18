@@ -95,13 +95,17 @@ if (${PROJECT_NAME}_INSTALL)
             COMPONENT dev)
 
     # Install the library target
-    # ${TARGET_NAME}TargetsExportSet is the name of the export set that is created by the call to install(EXPORT)
+    # Runtime artifacts (DLLs/shared objects) go to the 'runtime' component.
+    install(TARGETS ${TARGET_NAME}
+            RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+            COMPONENT runtime)
+
+    # Development artifacts (static/import libraries) and export information go to the 'dev' component.
     install(TARGETS ${TARGET_NAME}
             EXPORT ${project_export_set_name}
-            RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
             LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
             ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-            INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+            INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} # For find_package to locate headers via the target
             COMPONENT dev)
 
     # Add 'fmt' to the export set as well, because cppprojtemplate_example_library depends on it.
