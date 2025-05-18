@@ -15,7 +15,7 @@ echo Running tests
 ctest --preset "test-%PRESET%" -C Release
 
 echo Installing project
-cmake --install .\out\build\%PRESET% --config Release
+cmake --install .\out\build\conf-%PRESET% --config Release
 
 echo Creating package
 cpack --preset "%PACKAGE_PRESET%" -C Release
