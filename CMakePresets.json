@@ -160,7 +160,7 @@
     {
       "name": "build-common",
       "hidden": true,
-      "jobs": 0
+      "jobs": 24
     },
     {
       "name": "build-debug",
